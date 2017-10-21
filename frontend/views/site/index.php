@@ -3,8 +3,16 @@
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
+// echo $this->title;
+echo $this->render('test/dashboard-data');
+// echo $this->render('test/dashboard-beneath-data');
+// echo $this->render('test/music-data');
+// echo $this->render('test/notes-data');
+// echo $this->render('test/team-data');
+// echo $this->render('test/team-selection-data');
 ?>
-<div class="site-index">
+
+<!-- <div class="site-index">
 
     <div class="jumbotron">
         <h1>Congratulations!</h1>
@@ -50,4 +58,4 @@ $this->title = 'My Yii Application';
         </div>
 
     </div>
-</div>
+</div> -->
