@@ -110,13 +110,13 @@ AppAsset::register($this);
                     <div main-title fullbleed>Pharrell Williams</div>
                 </app-toolbar>
             </app-header>
-            <div class="container">
+            <!-- <div class="container"> -->
                 <?= Breadcrumbs::widget([
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                 ]) ?>
                 <?= Alert::widget() ?>
                 <?= $content ?>
-            </div>
+            <!-- </div> -->
         </app-header-layout>
     </app-drawer-layout>
 </div>
