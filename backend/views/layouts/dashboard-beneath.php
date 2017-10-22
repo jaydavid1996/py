@@ -30,6 +30,7 @@ AppAsset::register($this);
     <link rel="import" href="vendor/bower/iron-icons/iron-icons.html">
     <link rel="import" href="vendor/bower/paper-icon-button/paper-icon-button.html">
     <link rel="import" href="vendor/bower/paper-fab/paper-fab.html">
+
     <?php $this->head() ?>
 </head>
 <body unresolved>
@@ -43,21 +44,27 @@ AppAsset::register($this);
     }
 
     app-header {
-      /*position: fixed;
-      top: 0;
-      left: 0;*/
-      /*width: 100%;*/
       color: #fff;
-      background-color: #3f51b5;
-      --app-header-background-front-layer: {
-        background-image: url(https://app-layout-assets.appspot.com/assets/PharrellWilliams.jpg);
-        background-repeat: no-repeat;
-        background-position: center 20%;
-      };
+      background-color: black;
     }
 
-    paper-icon-button {
+    app-header paper-icon-button {
       --paper-icon-button-ink-color: white;
+    }
+    app-drawer-layout {
+      --app-drawer-layout-content-transition: margin 0.2s;
+    }
+
+    app-drawer {
+      --app-drawer-content-container: {
+        background-color: #eee;
+      }
+    }
+
+    .drawer-content {
+      margin-top: 70px;
+      height: calc(100% - 80px);
+      overflow: auto;
     }
 
     app-toolbar.middle {
@@ -83,42 +90,49 @@ AppAsset::register($this);
       margin-left: 20px;
       font-weight: 300;
     }
-    app-drawer-layout:not([narrow]) [drawer-toggle] {
-      display: none;
-    }
 
+    /*.container {
+    border: 1px solid red;
+    padding: 0;
+    }*/
   </style>
 </custom-style>
 <div class="wrap">
-    <app-drawer-layout fullbleed>
-        <app-drawer id="drawer" slot="drawer" swipe-open>
-          <app-toolbar>Menu</app-toolbar>
-          <?php include('drawer/paper-icon-item.php'); ?>
-        </app-drawer>
+
         <app-header-layout>
             <!-- <app-header slot="header" condenses reveals effects="waterfall resize-title blend-background parallax-background"> -->
-            <app-header effects="waterfall resize-title blend-background parallax-background" condenses reveals slot="header">
+            <app-header fixed effects="waterfall" slot="header">
                 <app-toolbar>
-                    <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
+                  <paper-icon-button id="toggle" icon="menu"></paper-icon-button>
+                    <!-- <paper-icon-button icon="menu" drawer-toggle></paper-icon-button> -->
                     <!-- <paper-icon-button icon="arrow-back"></paper-icon-button> -->
-                    <div condensed-title>Pharrell Williams</div>
+                    <!-- <div condensed-title>Pharrell Williams</div>
                     <paper-icon-button icon="create"></paper-icon-button>
                     <paper-icon-button icon="more-vert"></paper-icon-button>
                 </app-toolbar>
                 <app-toolbar class="middle"></app-toolbar>
-                <app-toolbar class="bottom">
-                    <div main-title fullbleed>Pharrell Williams</div>
+                <app-toolbar class="bottom"> -->
+                    <div main-title>TMS</div>
                 </app-toolbar>
             </app-header>
-            <div class="container">
+            <app-drawer-layout id="drawerLayout">
+                <app-drawer slot="drawer" swipe-open>
+                  <div class="drawer-content">
+                  <app-toolbar>Menu</app-toolbar>
+                  <?php include('drawer/paper-icon-item.php'); ?>
+                  </div>
+                </app-drawer>
+            <!-- <div class="container"> -->
+            <div>
                 <?= Breadcrumbs::widget([
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                 ]) ?>
                 <?= Alert::widget() ?>
                 <?= $content ?>
+
             </div>
-        </app-header-layout>
-    </app-drawer-layout>
+          </app-drawer-layout>
+      </app-header-layout>
 </div>
 
 <!-- <footer class="footer">
@@ -129,16 +143,15 @@ AppAsset::register($this);
     </div>
 </footer> -->
 <script>
-
-    var fab = document.querySelector('paper-fab');
-    var header = document.querySelector('app-header');
-
-    window.addEventListener('scroll', function() {
-      var progress = header.getScrollState().progress;
-      fab.toggleClass('shrink-to-hidden', progress > 0.5);
+    var drawerLayout = document.getElementById('drawerLayout');
+    toggle.addEventListener('click', function() {
+      if (drawerLayout.forceNarrow || !drawerLayout.narrow) {
+        drawerLayout.forceNarrow = !drawerLayout.forceNarrow;
+      } else {
+        drawerLayout.drawer.toggle();
+      }
     });
-
-</script>
+  </script>
 <?php $this->endBody() ?>
 </body>
 </html>

@@ -30,6 +30,7 @@ AppAsset::register($this);
     <link rel="import" href="vendor/bower/iron-icons/iron-icons.html">
     <link rel="import" href="vendor/bower/paper-icon-button/paper-icon-button.html">
     <link rel="import" href="vendor/bower/paper-fab/paper-fab.html">
+
     <?php $this->head() ?>
 </head>
 <body unresolved>
@@ -43,10 +44,10 @@ AppAsset::register($this);
     }
 
     app-header {
-      /*position: fixed;
+      position: fixed;
       top: 0;
-      left: 0;*/
-      /*width: 100%;*/
+      left: 0;
+      width: 100%;
       color: #fff;
       background-color: #3f51b5;
       --app-header-background-front-layer: {
@@ -58,6 +59,20 @@ AppAsset::register($this);
 
     paper-icon-button {
       --paper-icon-button-ink-color: white;
+    }
+
+    paper-fab {
+      position: absolute;
+      right: 16px;
+      top: 248px;
+      will-change: transform;
+      transition: 0.1s -webkit-transform;
+      transition: 0.1s transform;
+    }
+
+    paper-fab.shrink-to-hidden {
+      -webkit-transform: scale3d(0, 0, 0);
+      transform: scale3d(0, 0, 0);
     }
 
     app-toolbar.middle {
@@ -83,21 +98,21 @@ AppAsset::register($this);
       margin-left: 20px;
       font-weight: 300;
     }
-    app-drawer-layout:not([narrow]) [drawer-toggle] {
-      display: none;
+    .container {
+      /*padding-top: 276px;*/
+      padding-top: 300px;
     }
-
   </style>
 </custom-style>
 <div class="wrap">
-    <app-drawer-layout fullbleed>
+    <app-drawer-layout fullbleed force-narrow>
         <app-drawer id="drawer" slot="drawer" swipe-open>
           <app-toolbar>Menu</app-toolbar>
           <?php include('drawer/paper-icon-item.php'); ?>
         </app-drawer>
-        <app-header-layout>
+        <app-header-layout has-scrolling-region>
             <!-- <app-header slot="header" condenses reveals effects="waterfall resize-title blend-background parallax-background"> -->
-            <app-header effects="waterfall resize-title blend-background parallax-background" condenses reveals slot="header">
+            <app-header effects="waterfall resize-title blend-background parallax-background" condenses reveals>
                 <app-toolbar>
                     <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
                     <!-- <paper-icon-button icon="arrow-back"></paper-icon-button> -->
@@ -110,6 +125,7 @@ AppAsset::register($this);
                     <div main-title fullbleed>Pharrell Williams</div>
                 </app-toolbar>
             </app-header>
+            <paper-fab icon="star"></paper-fab>
             <div class="container">
                 <?= Breadcrumbs::widget([
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
