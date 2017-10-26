@@ -17,6 +17,19 @@ return [
       ],
     ],
     'components' => [
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+            'viewPath' => '@common/mail',
+            'useFileTransport' => false,
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.gmail.com',
+                'username' => 'Tournamentms2017@gmail.com',
+                'password' => 'qgzwhhvjntvevgnt',
+                'port' => '587',
+                'encryption' => 'tls',
+            ],
+        ],
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
