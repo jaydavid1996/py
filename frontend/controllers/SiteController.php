@@ -142,6 +142,26 @@ class SiteController extends Controller
     }
 
     /**
+     * Displays Events page.
+     *
+     * @return mixed
+     */
+
+    public function actionEvents(){
+      return $this->render('events');
+    }
+
+    /**
+     * Displays Gallery page.
+     *
+     * @return mixed
+     */
+
+    public function actionGallery(){
+      return $this->render('gallery');
+    }
+
+    /**
      * Signs user up.
      *
      * @return mixed
