@@ -1,9 +1,34 @@
 <?php
 
+use yii\helpers\Html;
+use yii\grid\GridView;
+
 /* @var $this yii\web\View */
-$subtitle = 'Venue';
-$this->title = 'TMS: ' . $subtitle;
+/* @var $searchModel backend\models\VenueSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->title = 'Venues';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1>
-<?= $subtitle; ?>
-</h1?>
+<div class="venue-index">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+    <p>
+        <?= Html::a('Create Venue', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'id',
+            'venue',
+            'description',
+
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
+</div>
