@@ -19,11 +19,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'occasion_id') ?>
 
+    <?= $form->field($model, 'event_type_id') ?>
+
     <?= $form->field($model, 'event') ?>
 
     <?= $form->field($model, 'description') ?>
 
-    <?= $form->field($model, 'venue_id') ?>
+    <?php // echo $form->field($model, 'venue_id') ?>
 
     <?php // echo $form->field($model, 'event_category_id') ?>
 

@@ -26,9 +26,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'occasion_id',
+            'event_type_id',
             'event',
             'description',
-            'venue_id',
+            // 'venue_id',
             // 'event_category_id',
             // 'event_status_id',
             // 'date_start',
