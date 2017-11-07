@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Occasion */
 
-$this->title = 'Create Occasion';
+// $this->title = 'Create Occasion';
 $this->params['breadcrumbs'][] = ['label' => 'Occasions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

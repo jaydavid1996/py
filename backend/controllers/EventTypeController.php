@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
+use common\models\EventClassification;
 use common\models\EventType;
 use backend\models\EventTypeSearch;
 use yii\web\Controller;
@@ -104,6 +105,29 @@ class EventTypeController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionLists($id) {
+        $countTypes = EventType::find()
+            ->where(['event_classification_id' => $id])
+            ->count();
+        $eventTypes = EventType::find()
+            ->where(['event_classification_id' => $id])
+            ->all();
+
+        if ($countTypes > 0) {
+            $ec = new EventClassification();
+            $ec = EventClassification::find()
+                ->where(['id' => $id])
+                ->one();
+                echo "<option value> Select ". $ec->classification." Event Type</option>";
+            foreach($eventTypes as $et) {
+                echo "<option value'" .$et->id. "'>". $et->event_type."</option>";
+            }
+        } else {
+            echo "<option value> Select Event Type</option>";
+            echo "<option></option>";
+        }
     }
 
     /**

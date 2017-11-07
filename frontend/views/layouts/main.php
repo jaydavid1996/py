@@ -129,6 +129,12 @@ AppAsset::register($this);
     paper-tab a:visited {
       color: var(--text-primary-color);
     }
+    app-drawer-layout:not([narrow]) [drawer-toggle] {
+      display: none;
+    }
+    [hidden] {
+      display: none !important;
+    }
   </style>
 </custom-style>
 <div class="wrap">

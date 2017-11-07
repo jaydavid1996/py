@@ -4,6 +4,7 @@
 /* @var $content string */
 
 use yii\helpers\Html;
+use yii\bootstrap\Modal;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
@@ -29,6 +30,7 @@ AppAsset::register($this);
     <link rel="import" href="vendor/bower/app-layout/app-scroll-effects/app-scroll-effects.html">
     <link rel="import" href="vendor/bower/iron-icons/iron-icons.html">
     <link rel="import" href="vendor/bower/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="vendor/bower/paper-button/paper-button.html">
     <link rel="import" href="vendor/bower/paper-fab/paper-fab.html">
     <?php $this->head() ?>
 </head>
@@ -75,18 +77,19 @@ AppAsset::register($this);
 
     [main-title] {
       margin-left: 64px;
-      font-size: 32px;
-      font-weight: 300;
+      font-size: 26px;
+      font-weight: 400;
+      color: white;
     }
 
     [condensed-title] {
-      margin-left: 20px;
+      margin-left: 18px;
       font-weight: 300;
     }
+
     app-drawer-layout:not([narrow]) [drawer-toggle] {
       display: none;
     }
-
   </style>
 </custom-style>
 <div class="wrap">
@@ -101,13 +104,13 @@ AppAsset::register($this);
                 <app-toolbar>
                     <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
                     <!-- <paper-icon-button icon="arrow-back"></paper-icon-button> -->
-                    <div condensed-title>Pharrell Williams</div>
+                    <div condensed-title><?= $this->title; ?></div>
                     <paper-icon-button icon="create"></paper-icon-button>
                     <paper-icon-button icon="more-vert"></paper-icon-button>
                 </app-toolbar>
                 <app-toolbar class="middle"></app-toolbar>
                 <app-toolbar class="bottom">
-                    <div main-title fullbleed>Pharrell Williams</div>
+                    <div main-title fullbleed><?= $this->title; ?></div>
                 </app-toolbar>
             </app-header>
             <!-- <div class="container"> -->
@@ -119,6 +122,14 @@ AppAsset::register($this);
             <!-- </div> -->
         </app-header-layout>
     </app-drawer-layout>
+    <?php Modal::begin([
+        'header' => '<h2>'. $this->title .'</h2>',
+        //'toggleButton' => ['label' => 'click me'],
+        'id' => 'modal',
+        'size' => 'modal-md',
+    ]);
+        echo "<div id='modalContent'></div>";
+    Modal::end(); ?>
 </div>
 
 <!-- <footer class="footer">

@@ -33,14 +33,16 @@ class EventController extends Controller
      * Lists all Event models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($id)
     {
         $searchModel = new EventSearch();
+        $searchModel->occasion_id = $id;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'id' => $id,
         ]);
     }
 
@@ -61,14 +63,24 @@ class EventController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
         $model = new Event();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model->occasion_id = $id;
+        if ($model->load(Yii::$app->request->post())) {
+            $model->event_classification_id = $model->event_classification_dd;
+            $model->event_type_id = $model->event_type_dd;
+            $model->venue_id = $model->venue_dd;
+            $model->event_category_id = $model->event_category_dd;
+            $model->date_start = date("Y-m-d", strtotime($model->date_start));
+            $model->date_end = date("Y-m-d", strtotime($model->date_end));
+            $model->min_team = 3;
+            $model->max_team = 12;
+            $model->event_status_id = 1;
+            $model->save();
+            return $this->redirect(['event\/', 'id' => $id]);
         } else {
-            return $this->render('create', [
+            return $this->renderAjax('create', [
                 'model' => $model,
             ]);
         }
@@ -84,10 +96,17 @@ class EventController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->event_classification_id = $model->event_classification_dd;
+            $model->event_type_id = $model->event_type_dd;
+            $model->venue_id = $model->venue_dd;
+            $model->event_category_id = $model->event_category_dd;
+            $model->date_start = date("Y-d-m", strtotime($model->date_start));
+            $model->date_end = date("Y-d-m", strtotime($model->date_end));
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            return $this->render('update', [
+            return $this->renderAjax('update', [
                 'model' => $model,
             ]);
         }
