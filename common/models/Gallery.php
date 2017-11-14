@@ -41,7 +41,7 @@ class Gallery extends \yii\db\ActiveRecord
         return [
             //[['user_id', 'occasion_id', 'file_name', 'extension'], 'required'],
             [[ 'occasion_id'], 'required', 'message' => 'Please Select Occasion.'],
-            [['user_id', 'occasion_id'], 'integer'],
+            [['user_id', 'occasion_id','status'], 'integer'],
             [['date_created', 'date_updated'], 'safe'],
             [['gallery_name'], 'string', 'max' => 225],
 
@@ -57,10 +57,7 @@ class Gallery extends \yii\db\ActiveRecord
             'id' => 'ID',
             'user_id' => 'User ID',
             'occasion_id' => 'Occasion ID',
-            'gallery' => 'Gallery Name',
-            'file_name' => 'File Name',
-            'extension' => 'Extension',
-            'file_uploads' => 'File Name',
+            'gallery_name' => 'Gallery Name',
             'date_created' => 'Date Created',
             'date_updated' => 'Date Updated',
         ];

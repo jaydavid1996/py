@@ -27,6 +27,7 @@ class Fileupload extends \yii\db\ActiveRecord
     }
 
         public $file_uploads;
+        CONST IS_DEFAULT_IMAGE = '1';
 
     /**
      * @inheritdoc
@@ -35,7 +36,7 @@ class Fileupload extends \yii\db\ActiveRecord
     {
         return [
           //  [['id', 'gallery_id', 'occasion_id', 'file_name', 'file_extension', 'status'], 'required'],
-            [['id', 'gallery_id', 'occasion_id', 'status'], 'integer'],
+            [['id', 'gallery_id', 'status'], 'integer'],
             [['date_created', 'date_updated'], 'safe'],
             [['file_name', 'file_extension'], 'string', 'max' => 225],
             [['file_uploads'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg,gif,jpeg', 'maxFiles' => 10],
@@ -51,7 +52,6 @@ class Fileupload extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'gallery_id' => 'Gallery ID',
-            'occasion_id' => 'Occasion ID',
             'file_name' => 'File Name',
             'file_extension' => 'File Extension',
             'status' => 'Status',
@@ -60,14 +60,15 @@ class Fileupload extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function getImageUrl($id)
+    public static function getImageUrl($id,$occasion_id)
         {
+            //$fileUpload = Fileupload::find()->where('id = '.$model->id.' AND  occasion_id = '.$model->occasion_id.'')->one();
+            //$model = Fileupload::findOne($id);
+            $model = Fileupload::find()->where(['id'=> $id, 'occasion_id'=> $occasion_id])->one();
+            // echo '<pre>';
+            //    print_r($model);
+            // echo '</pre>';
 
-            $model = Fileupload::findOne($id);
-
-            //$model = Fileupload::find()->orderBy(['id'=> SORT_DESC])->one();
-
-            //$model = Fileupload::find()->orderBy(['gallery_id'=> SORT_DESC])->one();
             //$baseUrl = Yii::$app->basePath;
             $baseUrl = 'backend/';
             $fileFolderName =  '_uploads';
