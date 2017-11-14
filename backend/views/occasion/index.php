@@ -50,7 +50,7 @@
 
   paper-card {
     width: calc(33% - 8px);
-    /*height: 200px;*/
+    height: 200px;
     margin: 4px;
     /*padding: 10px;*/
     /*background-color: #90A4AE;*/

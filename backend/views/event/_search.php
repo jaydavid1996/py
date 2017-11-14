@@ -23,6 +23,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'event_type_id') ?>
 
+    <?= $form->field($model, 'match_system_id') ?>
+
     <?= $form->field($model, 'event') ?>
 
     <?php // echo $form->field($model, 'description') ?>

@@ -18,7 +18,7 @@ class EventSearch extends Event
     public function rules()
     {
         return [
-            [['id', 'occasion_id', 'event_classification_id', 'event_type_id', 'venue_id', 'event_category_id', 'event_status_id', 'min_team', 'max_team'], 'integer'],
+            [['id', 'occasion_id', 'event_classification_id', 'event_type_id', 'match_system_id', 'venue_id', 'event_category_id', 'event_status_id', 'min_team', 'max_team'], 'integer'],
             [['event', 'description', 'date_start', 'date_end'], 'safe'],
         ];
     }
@@ -63,6 +63,7 @@ class EventSearch extends Event
             'occasion_id' => $this->occasion_id,
             'event_classification_id' => $this->event_classification_id,
             'event_type_id' => $this->event_type_id,
+            'match_system_id' => $this->match_system_id,
             'venue_id' => $this->venue_id,
             'event_category_id' => $this->event_category_id,
             'event_status_id' => $this->event_status_id,

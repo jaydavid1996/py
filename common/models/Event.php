@@ -11,6 +11,7 @@ use Yii;
  * @property integer $occasion_id
  * @property integer $event_classification_id
  * @property integer $event_type_id
+ * @property integer $match_system_id
  * @property string $event
  * @property string $description
  * @property integer $venue_id
@@ -31,6 +32,7 @@ use Yii;
  * @property EventTeam[] $eventTeams
  * @property Team[] $teams
  */
+ 
 class Event extends \yii\db\ActiveRecord
 {
     /**
@@ -48,15 +50,19 @@ class Event extends \yii\db\ActiveRecord
      public $event_category_dd;
      public $event_type_dd;
      public $venue_dd;
+     public $arr_team_name;
+
     public function rules()
     {
         return [
+            [['arr_team_name'], 'each', 'rule' => ['string', 'max' => 25]],
+            [['arr_team_name'], 'required', 'message' => 'Please select a Team.'],
             [['event_classification_dd'], 'required', 'message' => 'Please select Event Classification.'],
             [['event_category_dd'], 'required', 'message' => 'Please select Event Category.'],
             [['event_type_dd'], 'required', 'message' => 'Please select Event Type.'],
             [['venue_dd'], 'required', 'message' => 'Please select Venue.'],
-            [['occasion_id', 'event_classification_id', 'event_type_id', 'event', 'venue_id', 'event_category_id'], 'required'],
-            [['occasion_id', 'event_classification_id', 'event_type_id', 'venue_id', 'event_category_id', 'event_status_id', 'min_team', 'max_team'], 'integer'],
+            [['occasion_id', 'event_classification_id', 'event_type_id', 'match_system_id', 'event', 'venue_id', 'event_category_id'], 'required'],
+            [['occasion_id', 'event_classification_id', 'event_type_id', 'match_system_id', 'venue_id', 'event_category_id', 'event_status_id', 'min_team', 'max_team'], 'integer'],
             [['date_start', 'date_end'], 'safe'],
             [['event', 'description'], 'string', 'max' => 45],
             [['occasion_id', 'event'], 'unique', 'targetAttribute' => ['occasion_id', 'event'], 'message' => 'The combination of Occasion ID and Event has already been taken.'],
@@ -79,6 +85,7 @@ class Event extends \yii\db\ActiveRecord
             'occasion_id' => 'Occasion ID',
             'event_classification_id' => 'Event Classification ID',
             'event_type_id' => 'Event Type ID',
+            'match_system_id' => 'Match System ID',
             'event' => 'Event',
             'description' => 'Description',
             'venue_id' => 'Venue ID',
@@ -121,6 +128,14 @@ class Event extends \yii\db\ActiveRecord
     public function getEventType()
     {
         return $this->hasOne(EventType::className(), ['id' => 'event_type_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMatchSystem()
+    {
+        return $this->hasOne(MatchSystem::className(), ['id' => 'match_system_id']);
     }
 
     /**

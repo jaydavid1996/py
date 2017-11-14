@@ -119,15 +119,15 @@ $this->params['breadcrumbs'][] = $this->title;
         <!-- <?=date("M-d-Y (D)", strtotime($model['date_start']));?> -->
         <?= $model['eventType']['event_type']; ?>
         <div class="rate-name">
-          <?=date("M-d-Y", strtotime($model['date_start']));?> <?=date("M-d-Y", strtotime($model['date_end']));?><br />
-          <?=date("D", strtotime($model['date_start'])); echo " - "?><?=date("D", strtotime($model['date_end']));?>
+          <?=date("M-d-Y", strtotime($model['date_start'])); echo $model['date_start'] !== $model['date_end'] ? ' to ' . date("M-d-Y", strtotime($model['date_end'])) . '<br />': "";?>
+          <?=date("D", strtotime($model['date_start'])); echo $model['date_start'] !== $model['date_end'] ? date(" - D", strtotime($model['date_end'])) : "";?>
         </div>
         <div><?= $model['description']; ?></div>
       </div>
       <div class="card-actions">
         <!-- <paper-icon-button class="rate-icon" icon="star"></paper-icon-button> -->
-        <a href="<?=Url::to('backend/web/team/')?>" tabindex="-1">
-         <paper-button>TEAMS</paper-button>
+        <a href="<?=Url::to('backend/web/event-team/?id='. $model['id'])?>" tabindex="-1">
+         <paper-button>VIEW & FINALIZE</paper-button>
         </a>
         <button class="modalButton" value="backend/web/event/update?id=<?=$model['id']?>"  tabindex="-1">
         <paper-icon-button class="rate-icon" icon="create"></paper-icon-button>
@@ -176,6 +176,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'occasion_id',
             'event_classification_id',
             'event_type_id',
+            'match_system_id',
             'event',
             // 'description',
             // 'venue_id',

@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Event;
+use common\models\EventTeam;
 use backend\models\EventSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -68,16 +69,28 @@ class EventController extends Controller
         $model = new Event();
         $model->occasion_id = $id;
         if ($model->load(Yii::$app->request->post())) {
-            $model->event_classification_id = $model->event_classification_dd;
-            $model->event_type_id = $model->event_type_dd;
+            $model->event_classification_id = $model->eventType->event_classification_id;
+            // $model->event_classification_id = $model->event_classification_dd;
+            // $model->event_type_id = $model->event_type_dd;
             $model->venue_id = $model->venue_dd;
             $model->event_category_id = $model->event_category_dd;
             $model->date_start = date("Y-m-d", strtotime($model->date_start));
             $model->date_end = date("Y-m-d", strtotime($model->date_end));
+
+            //default values
             $model->min_team = 3;
             $model->max_team = 12;
             $model->event_status_id = 1;
-            $model->save();
+            $model->save(false);
+            // $id = $model-
+            // print_r($model->arr_team_name);
+            // $xid = Event::find()->where(['event' => $model->event, 'occasion_id' => $id])->one();
+            foreach ($model->arr_team_name as $et) {
+                $evTeam = new EventTeam();
+                $evTeam->team_id = $et;
+                $evTeam->event_id  = $model->id;
+                $evTeam->save(false);
+            }
             return $this->redirect(['event\/', 'id' => $id]);
         } else {
             return $this->renderAjax('create', [
@@ -95,6 +108,25 @@ class EventController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->event_classification_dd = $model->event_classification_id;
+        $model->event_type_dd = $model->event_type_id;
+        $model->venue_dd = $model->venue_id;
+        $model->event_category_dd = $model->event_category_id;
+        $oldStack = array();
+        foreach ($model->eventTeams as $ns) {
+            array_push($oldStack, $ns->team_id);
+        }
+        $model->arr_team_name = $oldStack;
+        //  foreach ($model->arr_team_name as $ns) {
+        //     $evTeam = new EventTeam();
+        //     $evTeam = EventTeam::Find()->where(['team_id' => $ns, 'event_id' => $id])->one();
+        //     // $evTeam2 = new EventTeam();
+        //     $evTeam2 = EventTeam::Find()->where(['team_id' => $ns, 'event_id' => $id])->count();
+        //     echo "<pre>";
+        //     print_r($evTeam->team_id);
+        //     echo " " . $evTeam2;
+        //     echo "</pre>";
+        // }
 
         if ($model->load(Yii::$app->request->post())) {
             $model->event_classification_id = $model->event_classification_dd;
@@ -104,7 +136,26 @@ class EventController extends Controller
             $model->date_start = date("Y-d-m", strtotime($model->date_start));
             $model->date_end = date("Y-d-m", strtotime($model->date_end));
             $model->save();
-            return $this->redirect(['view', 'id' => $model->id]);
+
+            $newStack = array_merge($model->arr_team_name, $oldStack);
+
+            foreach ($newStack as $ns) {
+                $hasTeam = EventTeam::Find()->where(['team_id' => $ns, 'event_id' => $id])->count();
+                if (in_array($ns, $model->arr_team_name)) {
+                    if ($hasTeam == 0) {
+                        $evTeam = new EventTeam();
+                        $evTeam->team_id = $ns;
+                        $evTeam->event_id  = $model->id;
+                        $evTeam->save();
+                    }
+                } else {
+                    if ($hasTeam == 1) {
+                        $evTeam = EventTeam::Find()->where(['team_id' => $ns, 'event_id' => $id])->one();
+                        $evTeam->delete();
+                    }
+                }
+            }
+            return $this->redirect(['/event-team\/', 'id' => $model->id]);
         } else {
             return $this->renderAjax('update', [
                 'model' => $model,

@@ -90,6 +90,11 @@ AppAsset::register($this);
     app-drawer-layout:not([narrow]) [drawer-toggle] {
       display: none;
     }
+
+    app-header-layout {
+      margin-top: 30px;
+      min-height: 888px;
+    }
   </style>
 </custom-style>
 <div class="wrap">
@@ -113,13 +118,13 @@ AppAsset::register($this);
                     <div main-title fullbleed><?= $this->title; ?></div>
                 </app-toolbar>
             </app-header>
-            <!-- <div class="container"> -->
-                <?= Breadcrumbs::widget([
+            <div class="cntner">
+                <!-- <?= Breadcrumbs::widget([
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                ]) ?>
+                ]) ?> -->
                 <?= Alert::widget() ?>
                 <?= $content ?>
-            <!-- </div> -->
+            </div>
         </app-header-layout>
     </app-drawer-layout>
     <?php Modal::begin([

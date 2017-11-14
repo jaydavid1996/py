@@ -98,9 +98,9 @@ AppAsset::register($this);
               </app-toolbar>
             </app-header>
             <div>
-              <?= Breadcrumbs::widget([
+              <!-- <?= Breadcrumbs::widget([
                   'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-              ]) ?>
+              ]) ?> -->
               <?= Alert::widget() ?>
               <?= $content ?>
             </div>
