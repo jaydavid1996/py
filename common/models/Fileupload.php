@@ -60,22 +60,15 @@ class Fileupload extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function getImageUrl($id,$occasion_id)
+    public static function getImageUrl($id)
         {
-            //$fileUpload = Fileupload::find()->where('id = '.$model->id.' AND  occasion_id = '.$model->occasion_id.'')->one();
-            //$model = Fileupload::findOne($id);
-            $model = Fileupload::find()->where(['id'=> $id, 'occasion_id'=> $occasion_id])->one();
-            // echo '<pre>';
-            //    print_r($model);
-            // echo '</pre>';
+            $model = Fileupload::find()->where(['gallery_id'=> $id])->one();
 
-            //$baseUrl = Yii::$app->basePath;
             $baseUrl = 'backend/';
             $fileFolderName =  '_uploads';
             $fileFolderPath = $baseUrl.$fileFolderName;
             if($model)
                 {
-                    //$fileName = $fileuploadModel->name.'.'.$fileuploadModel->extension;
                     $fileName = $model->file_name;
                     $filePathUrl = $fileFolderPath.'/'.$fileName;
                     $filePath = Yii::getAlias('@backend').'/'.$fileFolderName.'/'.$fileName;
@@ -83,6 +76,8 @@ class Fileupload extends \yii\db\ActiveRecord
                     {
                         return $filePathUrl;
                     }
+                }else{
+                    return 'backend/_uploads/default.png';
                 }
             return false;
         }

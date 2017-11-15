@@ -51,9 +51,11 @@
     border: 1px solid green;
   }
   .title-content{
-    font-size: 16px
+    font-size: 13px;
     font-weight: bold;
     text-align: center;
+    text-transform: uppercase;
+    padding:22px 0px;
   }
 /*End here*/
   paper-card {
@@ -149,6 +151,9 @@
       padding: 7px;
       font-size: 10px;
       float: right;
+      color:black;
+      font-weight:bold;
+      margin-top:-56px;
   }
   .btn-upload:hover{
     background-color:green;
@@ -160,12 +165,36 @@
     margin-top:10px;
   }
 </style>
+<style>
+.card-container {
+    margin: auto !important;
+}
+.cards-folder {
+    max-width: 400px;
+    height: 340px;
+    position: relative;
+    margin: 20px;
+    border: 2px solid;
+    padding: 10px;
+    background-color: white;
+}
+.cards-folder img {
+    max-width: 314px;
+    height: 270px;
+    border-bottom: 1px solid green;
+    padding: 10px;
+    border: 1px solid green;
+    object-fit: cover;
+}
+</style>
+
 
 <?php
 use common\models\Gallery;
 use yii\grid\GridView;
 use yii\bootstrap\Modal;
 use common\models\Fileupload;
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 $subtitle = 'Our Gallery';
 $this->title = 'TMS: ' . $subtitle;
@@ -183,20 +212,35 @@ $this->title = 'TMS: ' . $subtitle;
 
   ?>
 
-<div class="card-container">
-<?php  foreach ($dataProvider->models as $modelGallery):?>
-
-
-  <paper-card  image="<?php echo Fileupload::getImageUrl($modelGallery['id'])?>" class="paper-card-container"  alt="House" class="white" style="margin-bottom:8px;" width="500" height="500">
+<!-- <div class="card-container">
+<?php  foreach ($dataProvider->models as $model):?>
+  <paper-card  image="<?php echo Fileupload::getImageUrl($model['id'],$model['occasion_id'])?>" class="paper-card-container"  alt="House" class="white" style="margin-bottom:8px;">
     <div class="card-actions">
-      <p class="title-content">
-        <?php echo $modelGallery->gallery_name;?>
-      </p>
-     <paper-button toggles raised class="btn-upload modalButton" value="backend/web/gallery/upload?id=<?=$modelGallery['id']?>">Upload</paper-button></paper-icon-button>
+      <h4 class="title-content">
+        <?php echo $model->gallery_name;?>
+      </h4>
+        <a href="<?=Url::to('backend/web/gallery/view?id='.$model['id'].'')?>" tabindex="-1">
+       <paper-button toggles raised class="btn-upload">Upload</paper-button>
+      </a>
      </div>
 
   </paper-card>
   <?php endforeach;?>
-  <paper-button class="modalButton" value="backend/web/gallery/create"><paper-fab icon="add"></paper-fab></paper-button>
+</div> -->
 
-</div>
+<div class="card-container">
+  <?php
+      foreach ($dataProvider->models as $model):
+      $occasionFolder =   Fileupload::getImageUrl($model['id'],$model['occasion_id']);
+    ?>
+    <div class="cards-folder">
+      <img src="<?php echo $occasionFolder ?>"/>
+      <p class="title-content">
+        <?php echo $model->gallery_name;?>
+      </p>
+      <a href="<?=Url::to('backend/web/gallery/view?id='.$model['id'].'')?>" tabindex="-1">
+       <paper-button toggles raised class="btn-upload">Upload</paper-button>
+      </a>
+    </div>
+    <?php endforeach;?>
+  </div>

@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Occasion;
+use common\models\Gallery;
 use backend\models\OccasionSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -64,8 +65,22 @@ class OccasionController extends Controller
     public function actionCreate()
     {
         $model = new Occasion();
+        $modelGallery = new Gallery();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+                $loginUserId = Yii::$app->user->identity->id;
+                $modelGallery->user_id = $loginUserId;
+                $modelGallery->occasion_id = $model->id;
+                $modelGallery->gallery_name = $model->occasion;
+
+                if(!$modelGallery->save(false)){
+                Yii::$app()->session->setFlash('danger', 'Error Saving Gallery');
+                return $this->redirect('index', array(
+                    'model' => $model,
+                ));
+            };
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->renderAjax('create', [
