@@ -135,23 +135,25 @@ $this->params['breadcrumbs'][] = $this->title;
       <div class="duration-novert"><h5>Seed Number</h5></div>
     </div>
     <?php foreach ($dataProvider->models as $model): ?>
-    <?php $ctr++; ?>
-    <div class="song">
-      <!-- <div class="no"><?=$ctr;?></div> -->
-      <div class="name"><?= $model['team']['team']; ?></div>
-      <div class="duration"><?= ($model['seed_number']!=NULL) ? $model['seed_number'] : "N/A"; ?></div>
-      <!-- <iron-icon icon="more-vert"></iron-icon> -->
-      <!-- <paper-menu-button vertical-align="top" horizontal-align="right">
-        <paper-icon-button icon="more-vert" slot="dropdown-trigger" alt="menu"></paper-icon-button>
-        <paper-listbox slot="dropdown-content">
-          <paper-item>alpha</paper-item>
-          <paper-item>beta</paper-item>
-          <paper-item>gamma</paper-item>
-          <paper-item>delta</paper-item>
-          <paper-item>epsilon</paper-item>
-        </paper-listbox>
-      </paper-menu-button> -->
-    </div>
+      <?php if ($model['team']['team']!=="Bye"):?>
+      <?php $ctr++; ?>
+      <div class="song">
+        <!-- <div class="no"><?=$ctr;?></div> -->
+        <div class="name"><?= $model['team']['team']; ?></div>
+        <div class="duration"><?= ($model['seed_number']!=NULL) ? $model['seed_number'] : "N/A"; ?></div>
+        <!-- <iron-icon icon="more-vert"></iron-icon> -->
+        <!-- <paper-menu-button vertical-align="top" horizontal-align="right">
+          <paper-icon-button icon="more-vert" slot="dropdown-trigger" alt="menu"></paper-icon-button>
+          <paper-listbox slot="dropdown-content">
+            <paper-item>alpha</paper-item>
+            <paper-item>beta</paper-item>
+            <paper-item>gamma</paper-item>
+            <paper-item>delta</paper-item>
+            <paper-item>epsilon</paper-item>
+          </paper-listbox>
+        </paper-menu-button> -->
+      </div>
+  <?php endif;?>
     <?php endforeach;?>
   <a href="<?=Url::to('backend/web/event-team/finalize/?id='. $eventDataProvider->models[0]->id)?>"><paper-fab icon="social:whatshot"></paper-fab></a>
   </div>

@@ -46,13 +46,13 @@ use dosamigos\datepicker\DateRangePicker;
         ],
     ])->label('Event Type');?>
 
-    <?= $form->field($model, 'match_system_id')->widget(Select2::classname(), [
-        'data' => ArrayHelper::map(MatchSystem::find()->all(),'id','system'),
-        'options' => ['placeholder' => 'Select Match System'],
-        'pluginOptions' => [
-            'allowClear' => true
-        ],
-    ])->label('Match System');?>
+      <?= $form->field($model, 'match_system_id')->widget(Select2::classname(), [
+          'data' => ArrayHelper::map(MatchSystem::find()->all(),'id','system'),
+          'options' => ['placeholder' => 'Select Match System'],
+          'pluginOptions' => [
+              'allowClear' => true
+          ],
+      ])->label('Match System');?>
 
     <!-- <?= $form->field($model, 'event_type_id')->dropDownList(
         ArrayHelper::map(EventType::find()->all(),'id','event_type'),
@@ -79,7 +79,7 @@ use dosamigos\datepicker\DateRangePicker;
         ],
     ])->label('Event Category');?>
     <?= $form->field($model, 'arr_team_name')->widget(Select2::classname(), [
-    'data' => ArrayHelper::map(Team::find()->orderBy('id')->all(),'id','team'),
+    'data' => ArrayHelper::map(Team::find()->where(['<>','team', "Bye"])->all(),'id','team'),
     'language' => 'en',
     'options' => ['placeholder' => 'Select Team', 'multiple' => true],
     'pluginOptions' => [
@@ -89,16 +89,17 @@ use dosamigos\datepicker\DateRangePicker;
     ?>
     <!-- <?= $form->field($model, 'event_category_id')->textInput() ?> -->
 
-    <!-- <?= $form->field($model, 'date_start')->widget(DateRangePicker::className(), [
+    <?= $form->field($model, 'date_start')->widget(DateRangePicker::className(), [
     'attributeTo' => 'date_end',
     'form' => $form, // best for correct client validation
     'language' => 'en',
     // 'size' => 'lg',
     'clientOptions' => [
         'autoclose' => true,
-        'format' => 'dd-M-yyyy'
+        'format' => 'M-dd-yyyy'
     ]
-    ]);?> -->
+    ]);?>
+    
     <!-- <?= $form->field($model, 'date_start')->textInput() ?> -->
 
     <!-- <?= $form->field($model, 'date_end')->textInput() ?> -->

@@ -12,6 +12,8 @@ use backend\models\EventTeamSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\base\Exception;
+// use yii\base\IntegrityException;
 
 /**
  * EventTeamController implements the CRUD actions for EventTeam model.
@@ -141,7 +143,7 @@ class EventTeamController extends Controller
                             $numOfTeams++;
                             $this->addByeTeam($id, 13, $numOfTeams);
                             //update model
-                            // $model = $this->findModel($id);
+                            $models = $this->findModel($id);
                         }
                         //check if there is a Bye
                         // $bye = $this->hasBye($models[$numOfTeams-1]->team_id);
@@ -159,12 +161,35 @@ class EventTeamController extends Controller
                         $this->createEventRoundMatch($id, $numOfTeams);
                     break;
                 case "Plain Ranking":
+                    if ($this->isTeamOdd($numOfTeams)) {
+                        $numOfTeams++;
+                        $this->addByeTeam($id, 13, $numOfTeams);
+                        // update model
+                        $models = EventTeam::find()->where(['event_id' => $id])->all();
+                        $bye++;
+                    } else {
+                        //check if there is a Bye
+                        $bye = $this->hasBye($models[$numOfTeams-1]->team_id);
+                    }
+
+
+
+                    // create rounds based on number of teams (num of teams - 1)
+                    $this->createEventRounds($id, 2, 1);
+
+                    // create event team rounds based on number of event rounds
+                    try {
+                        $this->createTeamRounds($models);
+                    } catch (Exception $e) {
+                        Yii::$app->session->setFlash('error', $e->getMessage());
+                    }
+                    $this->createEventRoundMatch($id, $numOfTeams,$system);
                     break;
                 default:
                     break;
             }
-        //     Yii::$app->session->setFlash('success','Event successfully finalized.');
-        //     return $this->redirect(['index']);
+            Yii::$app->session->setFlash('success','Event successfully finalized.');
+            // return $this->redirect(['?id=' . $id]);
 
         } else {
             Yii::$app->session->setFlash('warning','Please add more teams.');
@@ -180,6 +205,7 @@ class EventTeamController extends Controller
         // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         // return $this->redirect(['view', 'var' => $numOfTeams]);
         // return $this->redirect(['index']);
+        // return $this->redirect(['?id='.$id]);
     }
 
     private function isTeamOdd ($xnumOfTeams) {
@@ -262,35 +288,56 @@ class EventTeamController extends Controller
           throw new Exception("Duplicate Entry");
       }
     }
-    private function createEventRoundMatch($xid, $xnumOfTeams) {
-        $seed = range(1,$xnumOfTeams);
-        $away = array_splice($seed,(count($seed)/2));
-        $home = $seed;
-        //$rounds = count($seed) - 1;
-        $zzz = 0;
-        for ($i=0; $i < count($home)+count($away)-1; $i++) {
-            for ($j=0; $j<count($home); $j++) {
-                $zzz++;
-                $eventTeamHome = EventTeam::find()->where(['seed_number' => $home[$j], 'event_id' => $xid])->one();
-                $eventTeamAway = EventTeam::find()->where(['seed_number' => $away[$j], 'event_id' => $xid])->one();
-                $eventRoundMatch = new EventRoundMatch();
-                $eventRoundMatch->event_team1_round_id = (string) $eventTeamHome->eventTeamRounds[$i]->id;
-                $eventRoundMatch->event_team2_round_id = (string) $eventTeamAway->eventTeamRounds[$i]->id;
-                // echo "<pre>";
-                // print_r($eventRoundMatch->event_team1_round_id);
-                // echo "</pre>";
-                // $eventRoundMatch->match_status_id = 1;
-                // $eventRoundMatch->team1_score = 0;
-                // $eventRoundMatch->team2_score = 0;
-                $eventRoundMatch->save(false);
-            }
 
-            if(count($home)+count($away)-1 > 2){
-                $splicedHome = array_splice($home,1,1);
-                $shiftedSplicedHome = array_shift($splicedHome);
-                array_unshift($away, $shiftedSplicedHome);
-                array_push($home,array_pop($away));
-            }
+    private function createEventRoundMatch($xid, $xnumOfTeams, $system) {
+        switch($system) {
+            case "Single Elimination":
+                break;
+            case "Double Elimination":
+                break;
+            case "Round Robin":
+                $seed = range(1,$xnumOfTeams);
+                $away = array_splice($seed,(count($seed)/2));
+                $home = $seed;
+                //$rounds = count($seed) - 1;
+                $zzz = 0;
+                for ($i=0; $i < count($home)+count($away)-1; $i++) {
+                    for ($j=0; $j<count($home); $j++) {
+                        $zzz++;
+                        $eventTeamHome = EventTeam::find()->where(['seed_number' => $home[$j], 'event_id' => $xid])->one();
+                        $eventTeamAway = EventTeam::find()->where(['seed_number' => $away[$j], 'event_id' => $xid])->one();
+                        $eventRoundMatch = new EventRoundMatch();
+                        $eventRoundMatch->event_team1_round_id = (string) $eventTeamHome->eventTeamRounds[$i]->id;
+                        $eventRoundMatch->event_team2_round_id = (string) $eventTeamAway->eventTeamRounds[$i]->id;
+                        // echo "<pre>";
+                        // print_r($eventRoundMatch->event_team1_round_id);
+                        // echo "</pre>";
+                        // $eventRoundMatch->match_status_id = 1;
+                        // $eventRoundMatch->team1_score = 0;
+                        // $eventRoundMatch->team2_score = 0;
+                        $eventRoundMatch->save(false);
+                    }
+
+                    if(count($home)+count($away)-1 > 2){
+                        $splicedHome = array_splice($home,1,1);
+                        $shiftedSplicedHome = array_shift($splicedHome);
+                        array_unshift($away, $shiftedSplicedHome);
+                        array_push($home,array_pop($away));
+                    }
+                }
+                break;
+            case "Plain Ranking":
+                $eventTeams = EventTeam::find()->where(['event_id' => $xid])->all();
+                foreach ($eventTeams as $eth) {
+                    $eventRoundMatch = new EventRoundMatch();
+                    $eventRoundMatch->event_team1_round_id = (string) $eth->eventTeamRounds[0]->id;
+                    // $eventRoundMatch->event_team2_round_id = (string) $eventTeamAway->eventTeamRounds[$i]->id;
+                    $eventRoundMatch->save(false);
+                }
+
+                break;
+            default:
+                break;
         }
     }
     /**
