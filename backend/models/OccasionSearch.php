@@ -41,7 +41,7 @@ class OccasionSearch extends Occasion
      */
     public function search($params)
     {
-        $query = Occasion::find();
+        $query = Occasion::find()->orderBy(['id'=> SORT_DESC]);
 
         // add conditions that should always apply here
 

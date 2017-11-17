@@ -65,23 +65,26 @@ class OccasionController extends Controller
     public function actionCreate()
     {
         $model = new Occasion();
-        $modelGallery = new Gallery();
+        // $modelGallery = new Gallery();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->date_start = date("Y-m-d", strtotime($model->date_start));
+            $model->date_end = date("Y-m-d", strtotime($model->date_end));
+            $model->date_created = date("Y-m-d", strtotime($model->date_created));
+            $model->save();
+            // $loginUserId = Yii::$app->user->identity->id;
+            // $modelGallery->user_id = $loginUserId;
+            // $modelGallery->occasion_id = $model->id;
+            // $modelGallery->gallery_name = $model->occasion;
 
-                $loginUserId = Yii::$app->user->identity->id;
-                $modelGallery->user_id = $loginUserId;
-                $modelGallery->occasion_id = $model->id;
-                $modelGallery->gallery_name = $model->occasion;
+            // if(!$modelGallery->save(false)){
+                // Yii::$app()->session->setFlash('danger', 'Error Saving Gallery');
+                // return $this->redirect('index', array(
+                //     'model' => $model,
+                // ));
+            // }
 
-                if(!$modelGallery->save(false)){
-                Yii::$app()->session->setFlash('danger', 'Error Saving Gallery');
-                return $this->redirect('index', array(
-                    'model' => $model,
-                ));
-            };
-
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['occasion\/']);
         } else {
             return $this->renderAjax('create', [
                 'model' => $model,
