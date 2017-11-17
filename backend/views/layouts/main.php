@@ -98,6 +98,7 @@ AppAsset::register($this);
   </style>
 </custom-style>
 <div class="wrap">
+  <?= Alert::widget() ?>
     <app-drawer-layout fullbleed>
         <app-drawer id="drawer" slot="drawer" swipe-open>
           <app-toolbar>Menu</app-toolbar>
@@ -110,8 +111,8 @@ AppAsset::register($this);
                     <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
                     <!-- <paper-icon-button icon="arrow-back"></paper-icon-button> -->
                     <div condensed-title><?= $this->title; ?></div>
-                    <paper-icon-button icon="create"></paper-icon-button>
-                    <paper-icon-button icon="more-vert"></paper-icon-button>
+                    <!-- <paper-icon-button icon="create"></paper-icon-button> -->
+                    <!-- <paper-icon-button icon="more-vert"></paper-icon-button> -->
                 </app-toolbar>
                 <app-toolbar class="middle"></app-toolbar>
                 <app-toolbar class="bottom">
