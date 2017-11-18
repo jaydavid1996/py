@@ -4,8 +4,72 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "ec1fd60ab712c5280c6a899a02caed6f",
+=======
+    "content-hash": "bc5a6c324dd8733cc8f1d491db2530ff",
+>>>>>>> 3384bab3bb8386f684eed91137ea8fd35c4e4365
     "packages": [
+        {
+            "name": "2amigos/yii2-chartjs-widget",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/2amigos/yii2-chartjs-widget.git",
+                "reference": "9e9c55212f80870820739a3b6e5deea88789876a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/2amigos/yii2-chartjs-widget/zipball/9e9c55212f80870820739a3b6e5deea88789876a",
+                "reference": "9e9c55212f80870820739a3b6e5deea88789876a",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/chartjs": "2.1.6",
+                "yiisoft/yii2": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                },
+                "asset-installer-paths": {
+                    "bower-asset-library": "vendor/bower"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "dosamigos\\chartjs\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "2amigOS! Consulting Group",
+                    "email": "hola@2amigos.us",
+                    "homepage": "http://2amigos.us",
+                    "role": "Developer"
+                }
+            ],
+            "description": "ChartJs widget for Yii2.",
+            "homepage": "http://yiiwheels.com/extension/chartjs-widget",
+            "keywords": [
+                "2amigos",
+                "chartjs",
+                "extension",
+                "widget",
+                "yii",
+                "yii 2",
+                "yii2"
+            ],
+            "time": "2016-07-09T19:09:35+00:00"
+        },
         {
             "name": "2amigos/yii2-date-picker-widget",
             "version": "1.0.7",
@@ -68,6 +132,36 @@
             "time": "2017-07-05T05:52:03+00:00"
         },
         {
+<<<<<<< HEAD
+            "name": "bedezign/yii2-audit",
+            "version": "1.0.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bedezign/yii2-audit.git",
+                "reference": "4482324795c14fea9e07b0fb0cb045edfce1b48c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bedezign/yii2-audit/zipball/4482324795c14fea9e07b0fb0cb045edfce1b48c",
+                "reference": "4482324795c14fea9e07b0fb0cb045edfce1b48c",
+                "shasum": ""
+            },
+            "require": {
+                "2amigos/yii2-chartjs-widget": "2.0.1 || 3.*",
+                "ext-bcmath": "*",
+                "php": ">=5.4.0",
+                "phpspec/php-diff": "1.*",
+                "yiisoft/yii2": "2.*",
+                "yiisoft/yii2-debug": "2.*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "bootstrap": "bedezign\\yii2\\audit\\Bootstrap"
+            },
+            "autoload": {
+                "psr-4": {
+                    "bedezign\\yii2\\audit\\": "src"
+=======
             "name": "2amigos/yii2-gallery-widget",
             "version": "1.1.0",
             "source": {
@@ -102,10 +196,40 @@
             "autoload": {
                 "psr-4": {
                     "dosamigos\\gallery\\": "src"
+>>>>>>> cd0d82b0f73f08c79dfbee13fedaaefe9a919598
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
+<<<<<<< HEAD
+                "BSD 3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Steve Guns",
+                    "email": "Steve@bedezign.com",
+                    "homepage": "http://bedezign.com/"
+                },
+                {
+                    "name": "Marc Hollander",
+                    "email": "marchollander@gmail.com",
+                    "homepage": "http://maruc.nl/"
+                },
+                {
+                    "name": "Brett O'Donnell",
+                    "email": "cornernote@gmail.com",
+                    "homepage": "https://mrphp.com.au/"
+                }
+            ],
+            "description": "Yii2 Audit records and displays web/cli requests, database changes, php/js errors and associated data.",
+            "keywords": [
+                "Audit",
+                "logging",
+                "trail",
+                "yii2"
+            ],
+            "time": "2017-04-15T01:38:46+00:00"
+=======
                 "BSD-3-Clause"
             ],
             "authors": [
@@ -143,6 +267,7 @@
                 "shasum": ""
             },
             "type": "bower-asset-library"
+>>>>>>> cd0d82b0f73f08c79dfbee13fedaaefe9a919598
         },
         {
             "name": "bower-asset/bootstrap",
@@ -275,6 +400,62 @@
                 "mobile-first",
                 "responsive",
                 "web"
+<<<<<<< HEAD
+            ]
+        },
+        {
+            "name": "bower-asset/chartjs",
+            "version": "v2.1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chartjs/Chart.js.git",
+                "reference": "07662b158d829f395b2c97d732e60599b8b5c4e4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/chartjs/Chart.js/zipball/07662b158d829f395b2c97d732e60599b8b5c4e4",
+                "reference": "07662b158d829f395b2c97d732e60599b8b5c4e4",
+                "shasum": ""
+            },
+            "require-dev": {
+                "bower-asset/jquery": "~2.1.4"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "dist/Chart.js"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Simple HTML5 Charts using the canvas element"
+        },
+        {
+            "name": "bower-asset/jquery",
+            "version": "2.2.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jquery/jquery-dist.git",
+                "reference": "c0185ab7c75aab88762c5aae780b9d83b80eda72"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/c0185ab7c75aab88762c5aae780b9d83b80eda72",
+                "reference": "c0185ab7c75aab88762c5aae780b9d83b80eda72",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "dist/jquery.js",
+                "bower-asset-ignore": [
+                    "package.json"
+                ]
+            },
+            "license": [
+                "MIT"
+=======
+>>>>>>> cd0d82b0f73f08c79dfbee13fedaaefe9a919598
             ],
             "time": "2017-03-24T01:21:30+00:00"
         },
@@ -1190,6 +1371,7 @@
             "time": "2017-09-04T15:30:52+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "philippfrenzel/yii2fullcalendar",
             "version": "3.7.1",
             "source": {
@@ -1215,10 +1397,35 @@
             "autoload": {
                 "psr-4": {
                     "yii2fullcalendar\\": ""
+=======
+            "name": "phpspec/php-diff",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpspec/php-diff.git",
+                "reference": "0464787bfa7cd13576c5a1e318709768798bec6a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpspec/php-diff/zipball/0464787bfa7cd13576c5a1e318709768798bec6a",
+                "reference": "0464787bfa7cd13576c5a1e318709768798bec6a",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Diff": "lib/"
+>>>>>>> 3384bab3bb8386f684eed91137ea8fd35c4e4365
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
+<<<<<<< HEAD
                 "MIT"
             ],
             "authors": [
@@ -1237,6 +1444,18 @@
                 "yii2"
             ],
             "time": "2017-11-15T19:23:34+00:00"
+=======
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Boulton",
+                    "homepage": "http://github.com/chrisboulton"
+                }
+            ],
+            "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays).",
+            "time": "2016-04-07T12:29:16+00:00"
+>>>>>>> 3384bab3bb8386f684eed91137ea8fd35c4e4365
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -1489,6 +1708,7 @@
             "time": "2016-12-20T13:26:02+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "yiisoft/yii2-jui",
             "version": "2.0.6",
             "source": {
@@ -1505,20 +1725,45 @@
             "require": {
                 "bower-asset/jquery-ui": "1.11.*@stable",
                 "yiisoft/yii2": ">=2.0.4"
+=======
+            "name": "yiisoft/yii2-debug",
+            "version": "2.0.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-debug.git",
+                "reference": "93082f46d3568b4431a26f264e0d16a12c42bd50"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/93082f46d3568b4431a26f264e0d16a12c42bd50",
+                "reference": "93082f46d3568b4431a26f264e0d16a12c42bd50",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0.11",
+                "yiisoft/yii2-bootstrap": "~2.0.0"
+>>>>>>> 3384bab3bb8386f684eed91137ea8fd35c4e4365
             },
             "type": "yii2-extension",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.0.x-dev"
+<<<<<<< HEAD
                 },
                 "asset-installer-paths": {
                     "npm-asset-library": "vendor/npm",
                     "bower-asset-library": "vendor/bower"
+=======
+>>>>>>> 3384bab3bb8386f684eed91137ea8fd35c4e4365
                 }
             },
             "autoload": {
                 "psr-4": {
+<<<<<<< HEAD
                     "yii\\jui\\": ""
+=======
+                    "yii\\debug\\": ""
+>>>>>>> 3384bab3bb8386f684eed91137ea8fd35c4e4365
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1531,12 +1776,22 @@
                     "email": "qiang.xue@gmail.com"
                 }
             ],
+<<<<<<< HEAD
             "description": "The Jquery UI extension for the Yii framework",
             "keywords": [
                 "jQuery UI",
                 "yii2"
             ],
             "time": "2016-07-22T22:26:59+00:00"
+=======
+            "description": "The debugger extension for the Yii framework",
+            "keywords": [
+                "debug",
+                "debugger",
+                "yii2"
+            ],
+            "time": "2017-10-09T20:30:01+00:00"
+>>>>>>> 3384bab3bb8386f684eed91137ea8fd35c4e4365
         },
         {
             "name": "yiisoft/yii2-swiftmailer",
@@ -2266,44 +2521,6 @@
                 }
             ],
             "time": "2017-07-14T14:27:02+00:00"
-        },
-        {
-            "name": "phpspec/php-diff",
-            "version": "v1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpspec/php-diff.git",
-                "reference": "0464787bfa7cd13576c5a1e318709768798bec6a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/php-diff/zipball/0464787bfa7cd13576c5a1e318709768798bec6a",
-                "reference": "0464787bfa7cd13576c5a1e318709768798bec6a",
-                "shasum": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Diff": "lib/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Chris Boulton",
-                    "homepage": "http://github.com/chrisboulton"
-                }
-            ],
-            "description": "A comprehensive library for generating differences between two hashable objects (strings or arrays).",
-            "time": "2016-04-07T12:29:16+00:00"
         },
         {
             "name": "phpspec/prophecy",
@@ -4067,53 +4284,6 @@
                 "validate"
             ],
             "time": "2016-11-23T20:04:58+00:00"
-        },
-        {
-            "name": "yiisoft/yii2-debug",
-            "version": "2.0.12",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/yiisoft/yii2-debug.git",
-                "reference": "93082f46d3568b4431a26f264e0d16a12c42bd50"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/93082f46d3568b4431a26f264e0d16a12c42bd50",
-                "reference": "93082f46d3568b4431a26f264e0d16a12c42bd50",
-                "shasum": ""
-            },
-            "require": {
-                "yiisoft/yii2": "~2.0.11",
-                "yiisoft/yii2-bootstrap": "~2.0.0"
-            },
-            "type": "yii2-extension",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "yii\\debug\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Qiang Xue",
-                    "email": "qiang.xue@gmail.com"
-                }
-            ],
-            "description": "The debugger extension for the Yii framework",
-            "keywords": [
-                "debug",
-                "debugger",
-                "yii2"
-            ],
-            "time": "2017-10-09T20:30:01+00:00"
         },
         {
             "name": "yiisoft/yii2-faker",
