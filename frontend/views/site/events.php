@@ -103,16 +103,50 @@ h1{
     padding: 20px;
     text-align: center;
     text-transform: uppercase;
+    font-size:23px;
 }
 body{
   background-color: white !important;
 }
 paper-card.rate.x-scope.paper-card-0 {
-    box-shadow: 0 0 2px 1px black;
     padding: 10px;
     font-weight: normal;
 }
+paper-card.rate.x-scope.paper-card-0 {
+    width: 100%;
+    max-width: 220px;
+    height: 157px;
+}
+.card-container {
+    margin: 10px 0px !important;
+}
+.rate-name:not([style-scope]):not(.style-scope) {
+    color: #757575 !Important;
+    margin: 10px 0 !Important;
+}
+.rate-header {
+    font-size: 13px !important;
+    font-weight: 900 !important;
+}
+.paper-card-0 > .card-content {
+    padding: 3px;
+    position: relative;
+    font-size: 11px !important;
+    text-align: center;
+}
+.card-container a{
+    text-align: center !important;
+    width: 100% !important;
+    display: inline-block;
+    font-size:11px;
+}
+.card-container {
+    overflow: scroll;
+    padding: 10px;
+}
 </style>
+
+
 <?php
 
 /* @var $this yii\web\View */
@@ -128,56 +162,62 @@ $subtitle = 'Events';
 $this->title = $subtitle;
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1>Event Page</h1>
-<?php //$modelEvents = new Events();
-$modelEvents = Event::find()->all();
-?>
+<div class="row">
+  <div classs="col-md-12">
+    <div class='col-md-9'>
+      <h1>Event Schedule</h1>
+      <?php $modelEvents = Event::find()->all();?>
 
-<div class="event-index">
-  <div class="card-container">
-  <?php foreach ($modelEvents as $model): ?>
-    <div>
+      <div class="event-index">
+        <?php
+        $modelEvents = Event::find()->all();
+        foreach ($modelEvents as $model):
 
+            $events = array();
+
+            $Event = new \yii2fullcalendar\models\Event();
+
+            $Event->id = $model->id;
+            $Event->title = $model->event;
+            $Event->start =  date("Y-m-d\TH:i:s\Z", strtotime($model->date_start));
+            $Event->end = date("Y-m-d\TH:i:s\Z", strtotime($model->date_end));
+            $event[] = $Event;
+          ?>
+            <?php endforeach;?>
+          <?= \yii2fullcalendar\yii2fullcalendar::widget(array(
+             'events'=> $event,
+             'id' => $model->id,
+         ));?>
     </div>
-    <paper-card class="rate">
-      <div class="card-content">
-        <div class="rate-header"><?= $model['event']; ?></div>
-        <!-- <?=date("M-d-Y (D)", strtotime($model['date_start']));?> -->
-        <?= $model['eventType']['event_type']; ?>
-        <div class="rate-name">
-          <?=date("M-d-Y", strtotime($model['date_start'])); echo $model['date_start'] !== $model['date_end'] ? ' to ' . date("M-d-Y", strtotime($model['date_end'])) . '<br />': "";?>
-          <?=date("D", strtotime($model['date_start'])); echo $model['date_start'] !== $model['date_end'] ? date(" - D", strtotime($model['date_end'])) : "";?>
+    </div>
+    <div class='col-md-3'>
+      <h1>Event Listing</h1>
+         <div class="card-container" style="margin:10px;">
+           <?php foreach ($modelEvents as $model): ?>
+           <paper-card class="rate">
+             <a href="<?=Url::to('frontend/web/event/?event='. $model['event'])?>" tabindex="-1">
+             </a>
+              <div  class="card-content">
+               <div class="rate-header"><?= $model['event']; ?></div>
+                 <!-- <?=date("M-d-Y (D)", strtotime($model['date_start']));?> -->
+                 <?= $model['eventType']['event_type']; ?>
+                  <div class="rate-name">
+                   <?=date("M-d-Y", strtotime($model['date_start'])); echo $model['date_start'] !== $model['date_end'] ? ' to ' . date("M-d-Y", strtotime($model['date_end'])) . '<br />': "";?>
+                   <?=date("D", strtotime($model['date_start'])); echo $model['date_start'] !== $model['date_end'] ? date(" - D", strtotime($model['date_end'])) : "";?>
+                 </div>
+               <div><?= $model['description']; ?></div>
+             </div>
+             <div class="card-actions">
+               <!-- <paper-icon-button class="rate-icon" icon="star"></paper-icon-button> -->
+               <a href="<?=Url::to('backend/web/event-team/?id='. $model['id'])?>" tabindex="-1">
+                <paper-button>VIEW</paper-button>
+               </a>
+             </div>
+             <!-- <div class="rate-image"></div> -->
+           </paper-card>
+         <?php endforeach;?>
         </div>
-        <div><?= $model['description']; ?></div>
       </div>
-      <div class="card-actions">
-        <!-- <paper-icon-button class="rate-icon" icon="star"></paper-icon-button> -->
-        <a href="<?=Url::to('backend/web/event-team/?id='. $model['id'])?>" tabindex="-1">
-         <paper-button>VIEW</paper-button>
-        </a>
-      </div>
-      <!-- <div class="rate-image"></div> -->
-    </paper-card>
-  <?php endforeach;?>
 
-
-  <?php
-
-$modelEvents = Event::find()->all();
-
-foreach ($modelEvents as $model):
-
-    $events = array();
-
-    $Event = new \yii2fullcalendar\models\Event();
-
-    $Event->id = $model->id;
-    $Event->title = $model->event;
-    $Event->start =  date("M d, Y", strtotime($model->date_start));
-    $Event->end = date("M d, Y", strtotime($model->date_end));
-     $event[] = $Event;
-  ?>
-    <?php endforeach;?>
-  <?= \yii2fullcalendar\yii2fullcalendar::widget(array(
-     'events'=> $event,
- ));?>
+  </div>
+</div>
