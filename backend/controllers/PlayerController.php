@@ -8,7 +8,7 @@ use backend\models\PlayerSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use common\models\Audit;
 /**
  * PlayerController implements the CRUD actions for Player model.
  */
@@ -66,6 +66,11 @@ class PlayerController extends Controller
         $model = new Player();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+          $modelAudit = new Audit();
+          $modelAudit->user_id = Yii::$app->user->identity->id;
+          $modelAudit->details = 'Create Player : '.$model->fname;
+          $modelAudit->status = AUDIT::STATUS_CREATE;
+          $modelAudit->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -85,6 +90,11 @@ class PlayerController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+          $modelAudit = new Audit();
+          $modelAudit->user_id = Yii::$app->user->identity->id;
+          $modelAudit->details = 'Update Player';
+          $modelAudit->status = AUDIT::STATUS_UPDATE;
+          $modelAudit->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [

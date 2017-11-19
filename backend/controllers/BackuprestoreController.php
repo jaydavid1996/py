@@ -12,6 +12,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 use yii\helpers\Html;
 use yii\base\ErrorException;
+use common\models\Audit;
 
 class BackuprestoreController extends Controller {
 
@@ -216,6 +217,12 @@ class BackuprestoreController extends Controller {
         }
         $this->EndBackup();
 
+        $modelAudit = new Audit();
+        $modelAudit->user_id = Yii::$app->user->identity->id;
+        $modelAudit->details = 'Backup database : '.$this->file_name =  $this->back_temp_file . date('Y.m.d_H.i.s') . '.sql';
+        $modelAudit->status = AUDIT::STATUS_CREATE;
+        $modelAudit->save();
+
         $flashError = 'success';
         $flashMsg = 'Success: Database backup generate successfully!!!';
 
@@ -352,6 +359,12 @@ class BackuprestoreController extends Controller {
 
         if (isset($file)) {
             $sqlFile = $this->path . basename($file);
+
+            $modelAudit = new Audit();
+            $modelAudit->user_id = Yii::$app->user->identity->id;
+            $modelAudit->details = 'Backup database : '.$sqlFile;
+            $modelAudit->status = AUDIT::STATUS_CREATE;
+            $modelAudit->save();
 
             $flashError = 'success';
             $flashMsg = 'Success: Database restore successfully!';

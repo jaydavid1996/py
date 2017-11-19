@@ -16,6 +16,7 @@ use yii\web\UploadedFile;
 use backend\models\GallerySearch;
 use yii\helpers\ArrayHelper;
 use common\models\Occasion;
+use common\models\Audit;
 
 
 class GalleryController extends Controller
@@ -63,6 +64,12 @@ class GalleryController extends Controller
                             Yii::$app()->session->setFlash('danger', 'Error Saving Fileupload');
                             return $this->redirect('view');
                         }
+
+                        $modelAudit = new Audit();
+                        $modelAudit->user_id = Yii::$app->user->identity->id;
+                        $modelAudit->status =  Audit::STATUS_UPLOAD;
+                        $modelAudit->fileupload_id = $modelFileUploads->id;
+                        $modelAudit->save();
                     }
                     Yii::$app->session->setFlash('success','Successfully Upload Images');
                     return $this->redirect(['view', 'id' => $modelFileUploads->gallery_id]);

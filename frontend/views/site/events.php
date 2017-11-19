@@ -195,8 +195,6 @@ $this->title = $subtitle;
          <div class="card-container" style="margin:10px;">
            <?php foreach ($modelEvents as $model): ?>
            <paper-card class="rate">
-             <a href="<?=Url::to('frontend/web/event/?event='. $model['event'])?>" tabindex="-1">
-             </a>
               <div  class="card-content">
                <div class="rate-header"><?= $model['event']; ?></div>
                  <!-- <?=date("M-d-Y (D)", strtotime($model['date_start']));?> -->
