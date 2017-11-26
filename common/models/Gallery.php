@@ -63,6 +63,13 @@ class Gallery extends \yii\db\ActiveRecord
         ];
     }
 
+    public function behaviors()
+      {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+      }
+
     public function getOccasion()
     {
         return $this->hasOne(Occasion::className(), ['id' => 'occasion_id']);

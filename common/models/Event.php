@@ -32,7 +32,7 @@ use Yii;
  * @property EventTeam[] $eventTeams
  * @property Team[] $teams
  */
- 
+
 class Event extends \yii\db\ActiveRecord
 {
     /**
@@ -82,19 +82,26 @@ class Event extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'occasion_id' => 'Occasion ID',
-            'event_classification_id' => 'Event Classification ID',
-            'event_type_id' => 'Event Type ID',
-            'match_system_id' => 'Match System ID',
+            'occasion_id' => 'Occasion',
+            'event_classification_id' => 'Event Classification',
+            'event_type_id' => 'Event Type',
+            'match_system_id' => 'Match System',
             'event' => 'Event',
             'description' => 'Description',
-            'venue_id' => 'Venue ID',
-            'event_category_id' => 'Event Category ID',
-            'event_status_id' => 'Event Status ID',
+            'venue_id' => 'Venue',
+            'event_category_id' => 'Event Category',
+            'event_status_id' => 'Event Status',
             'date_start' => 'Date Start',
             'date_end' => 'Date End',
             'min_team' => 'Min Team',
             'max_team' => 'Max Team',
+        ];
+    }
+    
+    public function behaviors()
+    {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
         ];
     }
 

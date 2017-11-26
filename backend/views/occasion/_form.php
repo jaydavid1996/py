@@ -17,13 +17,13 @@ use dosamigos\datepicker\DateRangePicker;
     <?php $form = ActiveForm::begin(); ?>
 
     <!-- <?= $form->field($model, 'department_id')->textInput() ?> -->
-    <?= $form->field($model, 'department_id')->widget(Select2::classname(), [
+    <!-- <?= $form->field($model, 'department_id')->widget(Select2::classname(), [
     'data' => ArrayHelper::map(Department::find()->all(),'id','department'),
     'options' => ['placeholder' => 'Select Department'],
     'pluginOptions' => [
         'allowClear' => true
     ],
-])->label('Department');?>
+])->label('Department');?> -->
 
     <?= $form->field($model, 'occasion')->textInput(['maxlength' => true]) ?>
 

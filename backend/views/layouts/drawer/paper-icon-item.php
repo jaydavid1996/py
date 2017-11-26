@@ -51,7 +51,18 @@
 $baseUrl = Yii::$app->homeUrl
 
 ?>
-
+<?php if (!Yii::$app->user->isGuest) : ?>
+<i class="fa fa-circle text-success"></i>
+<app-toolbar>
+<h4><?= Yii::$app->user->identity->username?></h4>
+<h5><?= Yii::$app->user->can('admin') ? ' (Administrator) ' : ' (Organizer) ';?></h5>
+<a href="/py/backend/web/logout" data-method="post">
+<paper-icon-item class="iconItem">
+<iron-icon class="grayIcon" icon="icons:power-settings-new" slot="item-icon"></iron-icon>
+</paper-icon-item>
+</a>
+</app-toolbar>
+<?php if (Yii::$app->user->can('admin')) : ?>
 <a href="<?php echo $baseUrl?>cms/" tabindex="-1">
 <paper-icon-item class="iconItem">
   <iron-icon class="grayIcon" icon="dashboard" slot="item-icon"></iron-icon>
@@ -88,6 +99,7 @@ $baseUrl = Yii::$app->homeUrl
   <span>Backup & Restore</span>
 </paper-icon-item>
 </a>
+<?php else: ?>
 <a href="<?php echo $baseUrl?>occasion/" tabindex="-1">
 <paper-icon-item class="iconItem">
   <iron-icon class="grayIcon" icon="av:album" slot="item-icon"></iron-icon>
@@ -118,3 +130,5 @@ $baseUrl = Yii::$app->homeUrl
   <span>Reports</span>
 </paper-icon-item>
 </a>
+<?php endif; ?>
+<?php endif; ?>

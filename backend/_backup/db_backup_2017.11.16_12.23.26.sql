@@ -496,7 +496,7 @@ INSERT INTO `event` (`id`,`occasion_id`,`event_classification_id`,`event_type_id
 INSERT INTO `event` (`id`,`occasion_id`,`event_classification_id`,`event_type_id`,`match_system_id`,`event`,`description`,`venue_id`,`event_category_id`,`event_status_id`,`date_start`,`date_end`,`min_team`,`max_team`) VALUES
 ('22','1','1','3','3','team8','team8','1','1','1','1970-01-01','1970-01-01','3','12');
 INSERT INTO `event` (`id`,`occasion_id`,`event_classification_id`,`event_type_id`,`match_system_id`,`event`,`description`,`venue_id`,`event_category_id`,`event_status_id`,`date_start`,`date_end`,`min_team`,`max_team`) VALUES
-('23','1','1','2','3','team11','team11','2','1','1','1970-01-01','1970-01-01','3','12');
+('23','1','1','2','4','team11','team11','2','1','1','1970-01-01','1970-01-01','3','12');
 INSERT INTO `event` (`id`,`occasion_id`,`event_classification_id`,`event_type_id`,`match_system_id`,`event`,`description`,`venue_id`,`event_category_id`,`event_status_id`,`date_start`,`date_end`,`min_team`,`max_team`) VALUES
 ('24','1','1','1','3','team12','team12','1','2','1','1970-01-01','1970-01-01','3','12');
 
@@ -595,6 +595,12 @@ INSERT INTO `event_team` (`id`,`team_id`,`event_id`,`place_id`,`final_place_id`,
 ('14','11','24',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'2');
 INSERT INTO `event_team` (`id`,`team_id`,`event_id`,`place_id`,`final_place_id`,`total_wins`,`total_draws`,`total_losses`,`total_score`,`total_time`,`seed_number`) VALUES
 ('17','13','24',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'12');
+INSERT INTO `event_team` (`id`,`team_id`,`event_id`,`place_id`,`final_place_id`,`total_wins`,`total_draws`,`total_losses`,`total_score`,`total_time`,`seed_number`) VALUES
+('18','12','23',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `event_team` (`id`,`team_id`,`event_id`,`place_id`,`final_place_id`,`total_wins`,`total_draws`,`total_losses`,`total_score`,`total_time`,`seed_number`) VALUES
+('19','1','23',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `event_team` (`id`,`team_id`,`event_id`,`place_id`,`final_place_id`,`total_wins`,`total_draws`,`total_losses`,`total_score`,`total_time`,`seed_number`) VALUES
+('20','7','23',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 
 
 

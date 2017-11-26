@@ -30,7 +30,12 @@ class LoginForm extends Model
             ['password', 'validatePassword'],
         ];
     }
-
+    public function behaviors()
+      {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+      }
     /**
      * Validates the password.
      * This method serves as the inline validation for password.

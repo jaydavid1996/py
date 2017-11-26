@@ -55,7 +55,12 @@ class EventTeamRound extends \yii\db\ActiveRecord
             'match_result_id' => 'Match Result ID',
         ];
     }
-
+    public function behaviors()
+      {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+      }
     /**
      * @return \yii\db\ActiveQuery
      */

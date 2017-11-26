@@ -12,6 +12,11 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [
+      'audit' => [
+        'class' => 'bedezign\yii2\audit\Audit',
+        'userIdentifierCallback' => ['common\models\User', 'userIdentifierCallback'],
+        'userFilterCallback' => ['common\models\User', 'filterByUserIdentifierCallback'],
+      ],
       'gridview' => [
         'class' => 'kartik\grid\Module'
       ],
@@ -50,6 +55,10 @@ return [
                     'levels' => ['error', 'warning'],
                 ],
             ],
+        ],
+        'authManager'=> [
+            'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => ['guest'],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',

@@ -52,7 +52,7 @@ class Occasion extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'department_id' => 'Department ID',
+            'department_id' => 'Department',
             'occasion' => 'Occasion',
             'description' => 'Description',
             'date_start' => 'Date Start',
@@ -60,7 +60,12 @@ class Occasion extends \yii\db\ActiveRecord
             'date_created' => 'Date Created',
         ];
     }
-
+    public function behaviors()
+      {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+      }
     /**
      * @return \yii\db\ActiveQuery
      */

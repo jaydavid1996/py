@@ -60,6 +60,13 @@ class Fileupload extends \yii\db\ActiveRecord
         ];
     }
 
+    public function behaviors()
+      {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+      }
+
     public static function getImageUrl($id)
         {
             $model = Fileupload::find()->where(['gallery_id'=> $id])->one();

@@ -4,10 +4,12 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Occasion;
+use yii\filters\AccessControl;
 use common\models\Gallery;
 use backend\models\OccasionSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\ForbiddenHttpException;
 use yii\filters\VerbFilter;
 
 /**
@@ -21,6 +23,21 @@ class OccasionController extends Controller
     public function behaviors()
     {
         return [
+              'access' => [
+                  'class' => AccessControl::className(),
+                  'rules' => [
+                      [
+                          'actions' => [''],
+                          'allow' => true,
+                          // 'roles' => ['?'],
+                      ],
+                      [
+                          'actions' => ['index', 'create', 'view', 'update', 'delete'],
+                          'allow' => true,
+                          'roles' => ['@'],
+                      ],
+                  ],
+              ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -36,13 +53,18 @@ class OccasionController extends Controller
      */
     public function actionIndex()
     {
+        if (Yii::$app->user->can('view-occasion')) {
         $searchModel = new OccasionSearch();
+        $searchModel->department_id = Yii::$app->user->identity->role;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+        } else {
+          throw new ForbiddenHttpException;
+        }
     }
 
     /**
@@ -52,9 +74,13 @@ class OccasionController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        if (Yii::$app->user->can('view-occasion')) {
+          return $this->render('view', [
+              'model' => $this->findModel($id),
+          ]);
+        } else {
+          throw new ForbiddenHttpException;
+        }
     }
 
     /**
@@ -64,31 +90,39 @@ class OccasionController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Occasion();
-        // $modelGallery = new Gallery();
+        if (Yii::$app->user->can('create-occasion')) {
+            $model = new Occasion();
+            // $modelGallery = new Gallery();
 
-        if ($model->load(Yii::$app->request->post())) {
-            $model->date_start = date("Y-m-d", strtotime($model->date_start));
-            $model->date_end = date("Y-m-d", strtotime($model->date_end));
-            $model->date_created = date("Y-m-d", strtotime($model->date_created));
-            $model->save();
-            // $loginUserId = Yii::$app->user->identity->id;
-            // $modelGallery->user_id = $loginUserId;
-            // $modelGallery->occasion_id = $model->id;
-            // $modelGallery->gallery_name = $model->occasion;
+            if ($model->load(Yii::$app->request->post())) {
+                $model->department_id = Yii::$app->user->identity->role;
+                $model->date_start = date("Y-m-d", strtotime($model->date_start));
+                $model->date_end = date("Y-m-d", strtotime($model->date_end));
+                $model->date_created = date("Y-m-d", strtotime($model->date_created));
+                // echo "<pre>";
+                // echo print_r($model);
+                // echo "</pre>";
+                $model->save();
+                // $loginUserId = Yii::$app->user->identity->id;
+                // $modelGallery->user_id = $loginUserId;
+                // $modelGallery->occasion_id = $model->id;
+                // $modelGallery->gallery_name = $model->occasion;
 
-            // if(!$modelGallery->save(false)){
-                // Yii::$app()->session->setFlash('danger', 'Error Saving Gallery');
-                // return $this->redirect('index', array(
-                //     'model' => $model,
-                // ));
-            // }
+                // if(!$modelGallery->save(false)){
+                    // Yii::$app()->session->setFlash('danger', 'Error Saving Gallery');
+                    // return $this->redirect('index', array(
+                    //     'model' => $model,
+                    // ));
+                // }
 
-            return $this->redirect(['occasion\/']);
+                return $this->redirect(['occasion\/']);
+            } else {
+                return $this->renderAjax('create', [
+                    'model' => $model,
+                ]);
+            }
         } else {
-            return $this->renderAjax('create', [
-                'model' => $model,
-            ]);
+            throw new ForbiddenHttpException;
         }
     }
 
@@ -100,14 +134,18 @@ class OccasionController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        if (Yii::$app->user->can('update-occasion')) {
+            $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->renderAjax('update', [
+                    'model' => $model,
+                ]);
+            }
         } else {
-            return $this->renderAjax('update', [
-                'model' => $model,
-            ]);
+            throw new ForbiddenHttpException;
         }
     }
 
@@ -119,9 +157,14 @@ class OccasionController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        if (Yii::$app->user->can('delete-occasion')) {
+            $this->findModel($id)->delete();
+
+            return $this->redirect(['index']);
+        } else {
+            throw new ForbiddenHttpException;
+        }
     }
 
     /**

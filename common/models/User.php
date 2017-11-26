@@ -17,6 +17,7 @@ use yii\web\IdentityInterface;
  * @property string $email
  * @property string $auth_key
  * @property integer $status
+ * @property integer $role
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
@@ -24,7 +25,14 @@ use yii\web\IdentityInterface;
 class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
+    const STATUS_PENDING = 5;
     const STATUS_ACTIVE = 10;
+    const ROLE_CENTRAL_COUNCIL = 1;
+    const ROLE_EDUCATION = 2;
+    const ROLE_IBM = 3;
+    const ROLE_ICSLIS = 4;
+    const ROLE_ADMIN = 5;
+
 
 
     /**
@@ -42,6 +50,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             TimestampBehavior::className(),
+            'bedezign\yii2\audit\AuditTrailBehavior',
         ];
     }
 
@@ -51,8 +60,9 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['status', 'default', 'value' => self::STATUS_PENDING],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_PENDING, self::STATUS_DELETED]],
+            ['role', 'in', 'range' => [self::ROLE_ADMIN, self::ROLE_CENTRAL_COUNCIL, self::ROLE_EDUCATION, self::ROLE_IBM, self::ROLE_ICSLIS]],
         ];
     }
 
@@ -80,7 +90,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['username' => $username, 'status' => [self::STATUS_ACTIVE]]);
     }
 
     /**

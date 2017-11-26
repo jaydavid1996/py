@@ -59,7 +59,12 @@ class EventRoundMatch extends \yii\db\ActiveRecord
             'datetime_end' => 'Datetime End',
         ];
     }
-
+    public function behaviors()
+      {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+      }
     /**
      * @return \yii\db\ActiveQuery
      */

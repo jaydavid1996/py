@@ -165,13 +165,13 @@
 </style>
 <style>
 .card-container img {
-    width: 302px;
-    height: 221px;
-    margin: 27PX;
-    object-fit: cover;
-    border: 2px solid green;
-    padding: 9px;
-    background-color: white;
+  width: 302px;
+  height: 221px;
+  margin: 27PX;
+  object-fit: cover;
+  padding: 9px;
+  background-color: white;
+  box-shadow: 0 0 4px 1px black;
 }
 .card-container {
     margin: auto !important;

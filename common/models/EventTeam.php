@@ -74,7 +74,12 @@ class EventTeam extends \yii\db\ActiveRecord
             'seed_number' => 'Seed Number',
         ];
     }
-
+    public function behaviors()
+      {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+      }
     /**
      * @return \yii\db\ActiveQuery
      */

@@ -35,6 +35,7 @@ class DepartmentController extends Controller
      */
     public function actionIndex()
     {
+        
         $searchModel = new DepartmentSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

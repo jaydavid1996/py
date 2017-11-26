@@ -58,7 +58,12 @@ class EventRound extends \yii\db\ActiveRecord
             'date_end' => 'Date End',
         ];
     }
-
+    public function behaviors()
+      {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+      }
     /**
      * @return \yii\db\ActiveQuery
      */

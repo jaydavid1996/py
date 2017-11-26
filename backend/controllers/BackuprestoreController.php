@@ -7,8 +7,11 @@ use Yii;
 use yii\web\Controller;
 use app\models\UploadForm;
 use yii\data\ArrayDataProvider;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
+use yii\web\ForbiddenHttpException;
 use yii\web\UploadedFile;
 use yii\helpers\Html;
 use yii\base\ErrorException;
@@ -25,6 +28,33 @@ class BackuprestoreController extends Controller {
 	public function actions()
     {
 		//
+    }
+
+    public function behaviors()
+    {
+        return [
+              'access' => [
+                  'class' => AccessControl::className(),
+                  'rules' => [
+                      [
+                          'actions' => [''],
+                          'allow' => true,
+                          // 'roles' => ['?'],
+                      ],
+                      [
+                          'actions' => ['index', 'create', 'view', 'update', 'delete'],
+                          'allow' => true,
+                          'roles' => ['@'],
+                      ],
+                  ],
+              ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
     }
 
     protected function getPath() {
@@ -258,28 +288,32 @@ class BackuprestoreController extends Controller {
     }
 
     public function actionDelete($filename = null) {
-        $flashError = '';
-        $flashMsg = '';
+        if (Yii::$app->user->can('delete-backup')) {
+            $flashError = '';
+            $flashMsg = '';
 
-		$file = $filename;
+    		$file = $filename;
 
-        $this->updateMenuItems();
-        if (isset($file)) {
-            $sqlFile = $this->path . basename($file);
-            if (file_exists($sqlFile)) {
-                unlink($sqlFile);
-                $flashError = 'success';
-                $flashMsg = 'Database: ' . $sqlFile . ' deleted.';
+            $this->updateMenuItems();
+            if (isset($file)) {
+                $sqlFile = $this->path . basename($file);
+                if (file_exists($sqlFile)) {
+                    unlink($sqlFile);
+                    $flashError = 'success';
+                    $flashMsg = 'Database: ' . $sqlFile . ' deleted.';
+                } else {
+                    $flashError = 'error';
+                    $flashMsg = ' ' . $sqlFile . ' Database not found.';
+                }
             } else {
                 $flashError = 'error';
-                $flashMsg = ' ' . $sqlFile . ' Database not found.';
+                $flashMsg = 'File not found.';
             }
+            \Yii::$app->getSession()->setFlash($flashError, $flashMsg);
+            $this->redirect(array('index'));
         } else {
-            $flashError = 'error';
-            $flashMsg = 'File not found.';
+              throw new ForbiddenHttpException;
         }
-        \Yii::$app->getSession()->setFlash($flashError, $flashMsg);
-        $this->redirect(array('index'));
     }
 
     public function actionDownload($file = null) {
@@ -295,31 +329,34 @@ class BackuprestoreController extends Controller {
     }
 
     public function actionIndex() {
+        if (Yii::$app->user->can('view-backup')) {
+            $this->updateMenuItems();
+            $path = $this->path;
+            $dataArray = array();
 
-        $this->updateMenuItems();
-        $path = $this->path;
-        $dataArray = array();
+            $list_files = glob($path . '*.sql');
+            if ($list_files) {
+                $list = array_map('basename', $list_files);
+                sort($list);
+                foreach ($list as $id => $filename) {
+                    $columns = array();
+                    $columns['id'] = $id;
+                    $columns['name'] = basename($filename);
+                    $columns['size'] = filesize($path . $filename);
 
-        $list_files = glob($path . '*.sql');
-        if ($list_files) {
-            $list = array_map('basename', $list_files);
-            sort($list);
-            foreach ($list as $id => $filename) {
-                $columns = array();
-                $columns['id'] = $id;
-                $columns['name'] = basename($filename);
-                $columns['size'] = filesize($path . $filename);
+                    $columns['create_time'] = date('Y-m-d H:i:s', filectime($path . $filename));
+                    $columns['modified_time'] = date('Y-m-d H:i:s', filemtime($path . $filename));
 
-                $columns['create_time'] = date('Y-m-d H:i:s', filectime($path . $filename));
-                $columns['modified_time'] = date('Y-m-d H:i:s', filemtime($path . $filename));
-
-                $dataArray[] = $columns;
+                    $dataArray[] = $columns;
+                }
             }
+            $dataProvider = new ArrayDataProvider(['allModels' => $dataArray]);
+            return $this->render('index', array(
+                        'dataProvider' => $dataProvider,
+            ));
+        } else {
+          throw new ForbiddenHttpException;
         }
-        $dataProvider = new ArrayDataProvider(['allModels' => $dataArray]);
-        return $this->render('index', array(
-                    'dataProvider' => $dataProvider,
-        ));
     }
 
     public function actionSyncdown() {
@@ -341,28 +378,32 @@ class BackuprestoreController extends Controller {
     }
 
     public function actionRestore($filename=NULL) {
-        $flashError = '';
-        $flashMsg = '';
+    if (Yii::$app->user->can('restore-backup')) {
+            $flashError = '';
+            $flashMsg = '';
 
-		$file = $filename;
+    		$file = $filename;
 
-        $this->updateMenuItems();
-        $sqlFile = $this->path . basename($file);
-
-
-        if (isset($file)) {
+            $this->updateMenuItems();
             $sqlFile = $this->path . basename($file);
 
-            $flashError = 'success';
-            $flashMsg = 'Success: Database restore successfully!';
-        } else {
-            $flashError = 'error';
-            $flashMsg = 'Error: Wrong file name !';
-        }
-        $this->execSqlFile($sqlFile);
 
-        \Yii::$app->getSession()->setFlash($flashError, $flashMsg);
-        $this->redirect(array('index'));
+            if (isset($file)) {
+                $sqlFile = $this->path . basename($file);
+
+                $flashError = 'success';
+                $flashMsg = 'Success: Database restore successfully!';
+            } else {
+                $flashError = 'error';
+                $flashMsg = 'Error: Wrong file name !';
+            }
+            $this->execSqlFile($sqlFile);
+
+            \Yii::$app->getSession()->setFlash($flashError, $flashMsg);
+            $this->redirect(array('index'));
+        } else {
+              throw new ForbiddenHttpException;
+        }
     }
 
     public function actionUpload() {
