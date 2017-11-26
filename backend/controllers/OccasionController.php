@@ -11,6 +11,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\filters\VerbFilter;
+use common\models\Audit;
 
 /**
  * OccasionController implements the CRUD actions for Occasion model.
@@ -119,6 +120,14 @@ class OccasionController extends Controller
             } else {
                 return $this->renderAjax('create', [
                     'model' => $model,
+                ));
+            };
+            $modelAudit = new Audit();
+            $modelAudit->user_id = Yii::$app->user->identity->id;
+            $modelAudit->details = 'Create Occasion : '.$model->occasion;
+            $modelAudit->status = AUDIT::STATUS_CREATE;
+            $modelAudit->save();
+            return $this->redirect(['view', 'id' => $model->id]);
                 ]);
             }
         } else {
@@ -137,13 +146,13 @@ class OccasionController extends Controller
         if (Yii::$app->user->can('update-occasion')) {
             $model = $this->findModel($id);
 
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            } else {
-                return $this->renderAjax('update', [
-                    'model' => $model,
-                ]);
-            }
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $modelAudit = new Audit();
+            $modelAudit->user_id = Yii::$app->user->identity->id;
+            $modelAudit->details = 'Update Occasion : '.$model->occasion;
+            $modelAudit->status = AUDIT::STATUS_UPDATE;
+            $modelAudit->save();
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             throw new ForbiddenHttpException;
         }

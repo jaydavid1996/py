@@ -74,8 +74,8 @@ class EventController extends Controller
             // $model->event_type_id = $model->event_type_dd;
             $model->venue_id = $model->venue_dd;
             $model->event_category_id = $model->event_category_dd;
-            $model->date_start = date("Y-m-d", strtotime($model->date_start));
-            $model->date_end = date("Y-m-d", strtotime($model->date_end));
+            $model->date_start = date("Y-m-d\TH:i:s\Z", strtotime($model->date_start));
+            $model->date_end = date("Y-m-d\TH:i:s\Z", strtotime($model->date_end));
 
             //default values
             $model->min_team = 3;

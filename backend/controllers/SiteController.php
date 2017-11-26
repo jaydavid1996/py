@@ -11,6 +11,7 @@ use common\models\LoginForm;
 use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
 use backend\models\SignupForm;
+use common\models\Audit;
 
 /**
  * Site controller
@@ -83,6 +84,13 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+
+            $modelAudit = new Audit();
+            $modelAudit->user_id = Yii::$app->user->identity->id;
+            $modelAudit->status =  Audit::STATUS_LOGIN;
+            $modelAudit->date_updated  = date('Y-m-d H:i:s');
+
+            $modelAudit->save();
             return $this->goBack();
         } else {
             return $this->render('login', [
@@ -98,9 +106,17 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout();
 
-        return $this->goHome();
+        if ($model->load(Yii::$app->request->post())) {
+            $modelAudit = new Audit();
+            $modelAudit->user_id = Yii::$app->user->identity->id;
+            $modelAudit->status =  Audit::STATUS_LOGOUT;
+            $modelAudit->save();
+
+            if (Yii::$app->getUser()->logout($user)) {
+                return $this->goHome();
+            }
+        }
     }
 
     public function actionSignup()

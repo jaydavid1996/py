@@ -194,12 +194,12 @@ $this->params['breadcrumbs'][] = $this->title;
  <paper-button toggles raised class="btn-upload">Return to folder</paper-button>
 </a><br />
 <h1><?= Html::encode($this->title) ?></h1>
-  <div class="card-container">
-    <?php $modelFileUploaders = Fileupload::find()->where(['gallery_id'=> $model->id])->all();
-      foreach ($modelFileUploaders as $modelFileUploader):
-        $imgUrl =  'backend/_uploads/'.$modelFileUploader->file_name;
-      ?>
-        <img src="<?php echo $imgUrl ?>"/>
-      <?php endforeach;?>
-     <paper-button class="modalButton" value="backend/web/gallery/upload?id=<?=$model['id']?>"><paper-fab icon="add"></paper-fab></paper-button>
-  </div>
+<div class="card-container">
+  <?php $modelFileUploaders = Fileupload::find()->where(['gallery_id'=> $model->id])->all();
+    foreach ($modelFileUploaders as $modelFileUploader):
+      $imgUrl =  'backend/_uploads/'.$modelFileUploader->file_name;
+    ?>
+      <img src="<?php echo $imgUrl ?>"/>
+    <?php endforeach;?>
+   <paper-button class="modalButton" value="backend/web/gallery/upload?id=<?=$model['id']?>"><paper-fab icon="add"></paper-fab></paper-button>
+</div>

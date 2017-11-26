@@ -85,11 +85,11 @@ foreach ($modelFileUploaders as $modelFileUploader):
       [
           'url' => $imgUrl,
           'src' => $imgUrl,
-          'options' => array('title' => 'Camposanto monumentale (inside)')
+          'options' => array('title' => 'Photos of events')
       ],
   ];?>
   <div id="w0">
-  <a class="gallery-item" href="<?php echo $imgUrl ?>" title="Camposanto monumentale (inside)">
+  <a class="gallery-item" href="<?php echo $imgUrl ?>" title="Photos of events">
     <img src="<?php echo $imgUrl?>" alt="">
   </a>
   </div>
