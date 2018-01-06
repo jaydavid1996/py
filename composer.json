@@ -24,13 +24,10 @@
         "kartik-v/yii2-widget-datepicker": "@dev",
         "kartik-v/yii2-field-range": "*",
         "2amigos/yii2-date-picker-widget": "~1.0",
-<<<<<<< HEAD
+        "philippfrenzel/yii2fullcalendar": "*",
         "2amigos/yii2-gallery-widget": "~1.0",
-        "philippfrenzel/yii2fullcalendar": "*"
-=======
-        "2amigos/yii2-gallery-widget": "~1.0"
-        "bedezign/yii2-audit": "^1.0"
->>>>>>> 3384bab3bb8386f684eed91137ea8fd35c4e4365
+        "bedezign/yii2-audit": "^1.0",
+        "kartik-v/yii2-export": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

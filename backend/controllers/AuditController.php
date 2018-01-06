@@ -22,20 +22,45 @@ class AuditController extends Controller
     // {
     //     return $this->render('index');
     // }
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => [],
+                        'allow' => true,
+                        // 'roles' => ['?'],
+                    ],
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
+
     public function actionIndex()
     {
-        $searchModel = new AuditSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->pagination;
+        if (Yii::$app->user->can('view-audit')) {
+            $searchModel = new AuditSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            $dataProvider->pagination;
 
-        $dataProvider->sort->attributes['date_created'] = [
-          'default' => SORT_DESC
-      ];
+            $dataProvider->sort->attributes['date_created'] = [
+              'default' => SORT_DESC
+          ];
 
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else {
+              throw new ForbiddenHttpException;
+        }
     }
 }

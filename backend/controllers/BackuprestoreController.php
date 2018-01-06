@@ -385,30 +385,31 @@ class BackuprestoreController extends Controller {
     }
 
     public function actionRestore($filename=NULL) {
-    if (Yii::$app->user->can('restore-backup')) {
-            $flashError = '';
-            $flashMsg = '';
+      if (Yii::$app->user->can('restore-backup')) {
+              $flashError = '';
+              $flashMsg = '';
 
-    		$file = $filename;
+      		$file = $filename;
 
-            $this->updateMenuItems();
-            $sqlFile = $this->path . basename($file);
+              $this->updateMenuItems();
+              $sqlFile = $this->path . basename($file);
 
 
-            if (isset($file)) {
-                $sqlFile = $this->path . basename($file);
+              if (isset($file)) {
+                  $sqlFile = $this->path . basename($file);
 
-            $modelAudit = new Audit();
-            $modelAudit->user_id = Yii::$app->user->identity->id;
-            $modelAudit->details = 'Backup database : '.$sqlFile;
-            $modelAudit->status = AUDIT::STATUS_CREATE;
-            $modelAudit->save();
+              $modelAudit = new Audit();
+              $modelAudit->user_id = Yii::$app->user->identity->id;
+              $modelAudit->details = 'Backup database : '.$sqlFile;
+              $modelAudit->status = AUDIT::STATUS_CREATE;
+              $modelAudit->save();
 
-            $flashError = 'success';
-            $flashMsg = 'Success: Database restore successfully!';
-        } else {
-              throw new ForbiddenHttpException;
-        }
+              $flashError = 'success';
+              $flashMsg = 'Success: Database restore successfully!';
+          } else {
+                throw new ForbiddenHttpException;
+          }
+      }
     }
 
     public function actionUpload() {

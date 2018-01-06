@@ -21,25 +21,59 @@ use common\models\Audit;
 
 class GalleryController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => [''],
+                        'allow' => true,
+                        // 'roles' => ['?'],
+                    ],
+                    [
+                        'actions' => ['index', 'view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    // 'delete' => ['POST'],
+                ],
+            ],
+        ];
+    }
     /**
      * Lists all Location models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new GallerySearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        if (Yii::$app->user->can('view-cms')) {
+            $searchModel = new GallerySearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else {
+          throw new ForbiddenHttpException;
+        }
     }
     public function actionView($id)
         {
-            return $this->render('view', [
-                'model' => $this->findModel($id),
-            ]);
+            if (Yii::$app->user->can('view-cms')) {
+                return $this->render('view', [
+                    'model' => $this->findModel($id),
+                ]);
+            } else {
+              throw new ForbiddenHttpException;
+            }
         }
 
     public function actionUpload($id)

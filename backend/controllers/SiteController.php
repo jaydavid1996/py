@@ -106,17 +106,14 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
-
-        if ($model->load(Yii::$app->request->post())) {
             $modelAudit = new Audit();
             $modelAudit->user_id = Yii::$app->user->identity->id;
             $modelAudit->status =  Audit::STATUS_LOGOUT;
             $modelAudit->save();
 
-            if (Yii::$app->getUser()->logout($user)) {
-                return $this->goHome();
-            }
-        }
+            Yii::$app->user->logout();
+            return $this->goHome();
+
     }
 
     public function actionSignup()

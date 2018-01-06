@@ -68,7 +68,7 @@ class OccasionController extends Controller
         }
     }
 
-    /**
+    /**``
      * Displays a single Occasion model.
      * @param integer $id
      * @return mixed
@@ -103,7 +103,7 @@ class OccasionController extends Controller
                 // echo "<pre>";
                 // echo print_r($model);
                 // echo "</pre>";
-                $model->save();
+                $model->save(false);
                 // $loginUserId = Yii::$app->user->identity->id;
                 // $modelGallery->user_id = $loginUserId;
                 // $modelGallery->occasion_id = $model->id;
@@ -120,16 +120,14 @@ class OccasionController extends Controller
             } else {
                 return $this->renderAjax('create', [
                     'model' => $model,
-                ));
-            };
+                ]);
+            }
             $modelAudit = new Audit();
             $modelAudit->user_id = Yii::$app->user->identity->id;
             $modelAudit->details = 'Create Occasion : '.$model->occasion;
             $modelAudit->status = AUDIT::STATUS_CREATE;
             $modelAudit->save();
             return $this->redirect(['view', 'id' => $model->id]);
-                ]);
-            }
         } else {
             throw new ForbiddenHttpException;
         }
@@ -143,21 +141,24 @@ class OccasionController extends Controller
      */
     public function actionUpdate($id)
     {
+
         if (Yii::$app->user->can('update-occasion')) {
             $model = $this->findModel($id);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                $modelAudit = new Audit();
+                $modelAudit->user_id = Yii::$app->user->identity->id;
+                $modelAudit->details = 'Update Occasion : '.$model->occasion;
+                $modelAudit->status = AUDIT::STATUS_UPDATE;
+                $modelAudit->save(false);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $modelAudit = new Audit();
-            $modelAudit->user_id = Yii::$app->user->identity->id;
-            $modelAudit->details = 'Update Occasion : '.$model->occasion;
-            $modelAudit->status = AUDIT::STATUS_UPDATE;
-            $modelAudit->save();
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            throw new ForbiddenHttpException;
+                return $this->redirect(['/event\/', 'id' => $model->id]);
+            } else {
+                return $this->renderAjax('update', [
+                    'model' => $model,
+                ]);
+            }
         }
     }
-
     /**
      * Deletes an existing Occasion model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

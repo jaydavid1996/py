@@ -132,7 +132,7 @@ $this->params['breadcrumbs'][] = $this->title;
            <paper-button>EVENTS</paper-button>
           </a>
           <button class="modalButton" value="backend/web/occasion/update?id=<?=$model['id']?>"  tabindex="-1">
-          <!-- <a href="<?=Url::to('backend/web/occasion/update?id=' . $model['id'])?>"> -->
+          <!-- <a href=<?=Url::to('backend/web/occasion/update?id=' . $model['id'])?>"> -->
           <paper-icon-button class="rate-icon" icon="create"></paper-icon-button>
           <!-- </a> -->
           </button>

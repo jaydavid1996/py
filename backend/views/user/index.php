@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use common\models\User;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\UserSearch */
@@ -30,8 +31,11 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'password_hash',
             // 'password_reset_token',
             'email:email',
-            'status',
             'role',
+            // [
+            //     'attribute' => 'status',
+            //     'value' => $dataProvider->getStatus(),
+            // ],
             // 'created_at',
             // 'updated_at',
 

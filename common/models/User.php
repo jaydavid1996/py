@@ -33,6 +33,38 @@ class User extends ActiveRecord implements IdentityInterface
     const ROLE_ICSLIS = 4;
     const ROLE_ADMIN = 5;
 
+    public function getStatus()
+    {
+     switch ($this->status)
+            {
+            case self::STATUS_DELETED:
+                    return 'Deleted';
+            case self::STATUS_PENDING:
+                    return 'Pending';
+            case self::STATUS_ACTIVE:
+                    return 'Active';
+            }
+    }
+    public static function getStatuses()
+    {
+            return array(
+                    self::STATUS_DELETED => 'Deleted',
+                    self::STATUS_PENDING => 'Pending',
+                    self::STATUS_ACTIVE => 'Active',
+            );
+    }
+    // public static $statusLabels = array(
+    //
+    //         self::STATUS_PENDING => 'Pending',
+    //         self::STATUS_ACTIVE => 'Active',
+    // );
+    // public static $roleLabels = array(
+    //         self::ROLE_CENTRAL_COUNCIL => 'Central Council',
+    //         self::ROLE_EDUCATION => 'Education',
+    //         self::ROLE_IBM => 'IBM',
+    //         self::ROLE_ICSLIS => 'ICSLIS',
+    //         self::ROLE_ADMIN => 'Admin',
+    // );
 
 
     /**

@@ -106,25 +106,25 @@ $baseUrl = Yii::$app->homeUrl
   <span>Occasions</span>
 </paper-icon-item>
 </a>
-<a href="<?php echo $baseUrl?>event/" tabindex="-1">
+<!-- <a href="<?php echo $baseUrl?>event/" tabindex="-1">
 <paper-icon-item class="iconItem">
   <iron-icon class="grayIcon" icon="av:explicit" slot="item-icon"></iron-icon>
   <span>Events</span>
 </paper-icon-item>
-</a>
-<a href="<?php echo $baseUrl?>player/" tabindex="-1">
+</a> -->
+<!-- <a href="<?php echo $baseUrl?>player/" tabindex="-1">
 <paper-icon-item class="iconItem">
   <iron-icon class="grayIcon" icon="social:group-add" slot="item-icon"></iron-icon>
   <span>Players</span>
 </paper-icon-item>
-</a>
+</a> -->
 <a href="<?php echo $baseUrl?>venue/" tabindex="-1">
 <paper-icon-item class="iconItem">
   <iron-icon class="grayIcon" icon="social:domain" slot="item-icon"></iron-icon>
   <span>Venue</span>
 </paper-icon-item>
 </a>
-<a href="<?php echo $baseUrl?>report" tabindex="-1">
+<a href="<?php echo $baseUrl?>report/" tabindex="-1">
 <paper-icon-item class="iconItem">
   <iron-icon class="grayIcon" icon="icons:assignment" slot="item-icon"></iron-icon>
   <span>Reports</span>
