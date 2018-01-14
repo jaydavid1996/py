@@ -109,19 +109,16 @@ body{
   background-color: white !important;
 }
 paper-card.rate.x-scope.paper-card-0 {
-    padding: 10px;
-    font-weight: normal;
-}
-paper-card.rate.x-scope.paper-card-0 {
     width: 100%;
-    max-width: 220px;
-    height: 157px;
+    max-width: 400px;
+    height: auto;
+    margin: 15px 20px;
 }
 .card-container {
     margin: 10px 0px !important;
 }
 .rate-name:not([style-scope]):not(.style-scope) {
-    color: #757575 !Important;
+    color: white !Important;
     margin: 10px 0 !Important;
 }
 .rate-header {
@@ -129,10 +126,10 @@ paper-card.rate.x-scope.paper-card-0 {
     font-weight: 900 !important;
 }
 .paper-card-0 > .card-content {
-    padding: 3px;
     position: relative;
     font-size: 11px !important;
     text-align: center;
+    padding:0px;
 }
 .card-container a{
     text-align: center !important;
@@ -140,11 +137,99 @@ paper-card.rate.x-scope.paper-card-0 {
     display: inline-block;
     font-size:11px;
 }
-.card-container {
-    overflow: scroll;
-    padding: 10px;
+
+.date-start h3, .date-end h3 {
+    font-size: 13px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight:bold;
+}
+.rate-name {
+    color: white !important;
+    text-align: left;
+    line-height: 1.67;
+}
+.card-content .col-md-4 {
+    background-color: #009688;
+    min-height: 100px;
+}
+.rate-header:not([style-scope]):not(.style-scope){
+    margin-bottom: 10px;
+}
+.rate-header {
+    text-transform: uppercase;
+}
+.card-content .col-md-4 {
+    background-color: #009688;
+    min-height: 100px;
+}
+.date-start h3, .date-end h3 {
+    font-size: 13px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    margin-top: 20px;
+}
+.hide-content{
+  display:none;
+}
+.active-content{
+  display:block;
+}
+.active-tab {
+    color: white !important;
+    border: 2px solid white;
+    padding: 7px;
+    border-top: none;
+    border-bottom: none;
+}
+.overlay {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #808080bd;
+    overflow: hidden;
+    width: 0;
+    height: 100%;
+    transition: .5s ease;
+    height: 100px;
+    top: 0.5%;
+}
+.text {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    white-space: nowrap;
+}
+.cold-md-8.sched-container {
+    position: relative;
+}
+.cold-md-8.sched-container:hover .overlay{
+  width: 67%;
+}
+.tab-menu {
+    text-align: center;
+    background-color: #8080807d;
+    padding: 15px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
 }
 </style>
+<custom-style>
+  <style is="custom-style">
+    paper-tabs[no-bar] paper-tab.iron-selected {
+      color: #ffff8d;
+    }
+  </style>
+</custom-style>
 
 
 <?php
@@ -155,6 +240,8 @@ paper-card.rate.x-scope.paper-card-0 {
 
 use yii\helpers\Html;
 use common\models\Event;
+use common\models\Occasion;
+use common\models\Department;
 use yii\helpers\Url;
 use yii\grid\GridView;
 
@@ -162,23 +249,23 @@ $subtitle = 'Events';
 $this->title = $subtitle;
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="row">
+<div class="row body-container">
   <div classs="col-md-12">
-    <div class='col-md-9'>
+    <!-- <div class='col-md-9'>
       <h1>Event Schedule</h1>
-      <?php $modelEvents = Event::find()->all();?>
+      <?php $modelOccasions = Occasion::find()->all();?>
 
       <div class="event-index">
         <?php
-        $modelEvents = Event::find()->all();
-        foreach ($modelEvents as $model):
+        $modelOccasions = Occasion::find()->all();
+        foreach ($modelOccasions as $model):
 
             $events = array();
 
             $Event = new \yii2fullcalendar\models\Event();
 
             $Event->id = $model->id;
-            $Event->title = $model->event;
+            $Event->title = $model->occasion;
             $Event->start =  date("Y-m-d\TH:i:s\Z", strtotime($model->date_start));
             $Event->end = date("Y-m-d\TH:i:s\Z", strtotime($model->date_end));
             $event[] = $Event;
@@ -189,33 +276,150 @@ $this->title = $subtitle;
              'id' => $model->id,
          ));?>
     </div>
+    </div> -->
+    <div class="title">
+          <h1>Event Listing</h1>
     </div>
-    <div class='col-md-3'>
-      <h1>Event Listing</h1>
+
+    <?php $modelDepartments = Department::find()->all();?>
+    <?php $OccasionDepartmentIds = Occasion::find()->all();?>
+
+    <div class="tab-menu">
+        <paper-tab id="tablinks"> <a class="central" style="color:black">CENTRAL</a></paper-tab>
+        <paper-tab id="tablinks"> <a class="education" style="color:black">EDUCATION</a></paper-tab>
+        <paper-tab id="tablinks"> <a class="ibm" style="color:black">IBM</a></paper-tab>
+        <paper-tab id="tablinks"> <a class="iclis" style="color:black">ICLIS</a></paper-tab>
+
+
+
+
+
+
+    </div>
+
+    <div class='col-md-12'>
          <div class="card-container" style="margin:10px;">
-           <?php foreach ($modelEvents as $model): ?>
+           <?php foreach ($OccasionDepartmentIds as $model): ?>
            <paper-card class="rate">
               <div  class="card-content">
-               <div class="rate-header"><?= $model['event']; ?></div>
-                 <!-- <?=date("M-d-Y (D)", strtotime($model['date_start']));?> -->
-                 <?= $model['eventType']['event_type']; ?>
-                  <div class="rate-name">
-                   <?=date("M-d-Y", strtotime($model['date_start'])); echo $model['date_start'] !== $model['date_end'] ? ' to ' . date("M-d-Y", strtotime($model['date_end'])) . '<br />': "";?>
-                   <?=date("D", strtotime($model['date_start'])); echo $model['date_start'] !== $model['date_end'] ? date(" - D", strtotime($model['date_end'])) : "";?>
-                 </div>
-               <div><?= $model['description']; ?></div>
-             </div>
-             <div class="card-actions">
-               <!-- <paper-icon-button class="rate-icon" icon="star"></paper-icon-button> -->
-               <a href="<?=Url::to('backend/web/event-team/?id='. $model['id'])?>" tabindex="-1">
-                <paper-button>VIEW</paper-button>
-               </a>
-             </div>
+                <?php if($model->department_id == 1)
+                  {
+                    echo '<div class="central-content">';
+                  }
+                  else if($model->department_id == 2){
+
+                    echo '<div class="ibm-content">';
+
+                  }
+                  else if($model->department_id == 3){
+
+                    echo '<div class="iclis-content">';
+
+                  }
+                  else if($model->department_id == 4){
+
+                    echo '<div class="educ-content">';
+
+                  }
+                ?>
+                  <div class="col-md-4">
+                    <div class="rate-name">
+                      <div class="date-start">
+
+                        <h3><?=date("D", strtotime($model['date_start'])); echo $model['date_start'] !== $model['date_end'] ? date(" - D", strtotime($model['date_end'])) : "";?>
+                        </h3>
+                        <?=date("F j, Y", strtotime($model['date_start'])); echo $model['date_start'] !== $model['date_end'] ? ' to ' . date("F j, Y", strtotime($model['date_end'])) . '<br />': "";?>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cold-md-8 sched-container">
+                    <div class="rate-header"><?= $model['occasion']; ?></div>
+                      <!-- <?=date("M-d-Y (D)", strtotime($model['date_start']));?> -->
+                      <?= $model['description']; ?>
+                    <div><?= $model['description']; ?></div>
+                    <div class="overlay">
+                      <div class="text">See More</div>
+                    </div>
+                  </div>
+              </div>
+            </div>
              <!-- <div class="rate-image"></div> -->
            </paper-card>
          <?php endforeach;?>
         </div>
       </div>
-
   </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+  $(document).ready(function(){
+
+      $('.central').addClass('active-tab');
+      $('.ibm-content').parent().parent().hide();
+      $('.iclis-content').parent().parent().hide();
+      $('.educ-content').parent().parent().hide();
+
+
+    $('#tablinks a').on('click',function(){
+      if ( $(this).hasClass("education") ) {
+          $(this).addClass('active-tab');
+          $('.central').removeClass('active-tab');
+          $('.ibm').removeClass('active-tab');
+          $('.central').removeClass('active-tab');
+
+
+          $('.educ-content').parent().parent().show();
+          $('.central-content').parent().parent().hide();
+          $('.ibm-content').parent().parent().hide();
+          $('.iclis-content').parent().parent().hide();
+
+      }
+      if ( $(this).hasClass("central") ) {
+          $(this).addClass('active-tab');
+          $('.education').removeClass('active-tab');
+          $('.ibm').removeClass('active-tab');
+          $('.iclis').removeClass('active-tab');
+
+
+          $('.central-content').parent().parent().show();
+          $('.educ-content').parent().parent().hide();
+          $('.ibm-content').parent().parent().hide();
+          $('.iclis-content').parent().parent().hide();
+
+      }
+
+      if ( $(this).hasClass("ibm") ) {
+          $(this).addClass('active-tab');
+          $('.education').removeClass('active-tab');
+          $('.central').removeClass('active-tab');
+          $('.iclis').removeClass('active-tab');
+
+
+          $('.ibm-content').parent().parent().show();
+          $('.educ-content').parent().parent().hide();
+          $('.central-content').parent().parent().hide();
+          $('.iclis-content').parent().parent().hide();
+
+      }
+
+      if ( $(this).hasClass("iclis") ) {
+          $(this).addClass('active-tab');
+          $('.education').removeClass('active-tab');
+          $('.central').removeClass('active-tab');
+          $('.ibm').removeClass('active-tab');
+
+
+
+          $('.iclis-content').parent().parent().show();
+          $('.educ-content').parent().parent().hide();
+          $('.central-content').parent().parent().hide();
+          $('.ibm-content').parent().parent().hide();
+
+      }
+
+    });
+
+  });
+</script>

@@ -33,7 +33,7 @@ class GalleryController extends Controller
                         // 'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['index', 'view'],
+                        'actions' => ['index', 'view','upload'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
