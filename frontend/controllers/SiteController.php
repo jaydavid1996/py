@@ -138,6 +138,16 @@ class SiteController extends Controller
     }
 
     /**
+     * Displays tournament page.
+     *
+     * @return mixed
+     */
+    public function actionTournaments()
+    {
+        return $this->render('tournaments');
+    }
+
+    /**
      * Displays Events page.
      *
      * @return mixed
