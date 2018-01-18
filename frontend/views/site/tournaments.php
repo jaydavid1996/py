@@ -77,12 +77,4 @@ li.game-bottom{
 
 </style>
 <?php include ('3team.php'); ?>
-<?php include ('4team.php'); ?>
-<?php include ('5team.php'); ?>
-<?php include ('6team.php'); ?>
-<?php include ('7team.php'); ?>
-<?php include ('8team.php'); ?>
-<?php include ('9team.php'); ?>
-<?php include ('10team.php'); ?>
-<?php include ('11team.php'); ?>
-<?php include ('12team.php'); ?>
+<?php include ('3steam.php'); ?>
