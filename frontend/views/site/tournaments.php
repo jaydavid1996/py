@@ -76,5 +76,10 @@ li.game-bottom{
 }
 
 </style>
-<?php include ('3team.php'); ?>
+<?php
+// $this->title = $model['event'];
+// $this->params['breadcrumbs'][] = ['label' => 'Events', 'url' => ['index']];
+// $this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="event-create">
 <?php include ('3steam.php'); ?>

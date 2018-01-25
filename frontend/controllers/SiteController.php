@@ -7,6 +7,9 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
 use frontend\models\ContactForm;
+use common\models\Event;
+use common\models\EventTeam;
+use backend\models\EventTeamSearch;
 
 /**
  * Site controller
@@ -144,7 +147,18 @@ class SiteController extends Controller
      */
     public function actionTournaments()
     {
-        return $this->render('tournaments');
+        $id = 7;
+        $searchModel = new EventTeamSearch();
+        // $searchModel->id = $id;
+        // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchModel = EventTeam::findAll(['event_id' => $id,]);
+
+
+        return $this->render('tournaments', [
+            'searchModel' => $searchModel,
+            // 'dataProvider' => $dataProvider,
+            'id' => $id,
+        ]);
     }
 
     /**
