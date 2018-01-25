@@ -1,14 +1,13 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <style>
   .gallery-item img{
     max-width: 300px;
-    height: 300px;
-    height: 156px;
-    width: 184px;
-    background-color: white;
-    object-fit: cover;
-    box-shadow: 0 0 4px 1px black;
-    padding: 10px;
     margin-bottom: 20px;
+    height: 195px;
+    object-fit: cover;
+    background-color: white;
+    box-shadow: 0 0 4px 1px black
   }
   img.slide-content {
     width: 62% !important;
@@ -25,6 +24,51 @@ h1{
 }
 .col-md-3 {
     width: 20%;
+}
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #1715154f;
+    overflow: hidden;
+    width: 0;
+    height: 100%;
+    transition: .5s ease;
+    cursor: pointer;
+}
+.text {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    white-space: nowrap;
+}
+
+.image-container {
+    position: relative;
+}
+
+img.image {
+    display: block;
+    width: 100%;
+}
+
+.image-container:hover .overlay{
+  width: 100%;
+}
+
+.relative{
+  position: relative;
+    z-index: 999999;
+}
+
+.test #w0 {
+    display: none;
 }
 
 
@@ -45,10 +89,12 @@ use yii\helpers\Url;
 use common\models\Department;
 use common\models\Occasion;
 
+
 $subtitle = 'Gallery';
 $this->title = $subtitle;
 //$this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <custom-style>
   <style is="custom-style">
     paper-tabs[no-bar] paper-tab.iron-selected {
@@ -81,19 +127,40 @@ foreach ($modelFileUploaders as $modelFileUploader):
   $imgUrl =  'backend/_uploads/'.$modelFileUploader->file_name;
 ?>
 <div class="col-md-3">
-  <?php $items = [
-      [
-          'url' => $imgUrl,
-          'src' => $imgUrl,
-          'options' => array('title' => 'Photos of events')
-      ],
-  ];?>
+  <div class="image-container">
+
+    <?php $items = [
+        [
+            'url' => $imgUrl,
+            'src' => $imgUrl,
+            'options' => array('title' => 'Photos of events')
+        ],
+    ];?>
   <div id="w0">
   <a class="gallery-item" href="<?php echo $imgUrl ?>" title="Photos of events">
-    <img src="<?php echo $imgUrl?>" alt="">
+    <img src="<?php echo $imgUrl?>" alt="" class="image">
   </a>
   </div>
-
+  <div class="overlay">
+    <div class="text"><i class="fa fa-search"></i></div>
+  </div>
+  </div>
 </div>
 <?php endforeach;?>
-<?= dosamigos\gallery\Gallery::widget(['items' => $items]);?>
+<div class="test">
+  <?= dosamigos\gallery\Gallery::widget(['items' => $items]);?>
+
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+  $(document).ready(function(){
+      $('.overlay').on('click',function(e){
+         e.preventDefault();
+          $(this).parent().find('.gallery-item').trigger("click");
+      });
+
+  });
+</script>

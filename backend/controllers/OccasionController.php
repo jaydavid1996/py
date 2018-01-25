@@ -93,35 +93,30 @@ class OccasionController extends Controller
     {
         if (Yii::$app->user->can('create-occasion')) {
             $model = new Occasion();
-            // $modelGallery = new Gallery();
 
             if ($model->load(Yii::$app->request->post())) {
                 $model->department_id = Yii::$app->user->identity->role;
                 $model->date_start = date("Y-m-d", strtotime($model->date_start));
                 $model->date_end = date("Y-m-d", strtotime($model->date_end));
                 $model->date_created = date("Y-m-d", strtotime($model->date_created));
-                // echo "<pre>";
-                // echo print_r($model);
-                // echo "</pre>";
+
                 $model->save(false);
-                // $loginUserId = Yii::$app->user->identity->id;
-                // $modelGallery->user_id = $loginUserId;
-                // $modelGallery->occasion_id = $model->id;
-                // $modelGallery->gallery_name = $model->occasion;
 
-                // if(!$modelGallery->save(false)){
-                    // Yii::$app()->session->setFlash('danger', 'Error Saving Gallery');
-                    // return $this->redirect('index', array(
-                    //     'model' => $model,
-                    // ));
-                // }
-
-                return $this->redirect(['occasion\/']);
+                $Gallery = new Gallery();
+                $Occasions = Occasion::find()->orderBy(['id'=> SORT_DESC])->one();
+                $loginUserId = Yii::$app->user->identity->id;
+                $Gallery->user_id = $loginUserId;
+                $Gallery->occasion_id = $Occasions->id;
+                $Gallery->gallery_name = $Occasions->occasion;
+                $Gallery->save(false);
+                return $this->redirect(['occasion']);
             } else {
                 return $this->renderAjax('create', [
                     'model' => $model,
                 ]);
             }
+
+
             $modelAudit = new Audit();
             $modelAudit->user_id = Yii::$app->user->identity->id;
             $modelAudit->details = 'Create Occasion : '.$model->occasion;

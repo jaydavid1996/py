@@ -170,20 +170,21 @@
     margin: auto !important;
 }
 .cards-folder {
-  max-width: 400px;
-  height: 340px;
-  position: relative;
-  margin: 20px;
-  padding: 10px;
-  background-color: white;
-  box-shadow: -2px -1px 7px 0px black;
+  height: 240px;
+    position: relative;
+    margin: 13px;
+    padding: 0px;
+    background-color: white;
+    box-shadow: -2px -1px 7px 0px black;
 }
 .cards-folder img {
-  max-width: 314px;
-  height: 270px;
-  padding: 10px;
-  object-fit: cover;
-  border-bottom: 1px solid grey;
+    max-width: 241px;
+    height: 100%;
+    max-height: 172px;
+    width: 100%;
+    padding: 10px;
+    object-fit: cover;
+    border-bottom: 1px solid grey
 }
 </style>
 
