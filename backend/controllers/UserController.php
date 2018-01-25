@@ -53,6 +53,7 @@ class UserController extends Controller
     public function actionIndex()
     {
         if (Yii::$app->user->can('view-user')) {
+            $this->layout = "music";
             $searchModel = new UserSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

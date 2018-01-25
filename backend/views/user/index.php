@@ -1,45 +1,138 @@
+<custom-style>
+  <style is="custom-style">
+  h2 {
+    margin: 30px 0 14px;
+  }
+
+  .artist-date {
+    @apply --layout-horizontal;
+    padding-bottom: 12px;
+  }
+
+  .artist {
+    @apply --layout-flex;
+  }
+
+  time {
+    margin-left: 20px;
+    font-size: 13px;
+    color: #555;
+  }
+
+  summary {
+    padding: 16px 0;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .song {
+    @apply --layout;
+    @apply --layout-center;
+    padding: 16px 0;
+  }
+
+  .song > .no {
+    width: 40px;
+  }
+
+  .song > .name {
+    @apply --layout-flex;
+    padding-right: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-left: 10px
+  }
+
+  .song > .duration {
+    width: 60px;
+
+  }
+
+  .song > .name-novert {
+    @apply --layout-flex;
+    /*margin-left: 40px;*/
+    padding-right: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .song > .duration-novert {
+    /*width: 60px;*/
+    /*margin-right: 40px;*/
+  }
+
+  .content {
+    margin: 196px 120px 120px;
+    padding: 32px 32px 60px;
+    background-color: #fff;
+    color: #333;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14);
+  }
+
+  paper-fab {
+    position: absolute;
+    top: 232px;
+    right: 160px;
+    --paper-fab-background: #ef6c00;
+    --paper-fab-keyboard-focus-background: #de5c00;
+    --iron-icon-width: 36px;
+    --iron-icon-height: 36px;
+  }
+
+  /* mobile layout */
+  @media (max-width: 600px) {
+
+    .content {
+      margin: 254px 0 0 0;
+      box-shadow: none;
+    }
+
+    paper-fab {
+      top: 290px;
+      right: 16px;
+    }
+  }
+  </style>
+</custom-style>
+
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
-use common\models\User;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\UserSearch */
+/* @var $searchModel backend\models\EventTeamSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Users';
+$this->title = 'User';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
+  <div class="content">
+    <h2><?=$dataProvider->models[0]->username;?></h2>
+    <div class="artist"><?=$dataProvider->models[0]->username;?><br /><?=$dataProvider->models[0]->username;?></div>
+    <summary>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    </summary>
+    <?php $ctr=0; ?>
+    <div class="song">
+      <div class="name-novert"><h5>Team Name</h5></div>
+      <div class="name-novert"><h5>Team Name</h5></div>
+      <div class="name-novert"><h5>Team Name</h5></div>
+      <div class="name-novert"><h5>Team Name</h5></div>
+      
+    </div>
+    <?php foreach ($dataProvider->models as $model): ?>
+      <div class="song">
 
-    <p>
-        <?= Html::a('Create User', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            // 'id',
-            'username',
-            // 'auth_key',
-            // 'password_hash',
-            // 'password_reset_token',
-            'email:email',
-            'role',
-            // [
-            //     'attribute' => 'status',
-            //     'value' => $dataProvider->getStatus(),
-            // ],
-            // 'created_at',
-            // 'updated_at',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+        <div class="name"><?= $model['username']; ?></div>
+        <div class="name"><?= $model['email']; ?></div>
+        <div class="name"><?= $model['role']; ?></div>
+        <div class="name"><?= $model['status']; ?></div>
+      </div>
+    <?php endforeach;?>
+  </div>
 </div>
