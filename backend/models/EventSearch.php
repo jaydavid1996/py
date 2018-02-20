@@ -15,11 +15,12 @@ class EventSearch extends Event
     /**
      * @inheritdoc
      */
+    public $globalSearch;
     public function rules()
     {
         return [
             [['id', 'occasion_id', 'event_classification_id', 'event_type_id', 'match_system_id', 'venue_id', 'event_category_id', 'event_status_id', 'min_team', 'max_team'], 'integer'],
-            [['event', 'description', 'date_start', 'date_end'], 'safe'],
+            [['globalSearch', 'event', 'description', 'date_start', 'date_end'], 'safe'],
         ];
     }
 
@@ -57,24 +58,28 @@ class EventSearch extends Event
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'occasion_id' => $this->occasion_id,
-            'event_classification_id' => $this->event_classification_id,
-            'event_type_id' => $this->event_type_id,
-            'match_system_id' => $this->match_system_id,
-            'venue_id' => $this->venue_id,
-            'event_category_id' => $this->event_category_id,
-            'event_status_id' => $this->event_status_id,
-            'date_start' => $this->date_start,
-            'date_end' => $this->date_end,
-            'min_team' => $this->min_team,
-            'max_team' => $this->max_team,
-        ]);
+        $query->joinWith('eventType');
+        $query->joinWith('matchSystem');
 
-        $query->andFilterWhere(['like', 'event', $this->event])
-            ->andFilterWhere(['like', 'description', $this->description]);
+        // grid filtering conditions
+        // $query->andFilterWhere([
+        //     'id' => $this->id,
+        //     'occasion_id' => $this->occasion_id,
+        //     'event_classification_id' => $this->event_classification_id,
+        //     'event_type_id' => $this->event_type_id,
+        //     'match_system_id' => $this->match_system_id,
+        //     'venue_id' => $this->venue_id,
+        //     'event_category_id' => $this->event_category_id,
+        //     'event_status_id' => $this->event_status_id,
+        //     'date_start' => $this->date_start,
+        //     'date_end' => $this->date_end,
+        //     'min_team' => $this->min_team,
+        //     'max_team' => $this->max_team,
+        // ]);
+
+        $query->orFilterWhere(['like', 'event', $this->globalSearch])
+            ->orFilterWhere(['like', 'event_type', $this->globalSearch])
+            ->orFilterWhere(['like', 'system', $this->globalSearch]);
 
         return $dataProvider;
     }

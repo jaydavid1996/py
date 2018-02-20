@@ -98,11 +98,16 @@
     --paper-fab-keyboard-focus-background: #EFDB2B;
     color: #666;
   }
+
+  .global-search {
+    padding-bottom: 20px;
+  }
   </style>
 </custom-style>
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\bootstrap\Modal;
@@ -114,6 +119,15 @@ $this->title = 'Events';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="event-index">
+  <?php $form = ActiveForm::begin([
+      // 'action' => ["event?id=" . $dataProvider->models[0]->id . "\/index"],
+      'action' => ["?id=" . $id],
+      'method' => 'get',
+  ]); ?>
+  <div class="global-search">
+    <?= $form->field($searchModel, 'globalSearch')->label("Search Event")->textInput(['placeholder' => "Enter keyword (e.g. 'Event Name' / 'Scrabbles' / 'Round Robin')"]);?>
+  </div>
+  <?php ActiveForm::end(); ?>
   <div class="card-container">
   <?php foreach ($dataProvider->models as $model): ?>
     <paper-card class="rate">

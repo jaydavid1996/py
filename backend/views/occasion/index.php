@@ -109,11 +109,15 @@
   .card-actions-icon {
     float: right;
   }
+  .global-search {
+    padding-bottom: 20px;
+  }
   </style>
 </custom-style>
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\bootstrap\Modal;
@@ -126,6 +130,14 @@ $this->title = 'Occasions';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="occasion-index">
+  <?php $form = ActiveForm::begin([
+      'action' => ['index'],
+      'method' => 'get',
+  ]); ?>
+  <div class="global-search">
+    <?= $form->field($searchModel, 'globalSearch')->label("Search Occasion")->textInput(['placeholder' => "Enter keyword (e.g. 'Occasion Name')"]); ?>
+  </div>
+  <?php ActiveForm::end(); ?>
     <!-- <?= Html::button('Create', ['value' => Url::to('backend/web/occasion/create'), 'class' => 'btn btn-success', 'id' => 'modalButton']) ?> -->
     <div class="card-container">
     <?php foreach ($dataProvider->models as $model): ?>

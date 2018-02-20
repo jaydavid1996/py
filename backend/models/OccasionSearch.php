@@ -15,11 +15,13 @@ class OccasionSearch extends Occasion
     /**
      * @inheritdoc
      */
+
+    public $globalSearch;
     public function rules()
     {
         return [
             [['id', 'department_id'], 'integer'],
-            [['occasion', 'description', 'date_start', 'date_end', 'date_created'], 'safe'],
+            [['globalSearch', 'occasion', 'description', 'date_start', 'date_end', 'date_created'], 'safe'],
         ];
     }
 
@@ -58,16 +60,15 @@ class OccasionSearch extends Occasion
         }
 
         // grid filtering conditions
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'department_id' => $this->department_id,
-            'date_start' => $this->date_start,
-            'date_end' => $this->date_end,
-            'date_created' => $this->date_created,
-        ]);
+        // $query->andFilterWhere([
+        //     'id' => $this->id,
+        //     'department_id' => $this->department_id,
+        //     'date_start' => $this->date_start,
+        //     'date_end' => $this->date_end,
+        //     'date_created' => $this->date_created,
+        // ]);
 
-        $query->andFilterWhere(['like', 'occasion', $this->occasion])
-            ->andFilterWhere(['like', 'description', $this->description]);
+        $query->orFilterWhere(['like', 'occasion', $this->globalSearch]);
 
         return $dataProvider;
     }
