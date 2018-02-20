@@ -23,7 +23,10 @@
       background-size: cover;
     }*/
     .rate-header { @apply --paper-font-headline; }
-    .rate-name { color: var(--paper-grey-600); margin: 10px 0; }
+    .rate-name {
+       color: var(--paper-grey-600); margin: 10px 0;
+       float: right;
+     }
     paper-icon-button.rate-icon {
       --iron-icon-fill-color: white;
       --iron-icon-stroke-color: var(--paper-grey-600);
@@ -49,8 +52,8 @@
   }
 
   paper-card {
-    width: calc(33% - 8px);
-    /*height: 200px;*/
+    width: calc(50% - 8px);
+    height: 180px;
     margin: 4px;
     /*padding: 10px;*/
     /*background-color: #90A4AE;*/
@@ -115,19 +118,21 @@ $this->params['breadcrumbs'][] = $this->title;
   <?php foreach ($dataProvider->models as $model): ?>
     <paper-card class="rate">
       <div class="card-content">
-        <div class="rate-header"><?= $model['event']; ?></div>
-        <!-- <?=date("M-d-Y (D)", strtotime($model['date_start']));?> -->
-        <?= $model['eventType']['event_type']; ?>
         <div class="rate-name">
           <?=date("M-d-Y", strtotime($model['date_start'])); echo $model['date_start'] !== $model['date_end'] ? ' to ' . date("M-d-Y", strtotime($model['date_end'])) . '<br />': "";?>
           <?=date("D", strtotime($model['date_start'])); echo $model['date_start'] !== $model['date_end'] ? date(" - D", strtotime($model['date_end'])) : "";?>
         </div>
+        <div class="rate-header"><?= $model['event']; ?></div>
+        <!-- <?=date("M-d-Y (D)", strtotime($model['date_start']));?> -->
+        <?= $model['eventType']['event_type']; ?>
+        <br />
+        <?= $model['matchSystem']['system']; ?>
         <div><?= $model['description']; ?></div>
       </div>
       <div class="card-actions">
         <!-- <paper-icon-button class="rate-icon" icon="star"></paper-icon-button> -->
         <a href="<?=Url::to('backend/web/event-team/?id='. $model['id'])?>" tabindex="-1">
-         <paper-button>VIEW & FINALIZE</paper-button>
+         <?= ($model['event_status_id']==1) ? "<paper-button>VIEW & FINALIZE</paper-button>" : "VIEW" ?>
         </a>
         <button class="modalButton" value="backend/web/event/update?id=<?=$model['id']?>"  tabindex="-1">
         <paper-icon-button class="rate-icon" icon="create"></paper-icon-button>

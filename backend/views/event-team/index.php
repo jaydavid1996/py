@@ -94,6 +94,11 @@
       right: 16px;
     }
   }
+  .status {
+    font-size: 20px;
+    font-style: italic;
+    float: right;
+  }
   </style>
 </custom-style>
 
@@ -111,6 +116,8 @@ $this->title = 'Event Teams';
 $this->params['breadcrumbs'][] = $this->title;
 // if(isset($dataProvider->models[0])) {
   $event = $eventDataProvider->models[0]->event;
+  $eventStatusId = $eventDataProvider->models[0]->event_status_id;
+  $eventStatus = $eventDataProvider->models[0]->eventStatus->status;
   $eventType = $eventDataProvider->models[0]->eventType->event_type;
   $matchSystem = $eventDataProvider->models[0]->matchSystem->system;
   $description = $eventDataProvider->models[0]->description;
@@ -119,7 +126,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="event-team-index">
   <div class="content">
-    <h2><?=$event;?></h2>
+    <h2><?=$event; ?><span class="status">(<?=$eventStatus; ?>)</span></h2>
     <div class="artist-date">
     <div class="artist"><?=$eventType;?><br /><?=$matchSystem;?></div>
       <time><?= date("M d, Y", strtotime($date_start));?>
@@ -155,7 +162,9 @@ $this->params['breadcrumbs'][] = $this->title;
       </div>
   <?php endif;?>
     <?php endforeach;?>
-  <a href="<?=Url::to('backend/web/event-team/finalize/?id='. $eventDataProvider->models[0]->id)?>"><paper-fab icon="social:whatshot"></paper-fab></a>
+
+
+  <a href="<?=Url::to('backend/web/event-team/finalize/?id='. $eventDataProvider->models[0]->id)?>" <?= ($eventStatusId==1) ?  '' : 'onclick="return false;"'; ?>><paper-fab title="Finalize"<?= ($eventStatusId==1) ?  '' : 'disabled'; ?> icon="social:whatshot"></paper-fab></a>
   </div>
     <!-- <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>

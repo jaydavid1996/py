@@ -91,7 +91,7 @@ class EventController extends Controller
                 $evTeam->event_id  = $model->id;
                 $evTeam->save(false);
             }
-            return $this->redirect(['event\/']);
+            return $this->redirect(['event\/?id=' . $id]);
         } else {
             return $this->renderAjax('create', [
                 'model' => $model,
@@ -133,9 +133,9 @@ class EventController extends Controller
             $model->event_type_id = $model->event_type_dd;
             $model->venue_id = $model->venue_dd;
             $model->event_category_id = $model->event_category_dd;
-            $model->date_start = date("Y-d-m", strtotime($model->date_start));
-            $model->date_end = date("Y-d-m", strtotime($model->date_end));
-            $model->save();
+            // $model->date_start = date("Y-d-m", strtotime($model->date_start));
+            // $model->date_end = date("Y-d-m", strtotime($model->date_end));
+            $model->save(false);
 
             $newStack = array_merge($model->arr_team_name, $oldStack);
 

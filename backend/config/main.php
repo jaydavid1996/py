@@ -25,10 +25,12 @@ return [
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             'viewPath' => '@common/mail',
-            'useFileTransport' => false,
+            'useFileTransport' => true,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.gmail.com',
+                // 'username' => 'ajmzamora@gmail.com',
+                // 'password' => 'vnngjrezepqkfeny',
                 'username' => 'Tournamentms2017@gmail.com',
                 'password' => 'qgzwhhvjntvevgnt',
                 'port' => '587',

@@ -40,11 +40,11 @@ use dosamigos\datepicker\DateRangePicker;
         // 'size' => 'lg',
         'clientOptions' => [
             'autoclose' => true,
-            'format' => 'M-dd-yyyy'
+            'format' => 'yyyy-mm-dd'
         ]
     ]);?>
 
-    <?= $form->field($model, 'date_created')->textInput() ?>
+    <!-- <?= $form->field($model, 'date_created')->textInput() ?> -->
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -96,10 +96,10 @@ use dosamigos\datepicker\DateRangePicker;
     // 'size' => 'lg',
     'clientOptions' => [
         'autoclose' => true,
-        'format' => 'M-dd-yyyy'
+        'format' => 'yyyy-mm-dd'
     ]
     ]);?>
-    
+
     <!-- <?= $form->field($model, 'date_start')->textInput() ?> -->
 
     <!-- <?= $form->field($model, 'date_end')->textInput() ?> -->

@@ -21,7 +21,6 @@ class AppAsset extends AssetBundle
         'js/main.js',
         'https://cdnjs.cloudflare.com/ajax/libs/lightslider/1.1.6/js/lightslider.js',
         'https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.4/js/lightgallery.js',
-        'https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'
     ];
 
     public $depends = [
