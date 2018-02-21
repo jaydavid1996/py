@@ -70,6 +70,12 @@
     color: #333;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14);
   }
+  .tbl-header{
+    background-color: #2d5a2d;
+    color: white;
+    padding: 10px 20px;
+    border-left: 1px solid white
+  }
 
   paper-fab {
     position: absolute;
@@ -113,17 +119,18 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
   <div class="content">
-    <h2><?=$dataProvider->models[0]->username;?></h2>
-    <div class="artist"><?=$dataProvider->models[0]->username;?><br /><?=$dataProvider->models[0]->username;?></div>
+    <h3><?=$dataProvider->models[0]->username;?></h3>
+    <!-- <div class="artist"><?=$dataProvider->models[0]->username;?><br /><?=$dataProvider->models[0]->username;?></div> -->
     <summary>
 
     </summary>
     <?php $ctr=0; ?>
-    <div class="song">
+    <div class="song tbl-header">
       <div class="name-novert"><h5>Team Name</h5></div>
       <div class="name-novert"><h5>Team Name</h5></div>
       <div class="name-novert"><h5>Role</h5></div>
       <div class="name-novert"><h5>Status</h5></div>
+      <div class="name-novert"><h5>Action</h5></div>
 
     </div>
     <?php foreach ($dataProvider->models as $model): ?>
@@ -146,8 +153,19 @@ $this->params['breadcrumbs'][] = $this->title;
           case User::STATUS_ACTIVE: echo "Active"; break;
           case User::STATUS_PENDING: echo "Pending"; break;
           case User::STATUS_DELETED: echo "Archived"; break;
+          case User::STATUS_INACTIVE: echo "Inactive"; break;
           default: echo "New"; break;
         }?>
+        </div>
+        <div class="name">
+        <?php  if($model['status'] === User::STATUS_ACTIVE && $model['role'] <> User::ROLE_ADMIN):?>
+          <a href="<?php echo Url::to('backend/web/user/inactive?id=' . $model["id"])?>" tabindex="-1" title="Update" aria-label="Update" data-pjax="0" data-confirm="Are you sure you want to update this item?" data-method="post"><paper-icon-button class="rate-icon" icon="create"></paper-icon-button>
+           </a>
+        <?php endif; ?>
+        <?php  if($model['status'] <> User::STATUS_ACTIVE  && $model['role'] <> User::ROLE_ADMIN):?>
+          <a href="<?php echo Url::to('backend/web/user/active?id=' . $model["id"])?>" tabindex="-1" title="Update" aria-label="Update" data-pjax="0" data-confirm="Are you sure you want to update this item?" data-method="post"><paper-icon-button class="rate-icon" icon="create"></paper-icon-button>
+           </a>
+       <?php endif; ?>
         </div>
       </div>
     <?php endforeach;?>

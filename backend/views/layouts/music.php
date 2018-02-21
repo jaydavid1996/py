@@ -1,3 +1,8 @@
+<style>
+#contentContainer .app-header{
+  background-color: #2d5a2d;
+}
+</style>
 <?php
 
 /* @var $this \yii\web\View */
@@ -92,9 +97,9 @@ AppAsset::register($this);
             <!-- <app-header slot="header" condenses reveals effects="waterfall resize-title blend-background parallax-background"> -->
             <app-header slot="header" reveals>
               <app-toolbar>
-               <paper-icon-button icon="arrow-back"></paper-icon-button>
+               <a href="<?php echo Yii::$app->homeUrl?>"><paper-icon-button icon="arrow-back" style="color:white"></paper-icon-button></a>
                 <div main-title></div>
-                <paper-icon-button icon="search"></paper-icon-button>
+                <!-- <paper-icon-button icon="search"></paper-icon-button> -->
               </app-toolbar>
             </app-header>
             <div>

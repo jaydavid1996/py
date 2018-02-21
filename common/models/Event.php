@@ -106,6 +106,17 @@ class Event extends \yii\db\ActiveRecord
             'bedezign\yii2\audit\AuditTrailBehavior'
         ];
     }
+    public function afterDelete()
+     {
+        //parent::afterDelete();
+        $model = Event::find()->orderBy(['id'=> SORT_DESC])->one();
+        $archiveModel = new Archive();
+        $archiveModel->model_name = 'events';
+        $archiveModel->model_id = $model->id;
+        $archiveModel->user_id = Yii::$app->user->identity->id;
+        $archiveModel->status = Archive::STATUS_DELETED;
+        $archiveModel->save();
+     }
 
     /**
      * @return \yii\db\ActiveQuery

@@ -27,11 +27,30 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_PENDING = 5;
     const STATUS_ACTIVE = 10;
+    const STATUS_INACTIVE = 9;
     const ROLE_ADMIN = 0;
     const ROLE_CENTRAL_COUNCIL = 1;
     const ROLE_EDUCATION = 2;
     const ROLE_IBM = 3;
     const ROLE_ICSLIS = 4;
+
+
+    public function getStatusList()
+  {
+    return array(
+      self::STATUS_INACTIVE => 'Inactive',
+      self::STATUS_ACTIVE => 'Active',
+      self::STATUS_PENDING => 'Pending',
+      self::STATUS_DELETED => 'Archive',
+    );
+  }
+
+  public function getStatusLabel ( $status = null )
+  {
+    $status = isset($status)?$status:$this->status;
+    $statusList = $this->getStatusList();
+    return isset($statusList[$status])?$statusList[$status]:'None';
+  }
 
 
     public function getStatus()
@@ -94,7 +113,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             ['status', 'default', 'value' => self::STATUS_PENDING],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_PENDING, self::STATUS_DELETED]],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE,self::STATUS_INACTIVE, self::STATUS_PENDING, self::STATUS_DELETED]],
             ['role', 'in', 'range' => [self::ROLE_ADMIN, self::ROLE_CENTRAL_COUNCIL, self::ROLE_EDUCATION, self::ROLE_IBM, self::ROLE_ICSLIS]],
         ];
     }

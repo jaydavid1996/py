@@ -71,7 +71,7 @@ use yii\helpers\Url;
 $subtitle = 'CMS';
 $this->title = 'TMS: ' . $subtitle;
 ?>
-<div class="cms-section">
+<div class="cms-section current-page">
   <div class="container">
     <div class="cms-title">
         <h2><?= $subtitle; ?></h2>

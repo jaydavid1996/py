@@ -50,7 +50,7 @@ AppAsset::register($this);
       left: 0;*/
       /*width: 100%;*/
       color: #fff;
-      background-color: #3f51b5;
+      background-color: #2d5a2d;
       --app-header-background-front-layer: {
         background-image: url(https://app-layout-assets.appspot.com/assets/PharrellWilliams.jpg);
         background-repeat: no-repeat;
@@ -95,6 +95,17 @@ AppAsset::register($this);
       margin-top: 30px;
       min-height: 888px;
     }
+    .app-header-0 #contentContainer.app-header {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background-color: green;
+  }
+  .active{
+    background-color: #37aa9f;
+    color: white;
+  }
+
   </style>
 </custom-style>
 <div class="wrap">
@@ -146,6 +157,11 @@ AppAsset::register($this);
     </div>
 </footer> -->
 <script>
+    $(document).ready(function(){
+      $('a paper-icon-item').on('click',function(){
+        $(this).addClass('active');
+      })
+    });
 
     var fab = document.querySelector('paper-fab');
     var header = document.querySelector('app-header');

@@ -31,7 +31,7 @@ class UserController extends Controller
                           // 'roles' => ['?'],
                       ],
                       [
-                          'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                          'actions' => ['index', 'view', 'create', 'update', 'delete','inactive','active'],
                           'allow' => true,
                           'roles' => ['@'],
                       ],
@@ -127,6 +127,48 @@ class UserController extends Controller
         }
     }
 
+    public function actionInactive($id)
+    {
+        if (Yii::$app->user->can('update-user')) {
+            $model = $this->findModel($id);
+            $model->status = User::STATUS_INACTIVE;
+            if($model->save(false)){
+                Yii::$app->session->setFlash('sucess', 'Successfully Save');
+            }
+                //$this->redirect('user');
+            // if ($model->load(Yii::$app->request->post())) {
+            //      $model->save(false);
+            //     //return $this->redirect(['actions', 'id' => $model->id]);
+            // } else {
+            //     return $this->render('update', [
+            //         'model' => $model,
+            //     ]);
+            // }
+        } else {
+            throw new ForbiddenHttpException;
+        }
+    }
+    public function actionActive($id)
+    {
+        if (Yii::$app->user->can('update-user')) {
+            $model = $this->findModel($id);
+            $model->status = User::STATUS_ACTIVE;
+            if($model->save(false)){
+                Yii::$app->session->setFlash('sucess', 'Successfully Save');
+            }
+                //$this->redirect('user');
+            // if ($model->load(Yii::$app->request->post())) {
+            //      $model->save(false);
+            //     //return $this->redirect(['actions', 'id' => $model->id]);
+            // } else {
+            //     return $this->render('update', [
+            //         'model' => $model,
+            //     ]);
+            // }
+        } else {
+            throw new ForbiddenHttpException;
+        }
+    }
     /**
      * Deletes an existing User model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
