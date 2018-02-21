@@ -67,7 +67,7 @@ class EventSearch extends Event
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'event.id' => $this->id,
             'occasion_id' => $this->occasion_id,
             'event_classification_id' => $this->event_classification_id,
             'event_type_id' => $this->event_type_id,
@@ -80,9 +80,6 @@ class EventSearch extends Event
             'min_team' => $this->min_team,
             'max_team' => $this->max_team,
         ]);
-
-
-
 
         return $dataProvider;
     }

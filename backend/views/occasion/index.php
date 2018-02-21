@@ -140,6 +140,7 @@ $this->params['breadcrumbs'][] = $this->title;
   <?php ActiveForm::end(); ?>
     <!-- <?= Html::button('Create', ['value' => Url::to('backend/web/occasion/create'), 'class' => 'btn btn-success', 'id' => 'modalButton']) ?> -->
     <div class="card-container">
+    <?php if(isset($dataProvider->models) && !empty($dataProvider->models)): ?>
     <?php foreach ($dataProvider->models as $model): ?>
       <paper-card class="rate">
         <div class="card-content">
@@ -183,6 +184,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <!-- <div class="rate-image"></div> -->
       </paper-card>
     <?php endforeach;?>
+    <?php else: echo "no results found";endif;?>
 
         <!-- <div class="card"></div>
         <div class="card orange">

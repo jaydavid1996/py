@@ -31,7 +31,11 @@ class UserController extends Controller
                           // 'roles' => ['?'],
                       ],
                       [
+<<<<<<< HEAD
                           'actions' => ['index', 'view', 'create', 'update', 'delete','inactive','active'],
+=======
+                          'actions' => ['index', 'view', 'create', 'update', 'delete','inactive'],
+>>>>>>> b6e7ad24d6f1bd5ee4a0045720b86176101ad9c6
                           'allow' => true,
                           'roles' => ['@'],
                       ],
@@ -132,6 +136,7 @@ class UserController extends Controller
         if (Yii::$app->user->can('update-user')) {
             $model = $this->findModel($id);
             $model->status = User::STATUS_INACTIVE;
+<<<<<<< HEAD
             if($model->save(false)){
                 Yii::$app->session->setFlash('sucess', 'Successfully Save');
             }
@@ -165,6 +170,15 @@ class UserController extends Controller
             //         'model' => $model,
             //     ]);
             // }
+=======
+            if ($model->load(Yii::$app->request->post()) && $model->save(false)) {
+                //return $this->redirect(['actions', 'id' => $model->id]);
+            } else {
+                return $this->render('inactive', [
+                    'model' => $model,
+                ]);
+            }
+>>>>>>> b6e7ad24d6f1bd5ee4a0045720b86176101ad9c6
         } else {
             throw new ForbiddenHttpException;
         }
