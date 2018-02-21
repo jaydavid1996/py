@@ -93,6 +93,12 @@ $baseUrl = Yii::$app->homeUrl
   <span>Audit Trails</span>
 </paper-icon-item>
 </a>
+<a href="<?php echo $baseUrl?>archive/" tabindex="-1">
+<paper-icon-item class="iconItem">
+  <iron-icon class="grayIcon" icon="icons:assignment" slot="item-icon"></iron-icon>
+  <span>Archive</span>
+</paper-icon-item>
+</a>
 <a href="<?php echo $baseUrl?>backuprestore/" tabindex="-1">
 <paper-icon-item class="iconItem">
   <iron-icon class="grayIcon" icon="icons:settings-backup-restore" slot="item-icon"></iron-icon>

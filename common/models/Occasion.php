@@ -3,6 +3,14 @@
 namespace common\models;
 
 use Yii;
+use  common\models\CDbCriteria;
+use common\models\Archive;
+use common\models\Occasion;
+
+use yii\web\NotFoundHttpException;
+use yii\web\ForbiddenHttpException;
+use yii\filters\VerbFilter;
+Use yii\helpers\Url;
 
 /**
  * This is the model class for table "occasion".
@@ -72,6 +80,18 @@ class Occasion extends \yii\db\ActiveRecord
                  $galleryModel->save(false);
             }
         }
+
+   public function afterDelete()
+       {
+          //parent::afterDelete();
+          $model = Occasion::find()->orderBy(['id'=> SORT_DESC])->one();
+          $archiveModel = new Archive();
+          $archiveModel->model_name = 'occasion';
+          $archiveModel->model_id = $model->id;
+          $archiveModel->user_id = Yii::$app->user->identity->id;
+          $archiveModel->status = Archive::STATUS_DELETED;
+          $archiveModel->save();
+       }
     public function behaviors()
       {
         return [

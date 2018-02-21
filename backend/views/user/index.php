@@ -124,6 +124,7 @@ $this->params['breadcrumbs'][] = $this->title;
       <div class="name-novert"><h5>Team Name</h5></div>
       <div class="name-novert"><h5>Role</h5></div>
       <div class="name-novert"><h5>Status</h5></div>
+      <div class="name-novert"><h5>Action</h5></div>
 
     </div>
     <?php foreach ($dataProvider->models as $model): ?>
@@ -146,8 +147,19 @@ $this->params['breadcrumbs'][] = $this->title;
           case User::STATUS_ACTIVE: echo "Active"; break;
           case User::STATUS_PENDING: echo "Pending"; break;
           case User::STATUS_DELETED: echo "Archived"; break;
+          case User::STATUS_INACTIVE: echo "Inactive"; break;
           default: echo "New"; break;
         }?>
+        </div>
+        <div class="name">
+        <?php  if($model['status'] === User::STATUS_ACTIVE && $model['role'] <> User::ROLE_ADMIN):?>
+          <a href="<?php echo Url::to('backend/web/user/inactive?id=' . $model["id"])?>" tabindex="-1" title="Update" aria-label="Update" data-pjax="0" data-confirm="Are you sure you want to update this item?" data-method="post"><paper-icon-button class="rate-icon" icon="create"></paper-icon-button>
+           </a>
+        <?php endif; ?>
+        <?php  if($model['status'] === User::STATUS_INACTIVE && $model['role'] <> User::ROLE_ADMIN):?>
+          <a href="<?php echo Url::to('backend/web/user/inactive?id=' . $model["id"])?>" tabindex="-1" title="Update" aria-label="Update" data-pjax="0" data-confirm="Are you sure you want to update this item?" data-method="post"><paper-icon-button class="rate-icon" icon="create"></paper-icon-button>
+           </a>
+       <?php endif; ?>
         </div>
       </div>
     <?php endforeach;?>

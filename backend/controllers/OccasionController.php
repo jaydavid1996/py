@@ -155,10 +155,8 @@ class OccasionController extends Controller
      */
     public function actionDelete($id)
     {
-
         if (Yii::$app->user->can('delete-occasion')) {
             $this->findModel($id)->delete();
-
             return $this->redirect(['index']);
         } else {
             throw new ForbiddenHttpException;
