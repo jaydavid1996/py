@@ -26,6 +26,7 @@ use Yii;
  * @property EventClassification $eventClassification
  * @property EventStatus $eventStatus
  * @property EventType $eventType
+ * @property MatchSystem $matchSystem
  * @property Occasion $occasion
  * @property Venue $venue
  * @property EventRound[] $eventRounds
@@ -70,6 +71,7 @@ class Event extends \yii\db\ActiveRecord
             [['event_classification_id'], 'exist', 'skipOnError' => true, 'targetClass' => EventClassification::className(), 'targetAttribute' => ['event_classification_id' => 'id']],
             [['event_status_id'], 'exist', 'skipOnError' => true, 'targetClass' => EventStatus::className(), 'targetAttribute' => ['event_status_id' => 'id']],
             [['event_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => EventType::className(), 'targetAttribute' => ['event_type_id' => 'id']],
+            [['match_system_id'], 'exist', 'skipOnError' => true, 'targetClass' => MatchSystem::className(), 'targetAttribute' => ['match_system_id' => 'id']],
             [['occasion_id'], 'exist', 'skipOnError' => true, 'targetClass' => Occasion::className(), 'targetAttribute' => ['occasion_id' => 'id']],
             [['venue_id'], 'exist', 'skipOnError' => true, 'targetClass' => Venue::className(), 'targetAttribute' => ['venue_id' => 'id']],
         ];
@@ -97,7 +99,7 @@ class Event extends \yii\db\ActiveRecord
             'max_team' => 'Max Team',
         ];
     }
-    
+
     public function behaviors()
     {
         return [

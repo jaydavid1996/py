@@ -98,7 +98,7 @@ class OccasionController extends Controller
                 $model->department_id = Yii::$app->user->identity->role;
                 $model->date_start = date("Y-m-d", strtotime($model->date_start));
                 $model->date_end = date("Y-m-d", strtotime($model->date_end));
-                $model->date_created = date("Y-m-d", strtotime($model->date_created));
+                $model->date_created = date("Y-m-d h:i:s");
 
                 $model->save(false);
 
@@ -139,7 +139,8 @@ class OccasionController extends Controller
 
         if (Yii::$app->user->can('update-occasion')) {
             $model = $this->findModel($id);
-            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            if ($model->load(Yii::$app->request->post())) {
+                $model->save();
                 $modelAudit = new Audit();
                 $modelAudit->user_id = Yii::$app->user->identity->id;
                 $modelAudit->details = 'Update Occasion : '.$model->occasion;

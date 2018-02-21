@@ -29,10 +29,19 @@ return [
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.gmail.com',
+                // 'username' => 'ajmzamora@gmail.com',
+                // 'password' => 'vnngjrezepqkfeny',
                 'username' => 'Tournamentms2017@gmail.com',
                 'password' => 'qgzwhhvjntvevgnt',
                 'port' => '587',
                 'encryption' => 'tls',
+                'streamOptions' => [
+                    'ssl' => [
+                        'allow_self_signed' => true,
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                    ],
+                ],
             ],
         ],
         'request' => [

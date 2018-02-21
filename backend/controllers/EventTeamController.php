@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
+use common\models\Event;
 use common\models\EventTeam;
 use common\models\EventRound;
 use common\models\EventTeamRound;
@@ -131,6 +132,7 @@ class EventTeamController extends Controller
         $models = $dataProvider->models;
         $numOfTeams = count($dataProvider->models);
         $system = $dataProvider->models[0]->event->matchSystem->system;
+
         if ($numOfTeams >= $dataProvider->models[0]->event->min_team) {
             switch($system) {
                 case "Single Elimination":
@@ -139,26 +141,33 @@ class EventTeamController extends Controller
                     break;
                 case "Round Robin":
                         // if number of teams is not even, add Bye
-                        if ($this->isTeamOdd($numOfTeams)) {
-                            $numOfTeams++;
-                            $this->addByeTeam($id, 13, $numOfTeams);
-                            //update model
-                            $models = $this->findModel($id);
-                        }
-                        //check if there is a Bye
+                        // if ($this->isTeamOdd($numOfTeams)) {
+                        //     $numOfTeams++;
+                        //     $this->addByeTeam($id, 13, $numOfTeams);
+                        //     //update model
+                        //     $models = $this->findModel($id);
+                        // }
+                        // //check if there is a Bye
                         // $bye = $this->hasBye($models[$numOfTeams-1]->team_id);
-
-                        // assign random seed number (seed_number);
+                        //
+                        // // assign random seed number (seed_number);
                         // $this->randomizeSeeds($numOfTeams, $bye, $models);
-
-                        // create rounds based on number of teams (num of teams - 1)
+                        //
+                        // // create rounds based on number of teams (num of teams - 1)
                         // $this->createEventRounds($id, $numOfTeams, 1);
-
-                        // create event team rounds based on number of event rounds
+                        //
+                        // // create event team rounds based on number of event rounds
                         // $this->createTeamRounds($models);
+                        //
+                        // //create event_round_match
+                        // $this->createEventRoundMatch($id, $numOfTeams, $system);
 
-                        //create event_round_match
-                        $this->createEventRoundMatch($id, $numOfTeams);
+                        //test
+                        $eventModel = new Event();
+                        $eventModel = Event::find()->where(['id' => $searchModel->event_id])->one();
+                        $eventModel->event_status_id = 2;
+                        $eventModel->save(false);
+
                     break;
                 case "Plain Ranking":
                     if ($this->isTeamOdd($numOfTeams)) {
@@ -190,7 +199,6 @@ class EventTeamController extends Controller
             }
             Yii::$app->session->setFlash('success','Event successfully finalized.');
             // return $this->redirect(['?id=' . $id]);
-
         } else {
             Yii::$app->session->setFlash('warning','Please add more teams.');
         }
