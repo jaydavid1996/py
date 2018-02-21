@@ -27,11 +27,12 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_PENDING = 5;
     const STATUS_ACTIVE = 10;
+    const ROLE_ADMIN = 0;
     const ROLE_CENTRAL_COUNCIL = 1;
     const ROLE_EDUCATION = 2;
     const ROLE_IBM = 3;
     const ROLE_ICSLIS = 4;
-    const ROLE_ADMIN = 5;
+
 
     public function getStatus()
     {

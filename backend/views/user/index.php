@@ -102,6 +102,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
+use common\models\User;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\EventTeamSearch */
@@ -121,17 +122,33 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="song">
       <div class="name-novert"><h5>Team Name</h5></div>
       <div class="name-novert"><h5>Team Name</h5></div>
-      <div class="name-novert"><h5>Team Name</h5></div>
-      <div class="name-novert"><h5>Team Name</h5></div>
-      
+      <div class="name-novert"><h5>Role</h5></div>
+      <div class="name-novert"><h5>Status</h5></div>
+
     </div>
     <?php foreach ($dataProvider->models as $model): ?>
       <div class="song">
 
         <div class="name"><?= $model['username']; ?></div>
         <div class="name"><?= $model['email']; ?></div>
-        <div class="name"><?= $model['role']; ?></div>
-        <div class="name"><?= $model['status']; ?></div>
+        <div class="name">
+        <?php switch($model['role']) {
+          case User::ROLE_EDUCATION: echo "Education"; break;
+          case User::ROLE_IBM: echo "IBM"; break;
+          case User::ROLE_ADMIN: echo "Admin"; break;
+          case User::ROLE_ICSLIS: echo "ICSLIS"; break;
+          case User::ROLE_CENTRAL_COUNCIL: echo "Central Council"; break;
+          default: echo "New"; break;
+        }?>
+        </div>
+        <div class="name">
+        <?php switch($model['status']) {
+          case User::STATUS_ACTIVE: echo "Active"; break;
+          case User::STATUS_PENDING: echo "Pending"; break;
+          case User::STATUS_DELETED: echo "Archived"; break;
+          default: echo "New"; break;
+        }?>
+        </div>
       </div>
     <?php endforeach;?>
   </div>

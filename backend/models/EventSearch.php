@@ -62,8 +62,8 @@ class EventSearch extends Event
         $query->joinWith('matchSystem');
 
         // grid filtering conditions
-        // $query->andFilterWhere([
-        //     'id' => $this->id,
+        $query->andFilterWhere([
+            'id' => $this->id,
         //     'occasion_id' => $this->occasion_id,
         //     'event_classification_id' => $this->event_classification_id,
         //     'event_type_id' => $this->event_type_id,
@@ -75,11 +75,12 @@ class EventSearch extends Event
         //     'date_end' => $this->date_end,
         //     'min_team' => $this->min_team,
         //     'max_team' => $this->max_team,
-        // ]);
+        ]);
 
         $query->orFilterWhere(['like', 'event', $this->globalSearch])
             ->orFilterWhere(['like', 'event_type', $this->globalSearch])
             ->orFilterWhere(['like', 'system', $this->globalSearch]);
+
 
         return $dataProvider;
     }
