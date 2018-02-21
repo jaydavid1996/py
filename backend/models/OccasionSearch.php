@@ -59,16 +59,16 @@ class OccasionSearch extends Occasion
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        // $query->andFilterWhere([
-        //     'id' => $this->id,
-        //     'department_id' => $this->department_id,
-        //     'date_start' => $this->date_start,
-        //     'date_end' => $this->date_end,
-        //     'date_created' => $this->date_created,
-        // ]);
-
         $query->orFilterWhere(['like', 'occasion', $this->globalSearch]);
+
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'department_id' => $this->department_id,
+            'date_start' => $this->date_start,
+            'date_end' => $this->date_end,
+            'date_created' => $this->date_created,
+        ]);
 
         return $dataProvider;
     }
