@@ -60,6 +60,18 @@ class Occasion extends \yii\db\ActiveRecord
             'date_created' => 'Date Created',
         ];
     }
+        public function afterSave($insert, $changedAttributes) {
+            if($insert){
+                 $model = Occasion::find()->orderBy(['id'=> SORT_DESC])->one();
+                 print_r($model->description);
+                 $galleryModel = new Gallery();
+                 $loginUserId = Yii::$app->user->identity->id;
+                 $galleryModel->user_id = $loginUserId;
+                 $galleryModel->occasion_id = $model->id;
+                 $galleryModel->gallery_name = $model->occasion;
+                 $galleryModel->save(false);
+            }
+        }
     public function behaviors()
       {
         return [

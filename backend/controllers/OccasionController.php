@@ -99,23 +99,15 @@ class OccasionController extends Controller
                 $model->date_start = date("Y-m-d", strtotime($model->date_start));
                 $model->date_end = date("Y-m-d", strtotime($model->date_end));
                 $model->date_created = date("Y-m-d h:i:s");
+                $model->save();
+                //return $this->redirect(['occasion']);
+            }
 
-                $model->save(false);
-
-                $Gallery = new Gallery();
-                $Occasions = Occasion::find()->orderBy(['id'=> SORT_DESC])->one();
-                $loginUserId = Yii::$app->user->identity->id;
-                $Gallery->user_id = $loginUserId;
-                $Gallery->occasion_id = $Occasions->id;
-                $Gallery->gallery_name = $Occasions->occasion;
-                $Gallery->save(false);
-                return $this->redirect(['occasion']);
-            } else {
+             else {
                 return $this->renderAjax('create', [
                     'model' => $model,
                 ]);
             }
-
 
             $modelAudit = new Audit();
             $modelAudit->user_id = Yii::$app->user->identity->id;
