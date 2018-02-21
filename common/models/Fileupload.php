@@ -28,6 +28,8 @@ class Fileupload extends \yii\db\ActiveRecord
 
         public $file_uploads;
         CONST IS_DEFAULT_IMAGE = '1';
+        CONST TYPE_CMS_IMG1 = 'cms-img-1';
+        CONST TYPE_CMS_IMG2 = 'cms-img-2';
 
     /**
      * @inheritdoc

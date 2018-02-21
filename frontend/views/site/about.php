@@ -13,8 +13,19 @@
 .content-page{
     padding: 16px;
     font-size: 18px;
-    text-align: justify;
+    text-align: center;
     line-height: 2;
+
+}
+.about-content .row {
+    display: flex;
+    align-items: center;
+    text-align:center;
+}
+.content-image img {
+    width: 100%;
+    height: 300px;
+    max-width: 416px;
 }
 </style>
 
@@ -22,6 +33,8 @@
 /* @var $this yii\web\View */
 
 use yii\helpers\Html;
+use common\models\Fileupload;
+use common\models\Cms;
 
 $this->title = 'About';
 //$this->params['breadcrumbs'][] = $this->title;
@@ -33,23 +46,53 @@ $this->title = 'About';
      <div class="about-content">
          <div class="row">
              <div class="col-md-6 content-image">
-                 <img src="frontend/web/images/DSC_(15).JPG" />
+               <?php $modelFileUploaders = Fileupload::find()->where(['type'=> 'cms-img-1'])->orderBy(['id' => SORT_DESC])->one();
+                   if(isset($modelFileUploaders) || !empty($modelFileUploaders)){
+                         $imgUrl =  'backend/_uploads/'.$modelFileUploaders->file_name;
+                   }else{
+                         $imgUrl =  'backend/_uploads/default.png';
+                     }
+                  ?>
+                  <img src="<?php echo $imgUrl ?>"/>
              </div>
              <div class="col-md-6 content-page">
-                 <p>
-                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                 </p>
+                 <?php $contents = Cms::find()->where(['type'=> '1'])->orderBy(['id' => SORT_DESC])->one();
+                      if(isset($contents->content) || !empty($contents->content)){
+
+                             echo $contents->content;
+
+                      }else{
+                          echo '<h4>
+                              Please Insert Content.
+                            </h4>';
+                        }
+                      ?>
              </div>
          </div>
          <br />
          <div class="row">
              <div class="col-md-6 content-page">
-                 <p>
-                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                 </p>
+                 <?php $contents = Cms::find()->where(['type'=> '2'])->orderBy(['id' => SORT_DESC])->one();
+                      if(isset($contents->content) || !empty($contents->content)){
+
+                             echo $contents->content;
+
+                      }else{
+                          echo '<h4>
+                              Please Insert Content.
+                            </h4>';
+                        }
+                      ?>
              </div>
              <div class="col-md-6 content-image">
-                 <img src="frontend/web/images/DSC_(11).JPG" />
+                 <?php $modelFileUploaders = Fileupload::find()->where(['type'=> 'cms-img-2'])->orderBy(['id' => SORT_DESC])->one();
+                     if(isset($modelFileUploaders) || !empty($modelFileUploaders)){
+                           $imgUrl =  'backend/_uploads/'.$modelFileUploaders->file_name;
+                     }else{
+                           $imgUrl =  'backend/_uploads/default.png';
+                       }
+                    ?>
+                    <img src="<?php echo $imgUrl ?>"/>
              </div>
          </div>
      </div>

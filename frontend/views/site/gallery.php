@@ -122,10 +122,11 @@ $this->title = $subtitle;
 
 
 <h1>Our Gallery</h1>
-<?php $modelFileUploaders = Fileupload::find()->all();
+<?php $modelFileUploaders = Fileupload::find()->orderBy(['gallery_id'=> SORT_DESC])->all();
 foreach ($modelFileUploaders as $modelFileUploader):
   $imgUrl =  'backend/_uploads/'.$modelFileUploader->file_name;
 ?>
+
 <div class="col-md-3">
   <div class="image-container">
 
@@ -136,14 +137,14 @@ foreach ($modelFileUploaders as $modelFileUploader):
             'options' => array('title' => 'Photos of events')
         ],
     ];?>
-  <div id="w0">
-  <a class="gallery-item" href="<?php echo $imgUrl ?>" title="Photos of events">
-    <img src="<?php echo $imgUrl?>" alt="" class="image">
-  </a>
-  </div>
-  <div class="overlay">
-    <div class="text"><i class="fa fa-search"></i></div>
-  </div>
+      <div id="w0">
+        <a class="gallery-item" href="<?php echo $imgUrl ?>" title="Photos of events">
+          <img src="<?php echo $imgUrl?>" alt="" class="image">
+        </a>
+      </div>
+      <div class="overlay">
+        <div class="text"><i class="fa fa-search"></i></div>
+      </div>
   </div>
 </div>
 <?php endforeach;?>
