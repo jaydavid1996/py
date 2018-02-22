@@ -337,9 +337,9 @@ $this->title = $subtitle;
                       <!-- <?=date("M-d-Y (D)", strtotime($model['date_start']));?> -->
                       <?= $model['description']; ?>
                     <div><?= $model['description']; ?></div>
-                    <div class="overlay">
+                    <!-- <div class="overlay">
                       <div class="text">See More</div>
-                    </div>
+                    </div> -->
                   </div>
               </div>
             </div>
