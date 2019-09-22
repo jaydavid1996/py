@@ -51,7 +51,18 @@
 $baseUrl = Yii::$app->homeUrl
 
 ?>
-
+<?php if (!Yii::$app->user->isGuest) : ?>
+<i class="fa fa-circle text-success"></i>
+<app-toolbar>
+<h4><?= Yii::$app->user->identity->username?></h4>
+<h5><?= Yii::$app->user->can('admin') ? ' (Administrator) ' : ' (Organizer) ';?></h5>
+<a href="/py/backend/web/logout" data-method="post">
+<paper-icon-item class="iconItem">
+<iron-icon class="grayIcon" icon="icons:power-settings-new" slot="item-icon"></iron-icon>
+</paper-icon-item>
+</a>
+</app-toolbar>
+<?php if (Yii::$app->user->can('admin')) : ?>
 <a href="<?php echo $baseUrl?>cms/" tabindex="-1">
 <paper-icon-item class="iconItem">
   <iron-icon class="grayIcon" icon="dashboard" slot="item-icon"></iron-icon>
@@ -82,39 +93,48 @@ $baseUrl = Yii::$app->homeUrl
   <span>Audit Trails</span>
 </paper-icon-item>
 </a>
+<a href="<?php echo $baseUrl?>archive/" tabindex="-1">
+<paper-icon-item class="iconItem">
+  <iron-icon class="grayIcon" icon="icons:assignment" slot="item-icon"></iron-icon>
+  <span>Archive</span>
+</paper-icon-item>
+</a>
 <a href="<?php echo $baseUrl?>backuprestore/" tabindex="-1">
 <paper-icon-item class="iconItem">
   <iron-icon class="grayIcon" icon="icons:settings-backup-restore" slot="item-icon"></iron-icon>
   <span>Backup & Restore</span>
 </paper-icon-item>
 </a>
+<?php else: ?>
 <a href="<?php echo $baseUrl?>occasion/" tabindex="-1">
 <paper-icon-item class="iconItem">
   <iron-icon class="grayIcon" icon="av:album" slot="item-icon"></iron-icon>
   <span>Occasions</span>
 </paper-icon-item>
 </a>
-<a href="<?php echo $baseUrl?>event/" tabindex="-1">
+<!-- <a href="<?php echo $baseUrl?>event/" tabindex="-1">
 <paper-icon-item class="iconItem">
   <iron-icon class="grayIcon" icon="av:explicit" slot="item-icon"></iron-icon>
   <span>Events</span>
 </paper-icon-item>
-</a>
-<a href="<?php echo $baseUrl?>player/" tabindex="-1">
+</a> -->
+<!-- <a href="<?php echo $baseUrl?>player/" tabindex="-1">
 <paper-icon-item class="iconItem">
   <iron-icon class="grayIcon" icon="social:group-add" slot="item-icon"></iron-icon>
   <span>Players</span>
 </paper-icon-item>
-</a>
+</a> -->
 <a href="<?php echo $baseUrl?>venue/" tabindex="-1">
 <paper-icon-item class="iconItem">
   <iron-icon class="grayIcon" icon="social:domain" slot="item-icon"></iron-icon>
   <span>Venue</span>
 </paper-icon-item>
 </a>
-<a href="<?php echo $baseUrl?>report" tabindex="-1">
+<a href="<?php echo $baseUrl?>report/" tabindex="-1">
 <paper-icon-item class="iconItem">
   <iron-icon class="grayIcon" icon="icons:assignment" slot="item-icon"></iron-icon>
   <span>Reports</span>
 </paper-icon-item>
 </a>
+<?php endif; ?>
+<?php endif; ?>

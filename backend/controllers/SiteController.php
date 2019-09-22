@@ -11,6 +11,7 @@ use common\models\LoginForm;
 use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
 use backend\models\SignupForm;
+use common\models\Audit;
 
 /**
  * Site controller
@@ -76,12 +77,20 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        // if (!Yii::$app->user->isGuest) {
-        //     return $this->goHome();
-        // }
+        $this->layout = '/main-login';
+        if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+
+            $modelAudit = new Audit();
+            $modelAudit->user_id = Yii::$app->user->identity->id;
+            $modelAudit->status =  Audit::STATUS_LOGIN;
+            $modelAudit->date_updated  = date('Y-m-d H:i:s');
+
+            $modelAudit->save();
             return $this->goBack();
         } else {
             return $this->render('login', [
@@ -97,13 +106,19 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout();
+            $modelAudit = new Audit();
+            $modelAudit->user_id = Yii::$app->user->identity->id;
+            $modelAudit->status =  Audit::STATUS_LOGOUT;
+            $modelAudit->save();
 
-        return $this->goHome();
+            Yii::$app->user->logout();
+            return $this->goHome();
+
     }
 
     public function actionSignup()
     {
+        $this->layout = '/main-login';
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
@@ -125,6 +140,7 @@ class SiteController extends Controller
      */
     public function actionRequestPasswordReset()
     {
+        $this->layout = '/main-login';
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
@@ -150,6 +166,7 @@ class SiteController extends Controller
      */
     public function actionResetPassword($token)
     {
+        $this->layout = '/main-login';
         try {
             $model = new ResetPasswordForm($token);
         } catch (InvalidParamException $e) {

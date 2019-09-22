@@ -44,7 +44,12 @@ class Player extends \yii\db\ActiveRecord
             [['sub_department_id'], 'exist', 'skipOnError' => true, 'targetClass' => SubDepartment::className(), 'targetAttribute' => ['sub_department_id' => 'id']],
         ];
     }
-
+    public function behaviors()
+      {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+      }
     /**
      * @inheritdoc
      */

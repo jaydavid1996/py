@@ -13,76 +13,115 @@ Use yii\helpers\Url;
 use common\models\Gallery;
 use common\models\Fileupload;
 use yii\web\UploadedFile;
+use backend\models\GallerySearch;
+use yii\helpers\ArrayHelper;
+use common\models\Occasion;
+use common\models\Audit;
 
 
 class GalleryController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => [''],
+                        'allow' => true,
+                        // 'roles' => ['?'],
+                    ],
+                    [
+                        'actions' => ['index', 'view','upload'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    // 'delete' => ['POST'],
+                ],
+            ],
+        ];
+    }
     /**
      * Lists all Location models.
      * @return mixed
      */
     public function actionIndex()
     {
-        return $this->render('index');
-    }
-    // public function actionCreate()
-    // {
-    //     $model = new Gallery();
-    //     $modelFileUpload = new Fileupload();
-    //
-    //
-    //
-    //     if ($model->load(Yii::$app->request->post()) && $model->save()) {
-    //         $model->user_id = 1;
-    //         $model->extension = 'png';
-    //           return $this->redirect('index');
-    //       } else {
-    //           return $this->render('create', [
-    //               'modelFileUpload' => $modelFileUpload,
-    //               'model' => $model,
-    //           ]);
-    //       }
-    //
-    // }
+        if (Yii::$app->user->can('view-cms')) {
+            $searchModel = new GallerySearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-    public function actionUpload()
-    {
-        $modelFileUpload = new Fileupload();
-        $model = new Gallery();
-
-
-        if ($modelFileUpload->load(Yii::$app->request->post())) {
-
-            // $orginalFileName = $_FILES['Fileupload']['name']['file_name'];
-            // $extension = $_FILES['Fileupload']['type']['file_name'];
-            // foreach ($orginalFileName as $orginalFileNames) {
-            //         $orginalFileName;
-            // }
-            // foreach ($extension as $extensions) {
-            //         $extensions;
-            // }
-            // //$extension = strtolower(pathinfo($_FILES['Fileupload']['name'], PATHINFO_EXTENSION));
-            // $model->user_id = Yii::$app->user->identity->id;
-            // $model->file_name = $orginalFileNames;
-            // $model->extension =  $extensions;
-            // $model->occasion_id = 1;
-            // $model->save();
-
-            if(isset($_POST['Fileupload'])){
-                $modelFileUpload->fileupload_name = UploadedFile::getInstances($modelFileUpload, 'fileupload_name');
-                if ($modelFileUpload->fileupload_name && $modelFileUpload->validate()) {
-                    foreach ($modelFileUpload->fileupload_name as $files) {
-                        $files->saveAs(Yii::$app->basePath . '/_uploads/' . $files);
-                    }
-                }
-
-            }
-            Yii::$app->session->setFlash('success','Successfully Upload Images');
-            return $this->redirect(array('index'));
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        } else {
+          throw new ForbiddenHttpException;
         }
-        return $this->render('create', array(
-            'modelFileUpload' => $modelFileUpload,
-            'model' => $model,
-        ));
     }
+    public function actionView($id)
+        {
+            if (Yii::$app->user->can('view-cms')) {
+                return $this->render('view', [
+                    'model' => $this->findModel($id),
+                ]);
+            } else {
+              throw new ForbiddenHttpException;
+            }
+        }
+
+    public function actionUpload($id)
+    {
+        $model = $this->findModel($id);
+        $modelFileUpload = new FileUpload();
+        if($modelFileUpload->load(Yii::$app->request->post()))
+        {
+        if(isset($_POST['Fileupload'])){
+                $modelFileUpload->file_uploads = UploadedFile::getInstances($modelFileUpload, 'file_uploads');
+                $fileuplode = Fileupload::find()->orderBy(['id'=> SORT_DESC])->one();
+                    foreach ($modelFileUpload->file_uploads as $files)
+                    {
+                        $files->saveAs(Yii::$app->basePath . '/_uploads/' . $files);
+                        $modelFileUploads =  new FileUpload();
+                        $modelFileUploads->gallery_id = $model->id;
+                        $modelFileUploads->file_name = $files->name;
+                        $modelFileUploads->gallery_id = $model->id;
+                        $modelFileUploads->file_extension = $files->type;
+
+                        if(!$modelFileUploads->save(false)){
+                            Yii::$app()->session->setFlash('danger', 'Error Saving Fileupload');
+                            return $this->redirect('view');
+                        }
+
+                        $modelAudit = new Audit();
+                        $modelAudit->user_id = Yii::$app->user->identity->id;
+                        $modelAudit->status =  Audit::STATUS_UPLOAD;
+                        $modelAudit->fileupload_id = $modelFileUploads->id;
+                        $modelAudit->save();
+                    }
+                    Yii::$app->session->setFlash('success','Successfully Upload Images');
+                    return $this->redirect(['view', 'id' => $modelFileUploads->gallery_id]);
+                }
+            }
+        else{
+               return $this->renderAjax('upload', [
+                   'modelFileUpload' => $modelFileUpload,
+                   'model' => $model,
+               ]);
+            }
+        }
+        protected function findModel($id)
+      {
+          if (($model = Gallery::findOne($id)) !== null) {
+              return $model;
+          } else {
+              throw new NotFoundHttpException('The requested page does not exist.');
+          }
+      }
 }

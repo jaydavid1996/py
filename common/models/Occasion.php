@@ -3,6 +3,14 @@
 namespace common\models;
 
 use Yii;
+use  common\models\CDbCriteria;
+use common\models\Archive;
+use common\models\Occasion;
+
+use yii\web\NotFoundHttpException;
+use yii\web\ForbiddenHttpException;
+use yii\filters\VerbFilter;
+Use yii\helpers\Url;
 
 /**
  * This is the model class for table "occasion".
@@ -52,7 +60,7 @@ class Occasion extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'department_id' => 'Department ID',
+            'department_id' => 'Department',
             'occasion' => 'Occasion',
             'description' => 'Description',
             'date_start' => 'Date Start',
@@ -60,7 +68,36 @@ class Occasion extends \yii\db\ActiveRecord
             'date_created' => 'Date Created',
         ];
     }
+        public function afterSave($insert, $changedAttributes) {
+            if($insert){
+                 $model = Occasion::find()->orderBy(['id'=> SORT_DESC])->one();
+                 print_r($model->description);
+                 $galleryModel = new Gallery();
+                 $loginUserId = Yii::$app->user->identity->id;
+                 $galleryModel->user_id = $loginUserId;
+                 $galleryModel->occasion_id = $model->id;
+                 $galleryModel->gallery_name = $model->occasion;
+                 $galleryModel->save(false);
+            }
+        }
 
+   public function afterDelete()
+       {
+          //parent::afterDelete();
+          $model = Occasion::find()->orderBy(['id'=> SORT_DESC])->one();
+          $archiveModel = new Archive();
+          $archiveModel->model_name = 'occasion';
+          $archiveModel->model_id = $model->id;
+          $archiveModel->user_id = Yii::$app->user->identity->id;
+          $archiveModel->status = Archive::STATUS_DELETED;
+          $archiveModel->save();
+       }
+    public function behaviors()
+      {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+      }
     /**
      * @return \yii\db\ActiveQuery
      */

@@ -15,11 +15,12 @@ class EventSearch extends Event
     /**
      * @inheritdoc
      */
+    public $globalSearch;
     public function rules()
     {
         return [
-            [['id', 'occasion_id', 'event_classification_id', 'event_type_id', 'venue_id', 'event_category_id', 'event_status_id', 'min_team', 'max_team'], 'integer'],
-            [['event', 'description', 'date_start', 'date_end'], 'safe'],
+            [['id', 'occasion_id', 'event_classification_id', 'event_type_id', 'match_system_id', 'venue_id', 'event_category_id', 'event_status_id', 'min_team', 'max_team'], 'integer'],
+            [['globalSearch', 'event', 'description', 'date_start', 'date_end'], 'safe'],
         ];
     }
 
@@ -41,7 +42,7 @@ class EventSearch extends Event
      */
     public function search($params)
     {
-        $query = Event::find();
+        $query = Event::find()->orderBy(['id'=> SORT_DESC]);
 
         // add conditions that should always apply here
 
@@ -57,12 +58,20 @@ class EventSearch extends Event
             return $dataProvider;
         }
 
+        $query->joinWith('eventType');
+        $query->joinWith('matchSystem');
+
+        $query->orFilterWhere(['like', 'event', $this->globalSearch])
+            ->orFilterWhere(['like', 'event_type', $this->globalSearch])
+            ->orFilterWhere(['like', 'system', $this->globalSearch]);
+
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
+            'event.id' => $this->id,
             'occasion_id' => $this->occasion_id,
             'event_classification_id' => $this->event_classification_id,
             'event_type_id' => $this->event_type_id,
+            'match_system_id' => $this->match_system_id,
             'venue_id' => $this->venue_id,
             'event_category_id' => $this->event_category_id,
             'event_status_id' => $this->event_status_id,
@@ -71,9 +80,6 @@ class EventSearch extends Event
             'min_team' => $this->min_team,
             'max_team' => $this->max_team,
         ]);
-
-        $query->andFilterWhere(['like', 'event', $this->event])
-            ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }

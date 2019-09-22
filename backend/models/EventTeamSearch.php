@@ -47,6 +47,7 @@ class EventTeamSearch extends EventTeam
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=> ['defaultOrder' => ['seed_number'=>SORT_ASC]],
         ]);
 
         $this->load($params);

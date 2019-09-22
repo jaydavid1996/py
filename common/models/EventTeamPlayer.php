@@ -57,7 +57,12 @@ class EventTeamPlayer extends \yii\db\ActiveRecord
             'section_id' => 'Section ID',
         ];
     }
-
+    public function behaviors()
+      {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+      }
     /**
      * @return \yii\db\ActiveQuery
      */

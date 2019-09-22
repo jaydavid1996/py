@@ -15,11 +15,13 @@ class OccasionSearch extends Occasion
     /**
      * @inheritdoc
      */
+
+    public $globalSearch;
     public function rules()
     {
         return [
             [['id', 'department_id'], 'integer'],
-            [['occasion', 'description', 'date_start', 'date_end', 'date_created'], 'safe'],
+            [['globalSearch', 'occasion', 'description', 'date_start', 'date_end', 'date_created'], 'safe'],
         ];
     }
 
@@ -41,7 +43,7 @@ class OccasionSearch extends Occasion
      */
     public function search($params)
     {
-        $query = Occasion::find();
+        $query = Occasion::find()->orderBy(['id'=> SORT_DESC]);
 
         // add conditions that should always apply here
 
@@ -57,6 +59,8 @@ class OccasionSearch extends Occasion
             return $dataProvider;
         }
 
+        $query->orFilterWhere(['like', 'occasion', $this->globalSearch]);
+
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
@@ -65,9 +69,6 @@ class OccasionSearch extends Occasion
             'date_end' => $this->date_end,
             'date_created' => $this->date_created,
         ]);
-
-        $query->andFilterWhere(['like', 'occasion', $this->occasion])
-            ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }

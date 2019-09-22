@@ -3,6 +3,7 @@ namespace backend\models;
 
 use yii\base\Model;
 use common\models\User;
+// use common\models\Role;
 
 /**
  * Signup form
@@ -11,8 +12,9 @@ class SignupForm extends Model
 {
     public $username;
     public $email;
+    public $role;
     public $password;
-
+    public $password_repeat;
 
     /**
      * @inheritdoc
@@ -25,6 +27,9 @@ class SignupForm extends Model
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
+            ['role', 'required'],
+            ['role', 'integer'],
+
             ['email', 'trim'],
             ['email', 'required'],
             ['email', 'email'],
@@ -33,6 +38,8 @@ class SignupForm extends Model
 
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
+            ['password_repeat', 'required'],
+            ['password_repeat', 'compare', 'compareAttribute'=>'password', 'message'=>"Please make sure passwords match." ],
         ];
     }
 
@@ -50,9 +57,9 @@ class SignupForm extends Model
         $user = new User();
         $user->username = $this->username;
         $user->email = $this->email;
+        $user->role = $this->role;
         $user->setPassword($this->password);
         $user->generateAuthKey();
-
-        return $user->save() ? $user : null;
+        return $user->save(false) ? $user : null;
     }
 }

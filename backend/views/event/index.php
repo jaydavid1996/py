@@ -23,7 +23,10 @@
       background-size: cover;
     }*/
     .rate-header { @apply --paper-font-headline; }
-    .rate-name { color: var(--paper-grey-600); margin: 10px 0; }
+    .rate-name {
+       color: var(--paper-grey-600); margin: 10px 0;
+       float: right;
+     }
     paper-icon-button.rate-icon {
       --iron-icon-fill-color: white;
       --iron-icon-stroke-color: var(--paper-grey-600);
@@ -49,8 +52,8 @@
   }
 
   paper-card {
-    width: calc(33% - 8px);
-    /*height: 200px;*/
+    width: calc(50% - 8px);
+    height: 180px;
     margin: 4px;
     /*padding: 10px;*/
     /*background-color: #90A4AE;*/
@@ -95,11 +98,16 @@
     --paper-fab-keyboard-focus-background: #EFDB2B;
     color: #666;
   }
+
+  .global-search {
+    padding-bottom: 20px;
+  }
   </style>
 </custom-style>
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\bootstrap\Modal;
@@ -111,23 +119,35 @@ $this->title = 'Events';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="event-index">
+  <?php $form = ActiveForm::begin([
+      // 'action' => ["event?id=" . $dataProvider->models[0]->id . "\/index"],
+      'action' => ["?id=" . $id],
+      'method' => 'get',
+  ]); ?>
+  <div class="global-search">
+    <?= $form->field($searchModel, 'globalSearch')->label("Search Event")->textInput(['placeholder' => "Enter keyword (e.g. 'Event Name' / 'Scrabbles' / 'Round Robin')"]);?>
+  </div>
+  <?php ActiveForm::end(); ?>
   <div class="card-container">
+  <?php if(isset($dataProvider->models) && !empty($dataProvider->models)): ?>
   <?php foreach ($dataProvider->models as $model): ?>
     <paper-card class="rate">
       <div class="card-content">
+        <div class="rate-name">
+          <?=date("M-d-Y", strtotime($model['date_start'])); echo $model['date_start'] !== $model['date_end'] ? ' to ' . date("M-d-Y", strtotime($model['date_end'])) . '<br />': "";?>
+          <?=date("D", strtotime($model['date_start'])); echo $model['date_start'] !== $model['date_end'] ? date(" - D", strtotime($model['date_end'])) : "";?>
+        </div>
         <div class="rate-header"><?= $model['event']; ?></div>
         <!-- <?=date("M-d-Y (D)", strtotime($model['date_start']));?> -->
         <?= $model['eventType']['event_type']; ?>
-        <div class="rate-name">
-          <?=date("M-d-Y", strtotime($model['date_start']));?> <?=date("M-d-Y", strtotime($model['date_end']));?><br />
-          <?=date("D", strtotime($model['date_start'])); echo " - "?><?=date("D", strtotime($model['date_end']));?>
-        </div>
+        <br />
+        <?= $model['matchSystem']['system']; ?>
         <div><?= $model['description']; ?></div>
       </div>
       <div class="card-actions">
         <!-- <paper-icon-button class="rate-icon" icon="star"></paper-icon-button> -->
-        <a href="<?=Url::to('backend/web/team/')?>" tabindex="-1">
-         <paper-button>TEAMS</paper-button>
+        <a href="<?=Url::to('backend/web/event-team/?id='. $model['id'])?>" tabindex="-1">
+         <?= ($model['event_status_id']==1) ? "<paper-button>VIEW & FINALIZE</paper-button>" : "VIEW" ?>
         </a>
         <button class="modalButton" value="backend/web/event/update?id=<?=$model['id']?>"  tabindex="-1">
         <paper-icon-button class="rate-icon" icon="create"></paper-icon-button>
@@ -139,6 +159,8 @@ $this->params['breadcrumbs'][] = $this->title;
       <!-- <div class="rate-image"></div> -->
     </paper-card>
   <?php endforeach;?>
+<?php else: echo "no results found";endif;?>
+
 
       <!-- <div class="card"></div>
       <div class="card orange">
@@ -176,6 +198,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'occasion_id',
             'event_classification_id',
             'event_type_id',
+            'match_system_id',
             'event',
             // 'description',
             // 'venue_id',

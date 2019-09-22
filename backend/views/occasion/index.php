@@ -50,7 +50,7 @@
 
   paper-card {
     width: calc(33% - 8px);
-    /*height: 200px;*/
+    height: 160px;
     margin: 4px;
     /*padding: 10px;*/
     /*background-color: #90A4AE;*/
@@ -95,11 +95,29 @@
     --paper-fab-keyboard-focus-background: #EFDB2B;
     color: #666;
   }
+
+  .date {
+    font-weight: 400;
+    font-size: 15px;
+    text-transform: uppercase;
+    float: right;
+  }
+  .dept {
+    float: right;
+  }
+
+  .card-actions-icon {
+    float: right;
+  }
+  .global-search {
+    padding-bottom: 20px;
+  }
   </style>
 </custom-style>
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 use yii\helpers\Url;
 use yii\grid\GridView;
 use yii\bootstrap\Modal;
@@ -112,37 +130,61 @@ $this->title = 'Occasions';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="occasion-index">
+  <?php $form = ActiveForm::begin([
+      'action' => ['index'],
+      'method' => 'get',
+  ]); ?>
+  <div class="global-search">
+    <?= $form->field($searchModel, 'globalSearch')->label("Search Occasion")->textInput(['placeholder' => "Enter keyword (e.g. 'Occasion Name')"]); ?>
+  </div>
+  <?php ActiveForm::end(); ?>
     <!-- <?= Html::button('Create', ['value' => Url::to('backend/web/occasion/create'), 'class' => 'btn btn-success', 'id' => 'modalButton']) ?> -->
     <div class="card-container">
+    <?php if(isset($dataProvider->models) && !empty($dataProvider->models)): ?>
     <?php foreach ($dataProvider->models as $model): ?>
       <paper-card class="rate">
         <div class="card-content">
+          <!-- <div class="dept">
+           <?= $model['department']['department']; ?>
+          </div> -->
+          <div class="date">
+            <?=date("M", strtotime($model['date_start']));?>
+            <br />
+            <?=date("d", strtotime($model['date_start']));?>
+          </div>
+
+
           <div class="rate-header"><?= $model['occasion']; ?></div>
           <!-- <?=date("M-d-Y (D)", strtotime($model['date_start']));?> -->
-          <?= $model['department']['department']; ?>
           <div class="rate-name">
-            <?=date("M-d-Y", strtotime($model['date_start']));?> <?=date("M-d-Y", strtotime($model['date_end']));?>
-            <?=date("D", strtotime($model['date_start'])); echo " - "?><?=date("D", strtotime($model['date_end']));?>
+            <!-- <?=date("M-d-Y", strtotime($model['date_start']));?>  -->
+            <!-- <?=date("M-d-Y", strtotime($model['date_end']));?> -->
+            <!-- <?=date("D", strtotime($model['date_start'])); echo " - "?><?=date("D", strtotime($model['date_end']));?> -->
           </div>
           <div><?= $model['description']; ?></div>
         </div>
+        <br />
         <div class="card-actions">
           <!-- <paper-icon-button class="rate-icon" icon="star"></paper-icon-button> -->
           <a href="<?=Url::to('backend/web/event/?id=' .  $model['id'])?>" tabindex="-1">
            <paper-button>EVENTS</paper-button>
           </a>
+          <div class="card-actions-icon">
+
           <button class="modalButton" value="backend/web/occasion/update?id=<?=$model['id']?>"  tabindex="-1">
-          <!-- <a href="<?=Url::to('backend/web/occasion/update?id=' . $model['id'])?>"> -->
+          <!-- <a href=<?=Url::to('backend/web/occasion/update?id=' . $model['id'])?>"> -->
           <paper-icon-button class="rate-icon" icon="create"></paper-icon-button>
           <!-- </a> -->
           </button>
           <a href="<?=Url::to('backend/web/occasion/delete?id=' . $model['id'])?>" tabindex="-1" title="Delete" aria-label="Delete" data-pjax="0" data-confirm="Are you sure you want to delete this item?" data-method="post">
           <paper-icon-button class="rate-icon" icon="delete"></paper-icon-button>
           </a>
+          </div>
         </div>
         <!-- <div class="rate-image"></div> -->
       </paper-card>
     <?php endforeach;?>
+    <?php else: echo "no results found";endif;?>
 
         <!-- <div class="card"></div>
         <div class="card orange">

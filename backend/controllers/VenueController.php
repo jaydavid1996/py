@@ -66,9 +66,14 @@ class VenueController extends Controller
         $model = new Venue();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+          // $modelAudit = new Audit();
+          // $modelAudit->user_id = Yii::$app->user->identity->id;
+          // $modelAudit->details = 'Create Venue : '.$model->venue;
+          // $modelAudit->status = AUDIT::STATUS_CREATE;
+          // $modelAudit->save();
+            return $this->redirect(['venue\/']);
         } else {
-            return $this->render('create', [
+            return $this->renderAjax('create', [
                 'model' => $model,
             ]);
         }
@@ -85,6 +90,12 @@ class VenueController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+              $modelAudit = new Audit();
+              $modelAudit->user_id = Yii::$app->user->identity->id;
+              $modelAudit->details = 'Update Venue';
+              $modelAudit->status = AUDIT::STATUS_UPDATE;
+              $modelAudit->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [

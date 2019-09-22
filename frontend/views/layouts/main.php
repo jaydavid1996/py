@@ -162,12 +162,12 @@ AppAsset::register($this);
                         @apply --layout-center-center;
                       }
                     </style>
-                    <paper-tabs selected="home" attr-for-selected="name" hidden$="{{!wideLayout}}">
-                      <paper-tab link name="home"><a href="home" class="link">home</a></paper-tab>
-                      <paper-tab link name="tournament"><a href="tournament" class="link">tournament</a></paper-tab>
-                      <paper-tab link name="history"><a href="history" class="link">history</a></paper-tab>
-                      <paper-tab link name="gallery"><a href="gallery" class="link">gallery</a></paper-tab>
-                      <paper-tab link name="about"><a href="about" class="link">about</a></paper-tab>
+                    <paper-tabs selected="home" attr-for-selected="home" hidden$="{{!wideLayout}}">
+                      <paper-tab link name="about"><a href="frontend/web/about" class="link">About</a></paper-tab>
+                      <paper-tab link name="events"><a href="frontend/web/events" class="link">Events</a></paper-tab>
+                      <paper-tab link name="history"><a href="frontend/web/gallery" class="link">Gallery</a></paper-tab>
+                      <paper-tab link name="gallery"><a href="frontend/web/contact" class="link">Recommendation</a></paper-tab>
+                      <!-- <paper-tab link name="about"><a href="frontend/web/about" class="link">about</a></paper-tab>-->
                     </paper-tabs>
                 </app-toolbar>
             </app-header>

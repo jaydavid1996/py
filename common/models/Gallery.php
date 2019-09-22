@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 
+
 /**
  * This is the model class for table "{{%gallery}}".
  *
@@ -26,10 +27,11 @@ class Gallery extends \yii\db\ActiveRecord
         return '{{%gallery}}';
     }
 
-    public $file_name;
-    public $user_id;
-    public $occasion_id;
-    public $extension;
+    //public $file_names;
+    //public $loginUserId;
+    //public $file_extension;
+
+
 
     /**
      * @inheritdoc
@@ -38,10 +40,11 @@ class Gallery extends \yii\db\ActiveRecord
     {
         return [
             //[['user_id', 'occasion_id', 'file_name', 'extension'], 'required'],
-            [['user_id', 'occasion_id'], 'integer'],
+            [[ 'occasion_id'], 'required', 'message' => 'Please Select Occasion.'],
+            [['user_id', 'occasion_id','status'], 'integer'],
             [['date_created', 'date_updated'], 'safe'],
-            [['file_name'], 'string', 'max' => 225],
-            [['extension'], 'string', 'max' => 100],
+            [['gallery_name'], 'string', 'max' => 225],
+
         ];
     }
 
@@ -54,12 +57,18 @@ class Gallery extends \yii\db\ActiveRecord
             'id' => 'ID',
             'user_id' => 'User ID',
             'occasion_id' => 'Occasion ID',
-            'file_name' => 'File Name',
-            'extension' => 'Extension',
+            'gallery_name' => 'Gallery Name',
             'date_created' => 'Date Created',
             'date_updated' => 'Date Updated',
         ];
     }
+
+    public function behaviors()
+      {
+        return [
+            'bedezign\yii2\audit\AuditTrailBehavior'
+        ];
+      }
 
     public function getOccasion()
     {

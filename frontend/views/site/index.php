@@ -4,11 +4,11 @@
 
 $this->title = 'My Yii Application';
 // echo $this->title;
-echo $this->render('test/dashboard-data');
+//echo $this->render('test/dashboard-data');
 // echo $this->render('test/dashboard-beneath-data');
 // echo $this->render('test/music-data');
 // echo $this->render('test/notes-data');
-// echo $this->render('test/team-data');
+ echo $this->render('test/team-data');
 // echo $this->render('test/team-selection-data');
 ?>
 

@@ -33,6 +33,13 @@ AppAsset::register($this);
 
     <?php $this->head() ?>
 </head>
+<style>
+@media (min-width:600px){
+  .paper-icon-button-0 iron-icon.paper-icon-button{
+    display:none;
+  }
+}
+</style>
 <body unresolved>
 <?php $this->beginBody() ?>
 <custom-style>
@@ -116,7 +123,7 @@ AppAsset::register($this);
                 <app-toolbar>
                     <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
                     <!-- <paper-icon-button icon="arrow-back"></paper-icon-button> -->
-                    <div condensed-title>Pharrell Williams</div>
+                    <div condensed-title>Tournament Management System</div>
                     <paper-icon-button icon="create"></paper-icon-button>
                     <paper-icon-button icon="more-vert"></paper-icon-button>
                 </app-toolbar>

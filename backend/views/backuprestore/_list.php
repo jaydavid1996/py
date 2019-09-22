@@ -84,3 +84,15 @@ $this->title = 'Backup & Restore';
     <div class="clearfix"></div>
 </div>
 <div class="clearfix"></div>
+
+<!-- TODO: make a new layout instead of using a GridView -->
+<?php
+// print_r($dataProvider);
+// foreach ($dataProvider->models as $model) {
+//     echo $model['id'] . '<br />';
+//     echo $model['name'] . '<br />';
+//     echo $model['size'] . '<br />';
+//     echo $model['create_time'] . '<br />';
+//     echo $model['modified_time'] . '<br />';
+// }
+?>

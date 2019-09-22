@@ -7,6 +7,9 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
 use frontend\models\ContactForm;
+use common\models\Event;
+use common\models\EventTeam;
+use backend\models\EventTeamSearch;
 
 /**
  * Site controller
@@ -21,7 +24,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only' => ['logout', 'signup', 'tournaments'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -29,7 +32,7 @@ class SiteController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout', 'tournaments'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -116,6 +119,7 @@ class SiteController extends Controller
                 Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
             } else {
                 Yii::$app->session->setFlash('error', 'There was an error sending your message.');
+                $this->redirect(contact/index);
             }
 
             return $this->refresh();
@@ -134,6 +138,27 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    /**
+     * Displays tournament page.
+     *
+     * @return mixed
+     */
+    public function actionTournaments()
+    {
+        $id = 7;
+        $searchModel = new EventTeamSearch();
+        // $searchModel->id = $id;
+        // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchModel = EventTeam::findAll(['event_id' => $id,]);
+
+
+        return $this->render('tournaments', [
+            'searchModel' => $searchModel,
+            // 'dataProvider' => $dataProvider,
+            'id' => $id,
+        ]);
     }
 
     /**

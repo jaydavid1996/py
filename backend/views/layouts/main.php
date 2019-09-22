@@ -50,7 +50,7 @@ AppAsset::register($this);
       left: 0;*/
       /*width: 100%;*/
       color: #fff;
-      background-color: #3f51b5;
+      background-color: #2d5a2d;
       --app-header-background-front-layer: {
         background-image: url(https://app-layout-assets.appspot.com/assets/PharrellWilliams.jpg);
         background-repeat: no-repeat;
@@ -90,9 +90,26 @@ AppAsset::register($this);
     app-drawer-layout:not([narrow]) [drawer-toggle] {
       display: none;
     }
+
+    app-header-layout {
+      margin-top: 30px;
+      min-height: 888px;
+    }
+    .app-header-0 #contentContainer.app-header {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background-color: green;
+  }
+  .active{
+    background-color: #37aa9f;
+    color: white;
+  }
+
   </style>
 </custom-style>
 <div class="wrap">
+  <?= Alert::widget() ?>
     <app-drawer-layout fullbleed>
         <app-drawer id="drawer" slot="drawer" swipe-open>
           <app-toolbar>Menu</app-toolbar>
@@ -105,21 +122,21 @@ AppAsset::register($this);
                     <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
                     <!-- <paper-icon-button icon="arrow-back"></paper-icon-button> -->
                     <div condensed-title><?= $this->title; ?></div>
-                    <paper-icon-button icon="create"></paper-icon-button>
-                    <paper-icon-button icon="more-vert"></paper-icon-button>
+                    <!-- <paper-icon-button icon="create"></paper-icon-button> -->
+                    <!-- <paper-icon-button icon="more-vert"></paper-icon-button> -->
                 </app-toolbar>
                 <app-toolbar class="middle"></app-toolbar>
                 <app-toolbar class="bottom">
                     <div main-title fullbleed><?= $this->title; ?></div>
                 </app-toolbar>
             </app-header>
-            <!-- <div class="container"> -->
-                <?= Breadcrumbs::widget([
+            <div class="cntner">
+                <!-- <?= Breadcrumbs::widget([
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                ]) ?>
+                ]) ?> -->
                 <?= Alert::widget() ?>
                 <?= $content ?>
-            <!-- </div> -->
+            </div>
         </app-header-layout>
     </app-drawer-layout>
     <?php Modal::begin([
@@ -140,6 +157,11 @@ AppAsset::register($this);
     </div>
 </footer> -->
 <script>
+    $(document).ready(function(){
+      $('a paper-icon-item').on('click',function(){
+        $(this).addClass('active');
+      })
+    });
 
     var fab = document.querySelector('paper-fab');
     var header = document.querySelector('app-header');

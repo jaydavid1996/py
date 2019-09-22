@@ -12,6 +12,11 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [
+      'audit' => [
+        'class' => 'bedezign\yii2\audit\Audit',
+        'userIdentifierCallback' => ['common\models\User', 'userIdentifierCallback'],
+        'userFilterCallback' => ['common\models\User', 'filterByUserIdentifierCallback'],
+      ],
       'gridview' => [
         'class' => 'kartik\grid\Module'
       ],
@@ -24,10 +29,19 @@ return [
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.gmail.com',
+                // 'username' => 'ajmzamora@gmail.com',
+                // 'password' => 'vnngjrezepqkfeny',
                 'username' => 'Tournamentms2017@gmail.com',
                 'password' => 'qgzwhhvjntvevgnt',
                 'port' => '587',
                 'encryption' => 'tls',
+                'streamOptions' => [
+                    'ssl' => [
+                        'allow_self_signed' => true,
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                    ],
+                ],
             ],
         ],
         'request' => [
@@ -50,6 +64,10 @@ return [
                     'levels' => ['error', 'warning'],
                 ],
             ],
+        ],
+        'authManager'=> [
+            'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => ['guest'],
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
